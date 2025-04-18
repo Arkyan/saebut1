@@ -1,15 +1,22 @@
 package latice;
 
+import latice.controler.Referee;
+
 public class LaticeApplicationConsole {
+	
+	
 	public static void main(String[] args) {
-		System.out.println("--------------------");
-		System.out.println("-- Bienvenue dans notre magnifique jeu de Latice --");
-		System.out.println("-- Développé par : Jules                         --");
-		System.out.println("-- Développé par : Max                           --");
-		System.out.println("-- Développé par : Martin                        --");
-		System.out.println("-- Développé par Alexandre XD                    --");
-		System.out.println("--------------------");
+		Referee referee = new Referee();        
+		System.out.println("------------------------------------------");
+		System.out.println("-- Welcome in our wonderful Latice game --");
+		System.out.println("-- Developped by : Jules                --");
+		System.out.println("-- Developped by : Max                  --");
+		System.out.println("-- Developped by : Martin               --");
+		System.out.println("-- Developped by Alexandre              --");
+		System.out.println("------------------------------------------");
 		
+        System.out.println(referee.getName() + " is now managing the game!");
+        referee.prepareGame();
 		
 	}
 }
