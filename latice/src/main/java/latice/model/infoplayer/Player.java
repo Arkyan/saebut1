@@ -1,7 +1,5 @@
 package latice.model.infoplayer;
 
-import model.slate.Tile;
-
 public class Player {
 	private String name;
 	private PlayerBag playerBag;

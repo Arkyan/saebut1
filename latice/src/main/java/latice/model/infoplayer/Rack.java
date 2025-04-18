@@ -1,7 +1,8 @@
-package main.java.latice.model.infoplayer;
+package latice.model.infoplayer;
 
 import latice.model.slate.Tile;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Rack {
@@ -10,6 +11,10 @@ public class Rack {
     public Rack(List<Tile> tiles) {
      this.tiles = tiles;
     }
+
+	public Rack() {
+		this.tiles = new ArrayList<>();
+	}
 
     public void displayRack() {
         System.out.print("|");
@@ -22,6 +27,7 @@ public class Rack {
             }
             System.out.print("|");
         }
+        System.out.println();
     }
 
     public List<Tile> getTiles() {

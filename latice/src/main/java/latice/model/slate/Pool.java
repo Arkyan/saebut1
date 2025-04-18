@@ -1,9 +1,6 @@
-package main.java.latice.model.slate;
+package latice.model.slate;
 
-import latice.model.slate.Tile;
-import main.java.latice.model.slate.Color;
-import latice.model.slate.Shape;
-
+import java.util.ArrayList;
 import java.util.List;
 
 public class Pool {
@@ -13,8 +10,13 @@ public class Pool {
         this.tiles = tiles;
         initializeTiles();
     }
+    
+	public Pool() {
+		this.tiles = new ArrayList<>();
+		initializeTiles();
+	}
 
-    public void initializeTiles() {
+	public void initializeTiles() {
         for (Color color : Color.values()) {
             for (Shape shape : Shape.values()) {
                 tiles.add(new Tile(color, shape));
