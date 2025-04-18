@@ -1,5 +1,8 @@
 package latice.model.slate;
 
+import latice.model.slate.Color;
+import latice.model.slate.Shape;
+
 public class Tile {
 	private Color color;
 	private Shape shape;
@@ -10,7 +13,7 @@ public class Tile {
 			this.shape = shape;
 	}
 
-	public Color getColor() {
+    public Color getColor() {
 		return color;
 	}
 

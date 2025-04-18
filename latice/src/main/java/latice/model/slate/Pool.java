@@ -1,7 +1,7 @@
-package main.java.latice.model.slate;
+package latice.model.slate;
 
 import latice.model.slate.Tile;
-import main.java.latice.model.slate.Color;
+import latice.model.slate.Color;
 import latice.model.slate.Shape;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package main.java.latice.model.infoplayer;
+package latice.model.infoplayer;
 
 import latice.model.slate.Tile;
 
