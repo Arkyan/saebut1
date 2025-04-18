@@ -12,7 +12,7 @@ public class LaticeApplicationConsole {
 		System.out.println("-- Developped by : Jules                --");
 		System.out.println("-- Developped by : Max                  --");
 		System.out.println("-- Developped by : Martin               --");
-		System.out.println("-- Developped by Alexandre              --");
+		System.out.println("-- Developped by : Alexandre            --");
 		System.out.println("------------------------------------------");
 		
         System.out.println(referee.getName() + " is now managing the game!");
