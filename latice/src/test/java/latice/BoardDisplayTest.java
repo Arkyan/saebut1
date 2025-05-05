@@ -1,7 +1,7 @@
 package latice;
 
-import boardgame.Board;
-import boardgame.Cell;
+import latice.model.boardgame.Board;
+import latice.model.boardgame.Cell;
 import latice.model.slate.Pool;
 import latice.model.slate.Tile;
 

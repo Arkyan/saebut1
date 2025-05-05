@@ -26,7 +26,7 @@ public abstract class Cell {
 	
 	public String display() {
 		if (tile != null) {
-			return(tile.showTile());
+			return(tile.showTile() + " ");
 		} else {
 			return(" ");
 		}
