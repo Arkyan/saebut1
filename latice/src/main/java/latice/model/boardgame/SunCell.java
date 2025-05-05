@@ -1,7 +1,7 @@
-package boardgame;
+package latice.model.boardgame;
 
-public class MoonCell extends Cell {
-	public MoonCell(Integer row, Integer col) {
+public class SunCell extends Cell {
+	public SunCell(Integer row, Integer col) {
 		super(row, col);
 	}
 
@@ -10,7 +10,7 @@ public class MoonCell extends Cell {
 		if (tile != null) {
 			return(tile.showTile() + " ");
 		} else {
-			return("🌙 ");
+			return("☀️ ");
 		}
 	}
 
