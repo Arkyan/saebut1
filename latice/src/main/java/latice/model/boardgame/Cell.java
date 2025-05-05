@@ -1,4 +1,4 @@
-package boardgame;
+package latice.model.boardgame;
 
 import latice.model.slate.Tile;
 

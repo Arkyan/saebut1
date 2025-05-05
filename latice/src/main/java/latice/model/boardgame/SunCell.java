@@ -1,4 +1,4 @@
-package boardgame;
+package latice.model.boardgame;
 
 public class SunCell extends Cell {
 	public SunCell(Integer row, Integer col) {

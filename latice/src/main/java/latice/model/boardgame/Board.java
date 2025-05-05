@@ -1,4 +1,4 @@
-package boardgame;
+package latice.model.boardgame;
 
 public class Board {
 	Cell[][] cells;

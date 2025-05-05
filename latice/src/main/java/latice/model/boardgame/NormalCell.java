@@ -1,4 +1,4 @@
-package boardgame;
+package latice.model.boardgame;
 
 public class NormalCell extends Cell {
 	public NormalCell(Integer row, Integer col) {
