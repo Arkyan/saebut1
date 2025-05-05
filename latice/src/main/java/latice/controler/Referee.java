@@ -49,7 +49,7 @@ public class Referee {
 		Collections.shuffle(bag.getTiles());
 	}
     
-    private void distributeTilesToPlayers(List<String> playerNames) {
+    public void distributeTilesToPlayers(List<String> playerNames) {
         int totalPlayers = playerNames.size();
         int tilesPerPlayer = pool.getTiles().size() / totalPlayers;
 
@@ -86,5 +86,9 @@ public class Referee {
 
 	public String getName() {
 		return name;
+	}
+	
+	public List<Player> getPlayers() {
+		return players;
 	}
 }
