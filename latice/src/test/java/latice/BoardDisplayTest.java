@@ -18,6 +18,12 @@ public class BoardDisplayTest {
 		Tile atile = pool.getTiles().get(0);
 		aCell.setTile(atile);
 		
+		try {
+			board.CheckPosition(1, 29);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		
 		System.out.println("Initial Board:");
 		board.display();
 	}

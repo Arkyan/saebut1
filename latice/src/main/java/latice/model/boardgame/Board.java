@@ -39,4 +39,13 @@ public class Board {
 		return cells[row][col];
 	}
 	
+	public boolean CheckPosition(int row, int col) throws Exception {
+		if (row < 0 || row >= cells.length ) {
+			throw new Exception("Row out of bounds");
+		}else if (col < 0 || col >= cells[0].length) {
+			throw new Exception("Column out of bounds");
+		}
+		return true;
+	}
+	
 }
