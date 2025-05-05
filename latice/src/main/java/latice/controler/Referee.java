@@ -77,7 +77,7 @@ public class Referee {
         }
     }
     
-    private void fillAllRacks() {
+    public void fillAllRacks() {
         for (Player player : players) {
             shufflePlayerBag(player.getPlayerBag()); 
             fillRackFromPlayerBag(player);
