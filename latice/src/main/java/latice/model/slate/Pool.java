@@ -27,7 +27,7 @@ public class Pool {
 
     public void showPool() {
         for (Tile tile : tiles) {
-            tile.showTile();
+            System.out.println(tile.showTile() + " ");
         }
     }
 

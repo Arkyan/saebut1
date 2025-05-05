@@ -17,18 +17,18 @@ public abstract class Cell {
 	}
 	
 	public Integer getCol() {
-		return col;
+		return col; 	
 	}
 	
-	public Tile setTile() {
-		return tile;
+	public void setTile(Tile tile) {
+		this.tile = tile;
 	}
 	
 	public String display() {
 		if (tile != null) {
-			return("Tile: " + tile.getShape() + tile.getColor());
+			return(tile.showTile());
 		} else {
-			return("No Tile");
+			return(" ");
 		}
 	}
 }

@@ -25,7 +25,7 @@ public class Tile {
 		System.out.println("I am a " + color + " tile and my shape is " + shape.getSymbol());
 	}
 
-	public void showTile() {
+	public String showTile() {
 		String colorCode;
 		switch (color) {
         	case Red:
@@ -51,7 +51,7 @@ public class Tile {
 		}
 
 		String reset = "\u001B[0m";  // Reset console color
-		System.out.print(colorCode + shape.getSymbol() + reset);
+		return colorCode + shape.getSymbol() + reset;
 	}
 
 	public String getComboTile() {

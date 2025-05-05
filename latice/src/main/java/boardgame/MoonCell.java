@@ -7,8 +7,11 @@ public class MoonCell extends Cell {
 
 	@Override
 	public String display() {
-		System.out.print("Moon Cell: ");
-		return super.display();
+		if (tile != null) {
+			return(tile.showTile() + " ");
+		} else {
+			return("🌙 ");
+		}
 	}
 
 }

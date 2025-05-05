@@ -7,8 +7,11 @@ public class NormalCell extends Cell {
 	
 	@Override
 	public String display() {
-		System.out.print("Normal Cell: ");
-		return super.display();
+		if (tile != null) {
+			return(tile.showTile() + " ");
+		} else {
+			return("⏹️ ");
+		}
 	}
 
 }
