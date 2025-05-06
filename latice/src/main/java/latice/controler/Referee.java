@@ -13,29 +13,31 @@ import latice.model.slate.Pool;
 import latice.model.slate.Tile;
 
 public class Referee {
+
+	private static final Integer MAX_TILES_IN_RACK = 5;
 	private final String name = "Michel";
     private List<Player> players;
     private Pool pool;
-    private int currentPlayerIndex;
     private Board board;
 
 
     public Referee() {
         players = new ArrayList<>();
         pool = new Pool();
-        currentPlayerIndex = 0;
     }
     
     public void prepareGame() {
-    	int numberOfPlayers = 2;
+    	Integer numberOfPlayers = 2;
         board = new Board();
     	
     	List<String> names = new ArrayList<>();
-    	for (int i = 1; i <= numberOfPlayers; i++) {
+    	for (Integer i = 1; i <= numberOfPlayers; i++) {
             String playerName = Console.input(name + ": Enter name for player " + i );
             names.add(playerName);
+            Player player = new Player(playerName);
+            players.add(player);
         }
-    	shufflePool();
+    	shuffleCollection();
     	distributeTilesToPlayers(names);
     	fillAllRacks();
 		for (Player player : players) {
@@ -46,44 +48,35 @@ public class Referee {
     	board.display();
     }
     
-    private void shufflePool() {
+    private void shuffleCollection() {
         Collections.shuffle(pool.getTiles());
     }
-    private void shufflePlayerBag(PlayerBag bag) {
-		Collections.shuffle(bag.getTiles());
-	}
     
     public void distributeTilesToPlayers(List<String> playerNames) {
-        int totalPlayers = playerNames.size();
-        int tilesPerPlayer = pool.getTiles().size() / totalPlayers;
+        Integer totalPlayers = playerNames.size();
+        Integer tilesPerPlayer = pool.getTiles().size() / totalPlayers;
 
-        for (int i = 0; i < totalPlayers; i++) {
+        for (Player player : players) {
             List<Tile> playerTiles = new ArrayList<>();
-            for (int j = 0; j < tilesPerPlayer; j++) {
+            for (Integer j = 0; j < tilesPerPlayer; j++) {
                 playerTiles.add(pool.getTiles().remove(0));
             }
-
-            PlayerBag bag = new PlayerBag(playerTiles);
-            Rack rack = new Rack();
-            Player player = new Player(playerNames.get(i), bag, rack);
-            players.add(player);
+            player.getPlayerBag().getTiles().addAll(playerTiles);
         }
     }
     
     public void fillRackFromPlayerBag(Player player) {
         Rack rack = player.getRack();
         PlayerBag bag = player.getPlayerBag();
-        shufflePlayerBag(bag);
 
-        while (rack.getTiles().size() < 5 && !bag.getTiles().isEmpty()) {
+        while (rack.getTiles().size() < MAX_TILES_IN_RACK && !bag.getTiles().isEmpty()) {
             Tile tile = bag.getTiles().remove(0);
             rack.getTiles().add(tile);
         }
     }
     
     public void fillAllRacks() {
-        for (Player player : players) {
-            shufflePlayerBag(player.getPlayerBag()); 
+        for (Player player : players) { 
             fillRackFromPlayerBag(player);
         }
     }

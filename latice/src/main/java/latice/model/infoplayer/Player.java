@@ -6,10 +6,10 @@ public class Player {
 	private Rack rack;
 	private Integer points;
 	
-	public Player(String name, PlayerBag playerBag, Rack rack) {
+	public Player(String name) {
 		this.name = name;
-		this.playerBag = playerBag;
-		this.rack = rack;
+		this.playerBag = new PlayerBag();
+		this.rack = new Rack();
 		this.points = 0;
 	}
 	

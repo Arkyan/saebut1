@@ -21,7 +21,7 @@ public class Console {
 		System.out.println(message);
 	}
 	
-	public static void coloredmessage(String message, ColorConsole color) {
+	public static void coloredMessage(String message, ColorConsole color) {
 		System.out.println(color.getCode() + message + "\u001B[0m");
 	}
 	
@@ -37,7 +37,7 @@ public class Console {
 		message(SEPARATOR_LINE);
 	}
 	
-	public static Integer inputint(String question, Integer min, Integer max) {
+	public static Integer inputInt(String question, Integer min, Integer max) {
 		while (true) {
 			System.out.print(question);
 			try {
