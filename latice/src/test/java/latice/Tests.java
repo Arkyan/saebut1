@@ -69,7 +69,7 @@ class Tests {
 	}
 	
 	@Test
-	public void doesInitializeTilesFillPoolWithTheRightTiles() {
+	public void isPoolFilledWithTheRightTiles() {
 		//arrange
 		pool = new Pool();
 		//act
