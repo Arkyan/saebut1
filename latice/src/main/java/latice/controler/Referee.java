@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import latice.console.Console;
+import latice.model.boardgame.Board;
 import latice.model.infoplayer.Player;
 import latice.model.infoplayer.PlayerBag;
 import latice.model.infoplayer.Rack;
@@ -16,6 +17,7 @@ public class Referee {
     private List<Player> players;
     private Pool pool;
     private int currentPlayerIndex;
+    private Board board;
 
 
     public Referee() {
@@ -25,7 +27,8 @@ public class Referee {
     }
     
     public void prepareGame() {
-    	Integer numberOfPlayers = 2;
+    	int numberOfPlayers = 2;
+        board = new Board();
     	
     	List<String> names = new ArrayList<>();
     	for (int i = 1; i <= numberOfPlayers; i++) {
@@ -39,7 +42,8 @@ public class Referee {
 			System.out.println(player.getName() + "'s tiles:");
 			player.getRack().displayRack();
 		}
-    	
+
+    	board.display();
     }
     
     private void shufflePool() {
