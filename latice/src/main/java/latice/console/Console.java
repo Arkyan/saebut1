@@ -25,8 +25,11 @@ public class Console {
 		System.out.println(color.getCode() + message + "\u001B[0m");
 	}
 	
-	public static void sepLine() {
-		message(SEPARATOR_LINE);
+	public static void sepLine(Integer number) {
+		for (Integer index = 0; index < number; index++) {
+			System.out.print(SEPARATOR_LINE);
+		}
+		System.out.println();
 	}
 	
 	public static void title(String title) {

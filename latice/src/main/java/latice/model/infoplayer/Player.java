@@ -12,7 +12,7 @@ public class Player {
 		this.rack = new Rack();
 		this.points = 0;
 	}
-	
+
 	public String getName() {
 		return name;
 	}
