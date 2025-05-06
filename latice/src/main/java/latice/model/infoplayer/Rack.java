@@ -20,7 +20,7 @@ public class Rack {
         System.out.print("|");
         for (int i = 0; i < 5; i++) {
             if (i < tiles.size()) {
-                tiles.get(i).showTile();
+            	System.out.print(tiles.get(i).showTile());
             }
             else {
                 System.out.print("   ");
