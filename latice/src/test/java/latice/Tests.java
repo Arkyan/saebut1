@@ -92,4 +92,19 @@ class Tests {
 		}
 
 	}
+	@Test
+	public void isPositionValid() {
+		// arrange
+		Integer numberOfPlayers = 2;
+		List<String> names = new ArrayList<>();
+		names.add("Michel");
+		names.add("Jean");
+		// act
+		referee.distributeTilesToPlayers(names);
+		referee.fillAllRacks();
+		// assert
+		for (int i = 0; i < numberOfPlayers; i++) {
+			assert (referee.getPlayers().get(i).getRack().getTiles().size() == 5);
+		}
+	}
 }
