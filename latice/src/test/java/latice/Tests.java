@@ -7,7 +7,10 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import latice.controler.Referee;
+import latice.model.slate.Color;
 import latice.model.slate.Pool;
+import latice.model.slate.Shape;
+import latice.model.slate.Tile;
 
 class Tests {
 	private static Referee referee;
@@ -54,5 +57,39 @@ class Tests {
     	for (int i = 0; i < numberOfPlayers; i++) {
     		assert (referee.getPlayers().get(i).getRack().getTiles().size() == 5);
     	}
+	}
+	
+	@Test
+	public void isTileRightColorAndShape() {
+		
+		Tile tile = new Tile(Color.Red, Shape.TURTLE);
+		
+		assert(tile.getColor() == Color.Red);
+		assert(tile.getShape() == Shape.TURTLE);
+	}
+	
+	@Test
+	public void doesInitializeTilesFillPoolWithTheRightTiles() {
+		//arrange
+		pool = new Pool();
+		//act
+		//clearing the pool before initializing
+		pool.getTiles().clear();
+		pool.initializeTiles();
+		//assert
+		int expectedTilesCount = 72;
+		int actualTilesCount = pool.getTiles().size();
+		assert(expectedTilesCount == actualTilesCount);
+		int expectedTileCountPerColor = 12;
+		int actualTileCountPerColor = 0;
+		for (Color color : Color.values()) {
+			for (Shape shape : Shape.values()) {
+				actualTileCountPerColor += pool.getTiles().stream()
+						.filter(tile -> tile.getColor() == color && tile.getShape() == shape).count();
+			}
+			assert (expectedTileCountPerColor == actualTileCountPerColor);
+			actualTileCountPerColor = 0;
+		}
+
 	}
 }
