@@ -27,5 +27,4 @@ public class BoardDisplayTest {
 		System.out.println("Initial Board:");
 		board.display();
 	}
-
 }
