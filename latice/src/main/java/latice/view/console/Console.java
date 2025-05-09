@@ -1,4 +1,4 @@
-package latice.console;
+package latice.view.console;
 
 import java.util.Scanner;
 

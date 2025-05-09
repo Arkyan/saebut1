@@ -1,4 +1,4 @@
-package latice.console;
+package latice.view.console;
 
 public enum ColorConsole {
 	ERROR("\u001B[31m"),
