@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" style="-fx-background-color: #21177d;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <VBox prefHeight="794.0" prefWidth="800.0" spacing="8.0">
+         <children>
+            <HBox alignment="CENTER" prefHeight="53.0" prefWidth="762.0">
+               <children>
+                  <Button fx:id="idButtonBackWindowRules" alignment="CENTER" mnemonicParsing="false" onAction="#backMainMenu" prefHeight="25.0" prefWidth="84.0" text="Back" />
+                  <Label alignment="CENTER" prefHeight="53.0" prefWidth="727.0" text="🎲 RÈGLES COMPLÈTES DU JEU LATICE" textFill="WHITE">
+                     <font>
+                        <Font size="32.0" />
+                     </font>
+                  </Label>
+               </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <VBox.margin>
+                  <Insets left="20.0" />
+               </VBox.margin>
+            </HBox>
+            <Label text="Objectif du jeu : " textFill="WHITE">
+               <font>
+                  <Font size="24.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="20.0" />
+               </VBox.margin>
+            </Label>
+            <Label layoutX="30.0" layoutY="127.0" text="Être le premier joueur à poser toutes ses tuiles sur le plateau." textFill="WHITE">
+               <font>
+                  <Font size="24.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="60.0" />
+               </VBox.margin>
+            </Label>
+            <Label text="👥 Nombre de joueurs :" textFill="WHITE">
+               <font>
+                  <Font size="24.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="20.0" />
+               </VBox.margin>
+            </Label>
+            <Label text="De 2 à 4 joueurs." textFill="WHITE">
+               <font>
+                  <Font size="24.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="60.0" />
+               </VBox.margin>
+            </Label>
+            <Label text="🔄 Mise en place :" textFill="WHITE">
+               <font>
+                  <Font size="24.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="20.0" />
+               </VBox.margin>
+            </Label>
+            <Label text="Mélangez les 72 tuiles face cachée." textFill="WHITE">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="60.0" />
+               </VBox.margin>
+            </Label>
+            <Label layoutX="10.0" layoutY="197.0" text="Chaque joueur pioche 5 tuiles et les place sur son rack (toujours garder 5 tuiles si possible)." textFill="WHITE">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="60.0" />
+               </VBox.margin>
+            </Label>
+            <Label layoutX="10.0" layoutY="267.0" text="Le reste forme une pioche." textFill="WHITE">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="60.0" />
+               </VBox.margin>
+            </Label>
+            <Label layoutX="10.0" layoutY="337.0" text="🕹 Déroulement d’un tour" textFill="WHITE">
+               <font>
+                  <Font size="24.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="20.0" />
+               </VBox.margin>
+            </Label>
+            <Label layoutX="10.0" layoutY="372.0" text="À son tour, un joueur peut :" textFill="WHITE">
+               <font>
+                  <Font size="22.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="40.0" />
+               </VBox.margin>
+            </Label>
+            <Label layoutX="10.0" layoutY="407.0" text="1. Poser une ou plusieurs tuiles sur le plateau :" textFill="WHITE">
+               <font>
+                  <Font size="20.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="60.0" />
+               </VBox.margin>
+            </Label>
+            <Label layoutX="10.0" layoutY="442.0" text="2. Gagner des actions bonus" textFill="WHITE">
+               <font>
+                  <Font size="20.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="60.0" />
+               </VBox.margin>
+            </Label>
+            <Label layoutX="10.0" layoutY="422.0" text="3. Utiliser ses actions bonus" textFill="WHITE">
+               <font>
+                  <Font size="20.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="60.0" />
+               </VBox.margin>
+            </Label>
+            <Label layoutX="10.0" layoutY="492.0" text="4. Compléter son rack" textFill="WHITE">
+               <font>
+                  <Font size="20.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="60.0" />
+               </VBox.margin>
+            </Label>
+            <Label layoutX="10.0" layoutY="150.0" text="🚫 Règles de placement supplémentaires" textFill="WHITE">
+               <font>
+                  <Font size="24.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="20.0" />
+               </VBox.margin>
+            </Label>
+            <Label layoutX="10.0" layoutY="492.0" text="Il est interdit de poser une tuile qui ne correspond ni en couleur ni en forme à une ou plusieurs tuiles adjacentes." textFill="WHITE">
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="60.0" />
+               </VBox.margin>
+            </Label>
+            <Label layoutX="10.0" layoutY="527.0" text="Pas d’emplacement en diagonale." textFill="WHITE">
+               <font>
+                  <Font size="20.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="60.0" />
+               </VBox.margin>
+            </Label>
+            <Label layoutX="10.0" layoutY="562.0" text="🏁 Fin de la partie" textFill="WHITE">
+               <font>
+                  <Font size="24.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="20.0" />
+               </VBox.margin>
+            </Label>
+            <Label layoutX="10.0" layoutY="597.0" text="Le jeu se termine quand un joueur n’a plus de tuiles sur son rack et dans sa pioche personnelle" textFill="WHITE">
+               <font>
+                  <Font size="17.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="60.0" />
+               </VBox.margin>
+            </Label>
+         </children>
+      </VBox>
+   </children>
+</Pane>
