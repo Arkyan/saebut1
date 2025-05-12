@@ -1,39 +1,38 @@
-# SAE Java 🚀
+# Java SAE 🚀
 
-> 📅 Réalisé dans le cadre de la SAE de R2.01/R2.02/R2.03  
-> 👨‍💻 Étudiants :
+> 📅 Completed as part of the SAE for R2.01/R2.02/R2.03  
+> 👨‍💻 Students:
 >  - DIDRY Jules 
 >  - [DUCOURET Alexandre](https://github.com/LightNight6423)
 >  - [GORCE Max](https://github.com/mgorce4)  
 >  - [VALET Martin](https://github.com/XanderTheRat)
 >
-> 🎓 Promotion : BUT1
+> 🎓 Class: BUT1
 
 ---
 
-## 📝 Description du projet
+## 📝 Project Description
 
-Ce projet a pour but de développer une application Java et JavaFx du jeu Latice en version informatique.
-Il a été réalisé avec Java version `21.0.6` et s’appuie sur des technologies comme JavaFX pour l’interface graphique.
-
----
-
-## 📦 Principe du jeu 
-
-- 🏆 Avoir posé toutes ses tuiles sur le plateau
-- 👤 Se joue à 2 - 3 - 4 personnes
-- 🧩 Un plateau de 9x9 cases
-- 🃏 72 tuiles réparties en fonction du nombre de joueurs
-- 🪨 Des pierres pour acheter des actions
+The goal of this project is to develop a Java and JavaFX application of the **Latice** board game in a digital version.  
+It was developed using Java version `21.0.6` and relies on technologies like JavaFX for the graphical interface.
 
 ---
 
-## 🔧 Lancer le projet
+## 📦 Game Principles
 
-### Prérequis
+- 🏆 The objective is to place all your tiles on the board
+- 👤 Playable with 2, 3, or 4 players
+- 🧩 A 9x9 tile board
+- 🃏 72 tiles distributed according to the number of players
+- 🪨 Stones used to buy actions
+
+---
+
+## 🔧 Running the Project
+
+### Requirements
 
 - Java JDK 21.0.6
-- JavaFx SDK 21.0.6
+- JavaFX SDK 21.0.6
 - Maven 
-- (Optionnel) SceneBuilder pour modifier les fichiers FXML
-
+- (Optional) SceneBuilder to edit FXML files
