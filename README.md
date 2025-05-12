@@ -13,10 +13,13 @@ Il a été réalisé avec Java version `21.0.6` et s’appuie sur des technologi
 
 ---
 
-## 📦 Fonctionnalités principales
+## 📦 Principe du jeu 
 
-- ✅ SOON
-- 🚧 SOON
+- 🏆 Avoir posé toutes ses tuiles sur le plateau
+- 👤 Se joue à 2 - 3 - 4 personnes
+- 🧩 Un plateau de 9x9 cases
+- 🃏 72 tuiles réparties en fonction du nombre de joueurs
+- 🪨 Des pierres pour acheter des actions
 
 ---
 
