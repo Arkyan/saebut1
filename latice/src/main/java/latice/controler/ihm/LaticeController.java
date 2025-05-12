@@ -4,8 +4,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+
+import java.util.Optional;
 
 public class LaticeController {
 
@@ -45,4 +48,25 @@ public class LaticeController {
 
     }
 
+    @FXML
+    String getNamePlayer(Integer nbPlayer) {
+        String namePlayer;
+        Label lblError;
+        TextInputDialog playerNameInputDialog = new TextInputDialog("Pseudo");
+
+        playerNameInputDialog.setTitle("Input pseudo for player " + nbPlayer);
+        playerNameInputDialog.setHeaderText("Identification");
+        playerNameInputDialog.setContentText("Please enter your pseudo here: ");
+
+        Optional<String> pseudo = playerNameInputDialog.showAndWait();
+        if (pseudo.isPresent()) {
+            namePlayer = pseudo.get();
+            return namePlayer;
+        }
+        else {
+
+        }
+
+        return "";
+    }
 }
