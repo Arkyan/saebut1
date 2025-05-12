@@ -1,7 +1,7 @@
 # SAE Java 🚀
 
-> 📅 Réalisé dans le cadre de la SAE de R2.01/R2.02/R2.03
-> 👨‍💻 Étudiants : DIDRY Jules | DUCOURET Alexandre | GORCE Max | VALET Martin
+> 📅 Réalisé dans le cadre de la SAE de R2.01/R2.02/R2.03  
+> 👨‍💻 Étudiants : DIDRY Jules | DUCOURET Alexandre | GORCE Max | VALET Martin  
 > 🎓 Promotion : BUT1
 
 ---
