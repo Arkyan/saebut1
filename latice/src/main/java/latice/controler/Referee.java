@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import latice.console.Console;
+import latice.view.console.Console;
 import latice.model.boardgame.Board;
 import latice.model.infoplayer.Player;
 import latice.model.infoplayer.PlayerBag;
