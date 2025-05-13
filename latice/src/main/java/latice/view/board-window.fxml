@@ -462,7 +462,7 @@
                   <Font name="Constantia" size="24.0" />
                </font>
             </Label>
-            <Label text="#Point" textFill="WHITE">
+            <Label fx:id="idLblNbPoint" text="#Point" textFill="WHITE">
                <font>
                   <Font name="Constantia" size="24.0" />
                </font>
@@ -470,7 +470,7 @@
                   <Insets top="35.0" />
                </HBox.margin>
             </Label>
-            <Label alignment="CENTER" text="#Joueur" textFill="WHITE">
+            <Label fx:id="idLblPlayer" alignment="CENTER" text="#Joueur" textFill="WHITE">
                <font>
                   <Font name="Constantia" size="24.0" />
                </font>
@@ -478,7 +478,7 @@
                   <Insets left="200.0" top="35.0" />
                </HBox.margin>
             </Label>
-            <Label text="#Round" textFill="WHITE">
+            <Label fx:id="idLblRound" text="#Round" textFill="WHITE">
                <HBox.margin>
                   <Insets left="200.0" top="20.0" />
                </HBox.margin>
@@ -507,27 +507,27 @@
             </VBox>
             <HBox fx:id="HBoxRack" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="2.0">
                <children>
-                  <ImageView fitHeight="84.0" fitWidth="84.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="rackImage1" fitHeight="84.0" fitWidth="84.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@/interrogation.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="84.0" fitWidth="84.0" layoutX="330.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="rackImage2" fitHeight="84.0" fitWidth="84.0" layoutX="330.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@/interrogation.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="84.0" fitWidth="84.0" layoutX="410.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="rackImage3" fitHeight="84.0" fitWidth="84.0" layoutX="410.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@/interrogation.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="84.0" fitWidth="84.0" layoutX="330.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="rackImage4" fitHeight="84.0" fitWidth="84.0" layoutX="330.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@/interrogation.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="84.0" fitWidth="84.0" layoutX="410.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="rackImage5" fitHeight="84.0" fitWidth="84.0" layoutX="410.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@/interrogation.png" />
                      </image>

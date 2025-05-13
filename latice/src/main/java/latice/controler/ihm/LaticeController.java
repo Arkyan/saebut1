@@ -1,5 +1,6 @@
 package latice.controler.ihm;
 
+import java.util.List;
 import java.util.Optional;
 
 import javafx.event.ActionEvent;
@@ -9,11 +10,14 @@ import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import latice.controler.Referee;
 import latice.model.infoplayer.Player;
+import latice.model.slate.Tile;
+import latice.view.ImageLoading;
 
 public class LaticeController {
 
@@ -39,7 +43,31 @@ public class LaticeController {
     private Label idLbPoint;
     
     @FXML
+    private Label idLblNbPoint;
+    
+    @FXML
+    private Label idLblRound;
+    
+    @FXML
     private HBox HBoxRack;
+    
+    @FXML
+    private Label idLblPlayer;
+    
+    @FXML
+    private ImageView rackImage1;
+
+    @FXML
+    private ImageView rackImage2;
+
+    @FXML
+    private ImageView rackImage3;
+
+    @FXML
+    private ImageView rackImage4;
+
+    @FXML
+    private ImageView rackImage5;
 
     @FXML
     void buyAdditionalAction(ActionEvent event) {
@@ -108,7 +136,42 @@ public class LaticeController {
 		referee.shuffleCollection();
 		referee.distributeTilesToPlayers(referee.getPlayers());
 		referee.fillAllRacks();
+		//choose random player
+		int randomIndex = (int) (Math.random() * referee.getPlayers().size());
+		Player currentPlayer = referee.getPlayers().get(randomIndex);
+		idLblPlayer.setText(currentPlayer.getName());
+		idLblNbPoint.setText(currentPlayer.getPoints().toString());
+		showTilesInRack(currentPlayer);
 		
 	}
+    
+    public void showTilesInRack(Player player) {
+        ImageLoading loader = new ImageLoading();
+        
+        List<ImageView> imageViews = List.of(
+            rackImage1, rackImage2, rackImage3,
+            rackImage4, rackImage5
+        );
+
+        List<Tile> tiles = player.getRack().getTiles();
+
+        for (int i = 0; i < imageViews.size(); i++) {
+            ImageView imageView = imageViews.get(i);
+
+            if (i < tiles.size()) {
+                Tile tile = tiles.get(i);
+                String path = loader.getImagePath(tile.getColor(), tile.getShape());
+
+                if (path != null) {
+                    imageView.setImage(new javafx.scene.image.Image(getClass().getResource(path).toExternalForm()));
+                } else {
+                    imageView.setImage(null); // Si pas d'image trouvée
+                }
+            } else {
+                imageView.setImage(null); // Cache les emplacements vides
+            }
+        }
+    }
+
     
 }
