@@ -505,31 +505,31 @@
                   <Button fx:id="idBtnBuy" mnemonicParsing="false" onAction="#buyAdditionalAction" prefHeight="28.0" prefWidth="129.0" text="Acheter action +" />
                </children>
             </VBox>
-            <HBox fx:id="HBoxRack" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+            <HBox fx:id="HBoxRack" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="2.0">
                <children>
-                  <ImageView fitHeight="80.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="84.0" fitWidth="84.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@/depositphotos_694702634-stock-illustration-grunge-frame-shape-icon-vertical.jpg" />
+                        <Image url="@/interrogation.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="80.0" fitWidth="70.0" layoutX="330.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="84.0" fitWidth="84.0" layoutX="330.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@/depositphotos_694702634-stock-illustration-grunge-frame-shape-icon-vertical.jpg" />
+                        <Image url="@/interrogation.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="80.0" fitWidth="70.0" layoutX="410.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="84.0" fitWidth="84.0" layoutX="410.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@/depositphotos_694702634-stock-illustration-grunge-frame-shape-icon-vertical.jpg" />
+                        <Image url="@/interrogation.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="80.0" fitWidth="70.0" layoutX="330.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="84.0" fitWidth="84.0" layoutX="330.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@/depositphotos_694702634-stock-illustration-grunge-frame-shape-icon-vertical.jpg" />
+                        <Image url="@/interrogation.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="80.0" fitWidth="70.0" layoutX="410.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="84.0" fitWidth="84.0" layoutX="410.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@/depositphotos_694702634-stock-illustration-grunge-frame-shape-icon-vertical.jpg" />
+                        <Image url="@/interrogation.png" />
                      </image>
                   </ImageView>
                </children>
