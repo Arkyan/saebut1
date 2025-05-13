@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="latice.controler.ihm.LaticeController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="latice.controler.ihm.LaticeController">
    <center>
       <GridPane fx:id="idGp" gridLinesVisible="true" prefHeight="580.0" prefWidth="585.0" style="-fx-background-color: #21177d;" BorderPane.alignment="CENTER">
         <columnConstraints>
@@ -464,10 +464,10 @@
             </Label>
             <Label fx:id="idLblNbPoint" text="#Point" textFill="WHITE">
                <font>
-                  <Font name="Constantia" size="24.0" />
+                  <Font name="Constantia" size="45.0" />
                </font>
                <HBox.margin>
-                  <Insets top="5.0" />
+                  <Insets />
                </HBox.margin>
             </Label>
             <Label fx:id="idLblPlayer" alignment="CENTER" text="#Joueur" textFill="WHITE">
@@ -486,12 +486,12 @@
                   <Font name="Constantia" size="26.0" />
                </font>
             </Label>
-            <Label prefHeight="36.0" prefWidth="90.0" text="#Round" textFill="WHITE">
+            <Label fx:id="idLblNbRound" prefHeight="36.0" prefWidth="90.0" text="#Round" textFill="WHITE">
                <font>
-                  <Font name="Constantia" size="24.0" />
+                  <Font name="Constantia" size="45.0" />
                </font>
                <HBox.margin>
-                  <Insets left="5.0" top="5.0" />
+                  <Insets left="5.0" />
                </HBox.margin>
             </Label>
          </children>

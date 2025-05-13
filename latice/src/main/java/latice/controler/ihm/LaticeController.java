@@ -49,6 +49,9 @@ public class LaticeController {
     private Label idLblRound;
     
     @FXML
+    private Label idLblNbRound;
+    
+    @FXML
     private HBox HBoxRack;
     
     @FXML
@@ -117,6 +120,7 @@ public class LaticeController {
     
     @FXML
 	void initialize() {
+    	Integer round = 1;
 		Referee referee = new Referee();
 		String namePlayer1 = "" ;
 		String namePlayer2 = "";
@@ -141,6 +145,7 @@ public class LaticeController {
 		Player currentPlayer = referee.getPlayers().get(randomIndex);
 		idLblPlayer.setText(currentPlayer.getName());
 		idLblNbPoint.setText(currentPlayer.getPoints().toString());
+		idLblNbRound.setText(round.toString());
 		showTilesInRack(currentPlayer);
 		
 	}
