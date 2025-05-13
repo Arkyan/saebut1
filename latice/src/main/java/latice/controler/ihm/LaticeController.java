@@ -36,6 +36,9 @@ public class LaticeController {
 
     @FXML
     private Label idLbPoint;
+    
+    @FXML
+    private HBox HBoxRack;
 
     @FXML
     void buyAdditionalAction(ActionEvent event) {
@@ -53,12 +56,12 @@ public class LaticeController {
     }
 
     
-    String getNamePlayer(Integer nbPlayer) {
+    String getNamePlayer(String nbPlayer) {
         String namePlayer = "";
         Label lblError = new Label("Input a pseudo");
         lblError.setVisible(false);
         lblError.setStyle("-fx-text-fill: red; -fx-font-size: 12px; -fx-padding: 5px;");
-        TextInputDialog playerNameInputDialog = new TextInputDialog("Pseudo");
+        TextInputDialog playerNameInputDialog = new TextInputDialog();
 
         playerNameInputDialog.setTitle("Identification");
         playerNameInputDialog.setHeaderText("Input pseudo for player " + nbPlayer);
@@ -86,7 +89,16 @@ public class LaticeController {
     @FXML
 	void initialize() {
 		Referee referee = new Referee();
-		String namePlayer1 = getNamePlayer(1);
+		String namePlayer1 = "" ;
+		String namePlayer2 = "";
+		
+		while (namePlayer1.isEmpty()) {
+			namePlayer1 = getNamePlayer("one");
+		}
+		while (namePlayer2.isEmpty() || namePlayer1.equals(namePlayer2)) {
+			namePlayer2 = getNamePlayer("two");
+		}
+		
 		
 	}
     
