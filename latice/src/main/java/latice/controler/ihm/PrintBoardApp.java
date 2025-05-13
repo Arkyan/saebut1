@@ -22,5 +22,4 @@ public class PrintBoardApp extends Application {
 		primaryStage.setResizable(false);
 		primaryStage.show();
 	}
-
 }

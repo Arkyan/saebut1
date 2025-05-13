@@ -30,15 +30,13 @@ public class Referee {
     	Integer numberOfPlayers = 2;
         board = new Board();
     	
-    	List<String> names = new ArrayList<>();
     	for (Integer i = 1; i <= numberOfPlayers; i++) {
             String playerName = Console.input(name + ": Enter name for player " + i );
-            names.add(playerName);
             Player player = new Player(playerName);
             players.add(player);
         }
     	shuffleCollection();
-    	distributeTilesToPlayers(names);
+    	distributeTilesToPlayers(players);
     	fillAllRacks();
 		for (Player player : players) {
 			System.out.println(player.getName() + "'s tiles:");
@@ -48,13 +46,13 @@ public class Referee {
     	board.display();
     }
     
-    private void shuffleCollection() {
+    public void shuffleCollection() {
         Collections.shuffle(pool.getTiles());
     }
     
     
-    public void distributeTilesToPlayers(List<String> playerNames) {
-        Integer totalPlayers = playerNames.size();
+    public void distributeTilesToPlayers(List<Player> list) {
+        Integer totalPlayers = list.size();
         Integer tilesPerPlayer = pool.getTiles().size() / totalPlayers;
 
         for (Player player : players) {
@@ -88,6 +86,12 @@ public class Referee {
 	
 	public List<Player> getPlayers() {
 		return players;
+	}
+	
+	
+	
+	public void addPlayer(Player player) {
+		players.add(player);
 	}
 	
 	public Board getBoard() {

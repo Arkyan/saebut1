@@ -34,11 +34,14 @@ class Tests {
 	@Test
 	public void IsPlayerBagFilled() {
 		// arrange
-		List<String> names = new ArrayList<>();
-		names.add("Michel");
-		names.add("Jean");
+		Player player1 = new Player("Michel");
+		Player player2 = new Player("Jean");
+		referee.addPlayer(player1);
+		referee.addPlayer(player2);
+		
+		
 		// act
-		referee.distributeTilesToPlayers(names);
+		referee.distributeTilesToPlayers(referee.getPlayers());
 		// assert
 		for (Player player : referee.getPlayers()) {
 			assert (player.getPlayerBag().getTiles().size() == 36);
@@ -48,12 +51,15 @@ class Tests {
 	
 	@Test
 	public void isPlayerRackFilled() {
-		//arrange
-		List<String> names = new ArrayList<>();
-		names.add("Michel");
-		names.add("Jean");
-    	//act
-    	referee.distributeTilesToPlayers(names);
+		// arrange
+		Player player1 = new Player("Michel");
+		Player player2 = new Player("Jean");
+		referee.addPlayer(player1);
+		referee.addPlayer(player2);
+				
+				
+		// act
+		referee.distributeTilesToPlayers(referee.getPlayers());
     	referee.fillAllRacks();
     	//assert
     	for (Player player : referee.getPlayers()) {
