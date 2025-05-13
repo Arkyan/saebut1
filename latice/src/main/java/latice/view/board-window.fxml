@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="latice.controler.ihm.LaticeController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="latice.controler.ihm.LaticeController">
    <center>
       <GridPane fx:id="idGp" gridLinesVisible="true" prefHeight="580.0" prefWidth="585.0" style="-fx-background-color: #21177d;" BorderPane.alignment="CENTER">
         <columnConstraints>
@@ -443,7 +443,7 @@
                   <Image url="@/bg_sea.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="65.0" fitWidth="84.0" layoutX="78.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="65.0" fitWidth="65.0" layoutX="78.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@/bg_sun.png" />
                </image>
@@ -452,11 +452,11 @@
       </GridPane>
    </center>
    <top>
-      <HBox fx:id="idHbTop" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #21177d;" BorderPane.alignment="CENTER">
+      <HBox fx:id="idHbTop" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #21177d;" BorderPane.alignment="CENTER">
          <children>
             <Label fx:id="idLbPoint" text="Point : " textFill="WHITE">
                <HBox.margin>
-                  <Insets left="10.0" top="35.0" />
+                  <Insets left="10.0" />
                </HBox.margin>
                <font>
                   <Font name="Constantia" size="24.0" />
@@ -467,7 +467,7 @@
                   <Font name="Constantia" size="24.0" />
                </font>
                <HBox.margin>
-                  <Insets top="35.0" />
+                  <Insets top="5.0" />
                </HBox.margin>
             </Label>
             <Label fx:id="idLblPlayer" alignment="CENTER" text="#Joueur" textFill="WHITE">
@@ -475,16 +475,24 @@
                   <Font name="Constantia" size="24.0" />
                </font>
                <HBox.margin>
-                  <Insets left="200.0" top="35.0" />
+                  <Insets left="200.0" />
                </HBox.margin>
             </Label>
-            <Label fx:id="idLblRound" text="#Round" textFill="WHITE">
+            <Label fx:id="idLblRound" text="Round :" textFill="WHITE">
                <HBox.margin>
-                  <Insets left="200.0" top="20.0" />
+                  <Insets left="170.0" />
                </HBox.margin>
                <font>
-                  <Font name="Constantia" size="44.0" />
+                  <Font name="Constantia" size="26.0" />
                </font>
+            </Label>
+            <Label prefHeight="36.0" prefWidth="90.0" text="#Round" textFill="WHITE">
+               <font>
+                  <Font name="Constantia" size="24.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="5.0" top="5.0" />
+               </HBox.margin>
             </Label>
          </children>
       </HBox>
@@ -529,7 +537,7 @@
                   </ImageView>
                   <ImageView fx:id="rackImage5" fitHeight="84.0" fitWidth="84.0" layoutX="410.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@/interrogation.png" />
+                        <Image url="@../../../resources/interrogation.png" />
                      </image>
                   </ImageView>
                </children>
