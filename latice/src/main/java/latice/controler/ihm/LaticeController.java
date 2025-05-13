@@ -13,6 +13,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import latice.controler.Referee;
+import latice.model.infoplayer.Player;
 
 public class LaticeController {
 
@@ -99,6 +100,14 @@ public class LaticeController {
 			namePlayer2 = getNamePlayer("two");
 		}
 		
+		Player player1 = new Player(namePlayer1);
+		Player player2 = new Player(namePlayer2);
+		referee.addPlayer(player1);
+		referee.addPlayer(player2);
+		
+		referee.shuffleCollection();
+		referee.distributeTilesToPlayers(referee.getPlayers());
+		referee.fillAllRacks();
 		
 	}
     
