@@ -31,4 +31,8 @@ public abstract class Cell {
 			return(" ");
 		}
 	}
+
+	public Tile getTile() {
+		return tile;
+	}
 }

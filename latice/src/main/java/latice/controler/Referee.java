@@ -6,6 +6,7 @@ import java.util.List;
 
 import latice.view.console.Console;
 import latice.model.boardgame.Board;
+import latice.model.boardgame.Cell;
 import latice.model.infoplayer.Player;
 import latice.model.infoplayer.PlayerBag;
 import latice.model.infoplayer.Rack;
@@ -88,7 +89,45 @@ public class Referee {
 		return players;
 	}
 	
-	
+    public boolean isPlacementValid(Tile tile, int row, int col, Board board) {
+        Cell[][] cells = board.getCells();
+
+        // Check bounds
+        if (row < 0 || row >= 9 || col < 0 || col >= 9) return false;
+
+        // Check if cell is empty
+        if (cells[row][col].getTile() != null) return false;
+
+        // First move: must be center
+        boolean boardIsEmpty = true;
+        for (Cell[] cellRow : cells) {
+            for (Cell cell : cellRow) {
+                if (cell.getTile() != null) {
+                    boardIsEmpty = false;
+                    break;
+                }
+            }
+        }
+        if (boardIsEmpty) {
+            return row == 4 && col == 4; // center
+        }
+
+        // Check at least one adjacent tile with matching color or shape
+        int[][] directions = {{-1,0},{1,0},{0,-1},{0,1}};
+        for (int[] d : directions) {
+            int r = row + d[0];
+            int c = col + d[1];
+            if (r >= 0 && r < 9 && c >= 0 && c < 9) {
+                Tile neighbor = cells[r][c].getTile();
+                if (neighbor != null && 
+                   (neighbor.getColor() == tile.getColor() || neighbor.getShape() == tile.getShape())) {
+                    return true;
+                }
+            }
+        }
+
+        return false; // No valid adjacent match
+    }
 	
 	public void addPlayer(Player player) {
 		players.add(player);
