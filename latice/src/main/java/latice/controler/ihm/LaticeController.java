@@ -10,6 +10,7 @@ import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -168,7 +169,7 @@ public class LaticeController {
                 String path = loader.getImagePath(tile.getColor(), tile.getShape());
 
                 if (path != null) {
-                    imageView.setImage(new javafx.scene.image.Image(getClass().getResource(path).toExternalForm()));
+                    imageView.setImage(new Image(getClass().getResource(path).toExternalForm()));
                 } else {
                     imageView.setImage(null); // Si pas d'image trouvée
                 }
