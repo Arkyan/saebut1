@@ -89,6 +89,20 @@ public class Referee {
 		return players;
 	}
 	
+	public void placeTileOnBoard(Tile tile, int row, int col, Player player) {
+		Board board = this.board;
+		Cell[][] cells = board.getCells();
+
+		if (isPlacementValid(tile, row, col, board)) {
+			cells[row][col].setTile(tile);
+			player.getRack().removeTile(tile);
+			fillRackFromPlayerBag(player);
+			System.out.println("Tile placed successfully.");
+		} else {
+			System.out.println("Invalid placement. Try again.");
+		}
+	}
+	
     public boolean isPlacementValid(Tile tile, int row, int col, Board board) {
         Cell[][] cells = board.getCells();
 

@@ -33,4 +33,9 @@ public class Rack {
     public List<Tile> getTiles() {
         return this.tiles;
     }
+
+	public void removeTile(Tile tile) {
+		tiles.remove(tile);
+		
+	}
 }
