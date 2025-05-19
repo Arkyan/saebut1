@@ -162,10 +162,12 @@ public class LaticeController {
 
         for (ImageView rackTile : rackImageViews ) {
             manageSourceDragAndDrop(rackTile);
+            manageSourceClick(rackTile);
         }
 		for (Node boardcell : idGp.getChildren()) {
 			if (boardcell instanceof ImageView) {
 				manageTargetDragAndDrop(boardcell);
+				manageTargetClick(boardcell);
 			}
 		}
         
@@ -201,6 +203,11 @@ public class LaticeController {
     public void manageSourceDragAndDrop(ImageView rackTile) {
         rackTile.setOnDragDetected(event -> {
             if (rackTile.getImage() != null) {
+            	if (rackTile.getImage() != null && rackTile.getImage().getUrl().endsWith("/interrogation.png")) {
+                	event.consume();  
+                    return;
+                }
+            	
                 Dragboard dragboard = rackTile.startDragAndDrop(TransferMode.MOVE);
                 ClipboardContent content = new ClipboardContent();
                 content.putImage(rackTile.getImage());
@@ -208,6 +215,7 @@ public class LaticeController {
                 dragboard.setContent(content);
                 event.consume();
             }
+
         });
 
         rackTile.setOnDragDone(event -> {
@@ -238,4 +246,52 @@ public class LaticeController {
             }
         });
     }
+    
+    private Image carriedImage = null;
+    private String carriedId = null;
+    private ImageView sourceRackTile = null;
+	private String imagePath = null;
+
+    public void manageSourceClick(ImageView rackTile) {
+        rackTile.setOnMouseClicked(event -> {
+            if (carriedImage == null && rackTile.getImage() != null) {
+                carriedImage = rackTile.getImage();
+                carriedId = rackTile.getId();
+                sourceRackTile = rackTile;   
+                imagePath = carriedImage.getUrl();
+            }
+            
+            if (imagePath != null && imagePath.endsWith("/interrogation.png")) {
+				carriedImage = null;
+				carriedId = null;
+			}
+            
+            
+        });
+    }
+
+    public void manageTargetClick(Node boardCell) {
+        boardCell.setOnMouseClicked(event -> {
+            if (carriedImage != null && carriedId != null && boardCell instanceof ImageView) {
+                ImageView targetCell = (ImageView) boardCell;
+                
+                if (targetCell.getImage() != null) {
+                	Image Emptyimage = new Image(Objects.requireNonNull(getClass().getResource("/interrogation.png")).toExternalForm());
+                	targetCell.setImage(carriedImage);
+                	
+                	sourceRackTile.setImage(Emptyimage);
+                    
+                    carriedImage = null;
+                    carriedId = null;
+                    sourceRackTile = null;
+                }
+            }
+            event.consume();
+        });
+    }
+
+
+
+    
+    
 }
