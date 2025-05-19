@@ -12,6 +12,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -121,6 +124,11 @@ public class LaticeController {
     
     @FXML
 	void initialize() {
+        List<ImageView> rackImageViews = List.of(
+                rackImage1, rackImage2, rackImage3,
+                rackImage4, rackImage5
+        );
+
     	Integer round = 1;
 		Referee referee = new Referee();
 		String namePlayer1 = "" ;
@@ -148,21 +156,23 @@ public class LaticeController {
 		idLblNbPoint.setText(currentPlayer.getPoints().toString());
 		idLblNbRound.setText(round.toString());
 		showTilesInRack(currentPlayer);
-		
+
+        for (ImageView rackTile : rackImageViews ) {
+            manageSourceDragAndDrop(rackTile);
+        }
 	}
     
     public void showTilesInRack(Player player) {
         ImageLoading loader = new ImageLoading();
-        
-        List<ImageView> imageViews = List.of(
-            rackImage1, rackImage2, rackImage3,
-            rackImage4, rackImage5
-        );
 
         List<Tile> tiles = player.getRack().getTiles();
+        List<ImageView> rackImageViews = List.of(
+                rackImage1, rackImage2, rackImage3,
+                rackImage4, rackImage5
+        );
 
-        for (int i = 0; i < imageViews.size(); i++) {
-            ImageView imageView = imageViews.get(i);
+        for (int i = 0; i < rackImageViews.size(); i++) {
+            ImageView imageView = rackImageViews.get(i);
 
             if (i < tiles.size()) {
                 Tile tile = tiles.get(i);
@@ -179,5 +189,23 @@ public class LaticeController {
         }
     }
 
-    
+    public void manageSourceDragAndDrop(ImageView rackTile) {
+        rackTile.setOnDragDetected(event -> {
+            if (rackTile.getImage() != null) {
+                Dragboard dragboard = rackTile.startDragAndDrop(TransferMode.MOVE);
+                ClipboardContent content = new ClipboardContent();
+                content.putImage(rackTile.getImage());
+                dragboard.setContent(content);
+                event.consume();
+            }
+        });
+
+        rackTile.setOnDragDone(event -> {
+            if (event.getTransferMode() == TransferMode.MOVE) {
+                rackTile.setImage(null);
+            }
+            event.consume();
+        });
+    }
+
 }
