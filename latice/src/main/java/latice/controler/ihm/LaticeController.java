@@ -1,8 +1,10 @@
 package latice.controler.ihm;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -202,6 +204,7 @@ public class LaticeController {
                 Dragboard dragboard = rackTile.startDragAndDrop(TransferMode.MOVE);
                 ClipboardContent content = new ClipboardContent();
                 content.putImage(rackTile.getImage());
+                content.putString(rackTile.getId());
                 dragboard.setContent(content);
                 event.consume();
             }
@@ -209,7 +212,7 @@ public class LaticeController {
 
         rackTile.setOnDragDone(event -> {
             if (event.getTransferMode() == TransferMode.MOVE) {
-                rackTile.setImage(null);
+                rackTile.setImage(new Image(Objects.requireNonNull(getClass().getResource("/interrogation.png")).toExternalForm()));
             }
             event.consume();
         });
@@ -235,5 +238,4 @@ public class LaticeController {
             }
         });
     }
-
 }
