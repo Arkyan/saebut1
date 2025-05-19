@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
@@ -160,6 +161,29 @@ public class LaticeController {
         for (ImageView rackTile : rackImageViews ) {
             manageSourceDragAndDrop(rackTile);
         }
+		for (Node boardcell : idGp.getChildren()) {
+			if (boardcell instanceof ImageView) {
+				boardcell.setOnDragOver(event -> {
+					if (event.getGestureSource() != boardcell && event.getDragboard().hasImage()) {
+						event.acceptTransferModes(TransferMode.MOVE);
+					}
+					event.consume();
+				});
+
+				boardcell.setOnDragDropped(event -> {
+					Dragboard db = event.getDragboard();
+					if (db.hasImage()) {
+						Image image = db.getImage();
+						((ImageView) boardcell).setImage(image);
+						event.setDropCompleted(true);
+						event.consume();
+					} else {
+						event.setDropCompleted(false);
+					}
+				});
+			}
+		}
+        
 	}
     
     public void showTilesInRack(Player player) {
