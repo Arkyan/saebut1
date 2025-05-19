@@ -163,24 +163,7 @@ public class LaticeController {
         }
 		for (Node boardcell : idGp.getChildren()) {
 			if (boardcell instanceof ImageView) {
-				boardcell.setOnDragOver(event -> {
-					if (event.getGestureSource() != boardcell && event.getDragboard().hasImage()) {
-						event.acceptTransferModes(TransferMode.MOVE);
-					}
-					event.consume();
-				});
-
-				boardcell.setOnDragDropped(event -> {
-					Dragboard db = event.getDragboard();
-					if (db.hasImage()) {
-						Image image = db.getImage();
-						((ImageView) boardcell).setImage(image);
-						event.setDropCompleted(true);
-						event.consume();
-					} else {
-						event.setDropCompleted(false);
-					}
-				});
+				manageTargetDragAndDrop(boardcell);
 			}
 		}
         
@@ -229,6 +212,27 @@ public class LaticeController {
                 rackTile.setImage(null);
             }
             event.consume();
+        });
+    }
+
+    public void manageTargetDragAndDrop(Node boardCell) {
+        boardCell.setOnDragOver(event -> {
+            if (event.getGestureSource() != boardCell && event.getDragboard().hasImage()) {
+                event.acceptTransferModes(TransferMode.MOVE);
+            }
+            event.consume();
+        });
+
+        boardCell.setOnDragDropped(event -> {
+            Dragboard db = event.getDragboard();
+            if (db.hasImage()) {
+                Image image = db.getImage();
+                ((ImageView) boardCell).setImage(image);
+                event.setDropCompleted(true);
+                event.consume();
+            } else {
+                event.setDropCompleted(false);
+            }
         });
     }
 
