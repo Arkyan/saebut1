@@ -133,11 +133,11 @@ public class Referee {
         for (Integer[] d : directions) {
         	Integer r = row + d[0];
         	Integer c = col + d[1];
-            if (r >= 0 && r < 9 && c >= 0 && c < 9) {
+            if (r >= START_OF_GRID && r < EXTREMITY_OF_GRID && c >= START_OF_GRID && c < EXTREMITY_OF_GRID) {
                 Tile neighbor = cells[r][c].getTile();
-                if (neighbor != null && 
-                   (neighbor.getColor() == tile.getColor() || neighbor.getShape() == tile.getShape())) {
-                    return true;
+                if (neighbor != null ||
+                   (neighbor.getColor() != tile.getColor() && neighbor.getShape() != tile.getShape())) {
+                    return false;
                 }
             }
         }
