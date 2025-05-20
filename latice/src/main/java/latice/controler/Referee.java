@@ -15,6 +15,8 @@ import latice.model.slate.Tile;
 
 public class Referee {
 
+	private static final int EXTREMITY_OF_GRID = 9;
+	private static final int START_OF_GRID = 0;
 	private static final Integer MAX_TILES_IN_RACK = 5;
 	private final String name = "Michel";
     private List<Player> players;
@@ -31,8 +33,8 @@ public class Referee {
     	Integer numberOfPlayers = 2;
         board = new Board();
     	
-    	for (Integer i = 1; i <= numberOfPlayers; i++) {
-            String playerName = Console.input(name + ": Enter name for player " + i );
+    	for (Integer idActualPlayer = 1; idActualPlayer <= numberOfPlayers; idActualPlayer++) {
+            String playerName = Console.input(name + ": Enter name for player " + idActualPlayer );
             Player player = new Player(playerName);
             players.add(player);
         }
@@ -89,7 +91,7 @@ public class Referee {
 		return players;
 	}
 	
-	public void placeTileOnBoard(Tile tile, int row, int col, Player player) {
+	public void placeTileOnBoard(Tile tile, Integer row, Integer col, Player player) {
 		Board board = this.board;
 		Cell[][] cells = board.getCells();
 
@@ -103,11 +105,11 @@ public class Referee {
 		}
 	}
 	
-    public boolean isPlacementValid(Tile tile, int row, int col, Board board) {
+    public boolean isPlacementValid(Tile tile, Integer row, Integer col, Board board) {
         Cell[][] cells = board.getCells();
 
         // Check bounds
-        if (row < 0 || row >= 9 || col < 0 || col >= 9) return false;
+        if (row < START_OF_GRID || row >= EXTREMITY_OF_GRID || col < START_OF_GRID || col >= EXTREMITY_OF_GRID) return false;
 
         // Check if cell is empty
         if (cells[row][col].getTile() != null) return false;
@@ -127,10 +129,10 @@ public class Referee {
         }
 
         // Check at least one adjacent tile with matching color or shape
-        int[][] directions = {{-1,0},{1,0},{0,-1},{0,1}};
-        for (int[] d : directions) {
-            int r = row + d[0];
-            int c = col + d[1];
+        Integer[][] directions = {{-1,0},{1,0},{0,-1},{0,1}};
+        for (Integer[] d : directions) {
+        	Integer r = row + d[0];
+        	Integer c = col + d[1];
             if (r >= 0 && r < 9 && c >= 0 && c < 9) {
                 Tile neighbor = cells[r][c].getTile();
                 if (neighbor != null && 
