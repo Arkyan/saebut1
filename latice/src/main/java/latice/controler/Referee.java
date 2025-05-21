@@ -27,11 +27,11 @@ public class Referee {
     public Referee() {
         players = new ArrayList<>();
         pool = new Pool();
+        board = new Board();
     }
     
     public void prepareGame() {
     	Integer numberOfPlayers = 2;
-        board = new Board();
     	
     	for (Integer idActualPlayer = 1; idActualPlayer <= numberOfPlayers; idActualPlayer++) {
             String playerName = Console.input(name + ": Enter name for player " + idActualPlayer );
@@ -91,7 +91,7 @@ public class Referee {
 		return players;
 	}
 	
-	public void placeTileOnBoard(Tile tile, Integer row, Integer col, Player player) {
+	public boolean placeTileOnBoard(Tile tile, Integer row, Integer col, Player player) {
 		Board board = this.board;
 		Cell[][] cells = board.getCells();
 
@@ -99,11 +99,11 @@ public class Referee {
 			cells[row][col].setTile(tile);
 			player.getRack().removeTile(tile);
 			fillRackFromPlayerBag(player);
-			System.out.println("Tile placed successfully.");
+			return true;
 		} else {
-			System.out.println("Invalid placement. Try again.");
+			return false;
 		}
-	}
+    }
 	
     public boolean isPlacementValid(Tile tile, Integer row, Integer col, Board board) {
         Cell[][] cells = board.getCells();

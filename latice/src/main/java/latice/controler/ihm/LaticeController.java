@@ -1,5 +1,9 @@
 package latice.controler.ihm;
 
+import java.io.File;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -8,6 +12,7 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
@@ -20,6 +25,7 @@ import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import latice.controler.Referee;
 import latice.model.infoplayer.Player;
@@ -94,6 +100,13 @@ public class LaticeController {
 
     }
 
+    private Image carriedImage = null;
+    private String carriedId = null;
+    private ImageView sourceRackTile = null;
+    private String imagePath = null;
+    private Referee referee = new Referee();
+    private Player currentPlayer;
+
     
     String getNamePlayer(String nbPlayer) {
         String namePlayer = "";
@@ -133,10 +146,9 @@ public class LaticeController {
         );
 
     	Integer round = 1;
-		Referee referee = new Referee();
 		String namePlayer1 = "" ;
 		String namePlayer2 = "";
-		
+
 		while (namePlayer1.isEmpty()) {
 			namePlayer1 = getNamePlayer("one");
 		}
@@ -154,7 +166,7 @@ public class LaticeController {
 		referee.fillAllRacks();
 		//choose random player
 		int randomIndex = (int) (Math.random() * referee.getPlayers().size());
-		Player currentPlayer = referee.getPlayers().get(randomIndex);
+        currentPlayer = referee.getPlayers().get(randomIndex);
 		idLblPlayer.setText(currentPlayer.getName());
 		idLblNbPoint.setText(currentPlayer.getPoints().toString());
 		idLblNbRound.setText(round.toString());
@@ -236,21 +248,36 @@ public class LaticeController {
 
         boardCell.setOnDragDropped(event -> {
             Dragboard db = event.getDragboard();
-            if (db.hasImage()) {
+            Boolean success = false;
+
+            // Here, we create the variables needed for placing the tile
+            ImageView target = (ImageView) event.getGestureTarget();
+            ImageView source = (ImageView) event.getGestureSource();
+            Integer row = GridPane.getRowIndex(target);
+            Integer col = GridPane.getColumnIndex(target);
+            String url = source.getImage().getUrl();
+            File file = null;
+            try {
+                file = Paths.get(new URI(url)).toFile();
+            } catch (URISyntaxException e) {
+                throw new RuntimeException(e);
+            }
+            String sourceTileFilePath = "/" + file.getName();
+            Tile sourceTile = new ImageLoading().getTileFromImage(sourceTileFilePath);
+
+
+            if (db.hasImage() && referee.placeTileOnBoard(sourceTile, row, col, currentPlayer)) {
                 Image image = db.getImage();
                 ((ImageView) boardCell).setImage(image);
                 event.setDropCompleted(true);
                 event.consume();
             } else {
+
                 event.setDropCompleted(false);
             }
         });
     }
-    
-    private Image carriedImage = null;
-    private String carriedId = null;
-    private ImageView sourceRackTile = null;
-	private String imagePath = null;
+
 
     public void manageSourceClick(ImageView rackTile) {
         rackTile.setOnMouseClicked(event -> {
@@ -289,9 +316,4 @@ public class LaticeController {
             event.consume();
         });
     }
-
-
-
-    
-    
 }

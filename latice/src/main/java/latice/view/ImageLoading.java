@@ -70,18 +70,13 @@ public class ImageLoading {
 	}
 
 	public Tile getTileFromImage(String file) {
-		File fileResource = new File(file);
-		if (!fileResource.exists()) {
-			return null;
-		}
-
-		String[] fileNameSplited = file.split("_");
-		if (fileNameSplited.length != 2) {
-			return null;
-		}
+        String[] fileNameSplitedWithoutSlash = file.split("/");
+        String[] fileNameSplitedWithoutExtension = fileNameSplitedWithoutSlash[1].split("\\.");
+		String[] fileNameSplited = fileNameSplitedWithoutExtension[0].split("_");
 
 		String shape = fileNameSplited[0];
 		String color = fileNameSplited[1];
+
 
 		switch (shape) {
 			case "bird":
