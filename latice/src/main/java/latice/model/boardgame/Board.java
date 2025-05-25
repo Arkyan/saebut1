@@ -23,10 +23,6 @@ public class Board {
     	return cells;
     }
 
-    public void setCells(Cell[][] cells) {
-    	this.cells = cells;
-    }
-
 	public void display() {
 		for (Integer row = 0; row < cells.length; row++) {
 			for (Integer col = 0; col < cells[row].length; col++) {
@@ -48,5 +44,4 @@ public class Board {
 		}
 		return true;
 	}
-	
 }

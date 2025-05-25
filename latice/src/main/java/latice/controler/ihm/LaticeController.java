@@ -265,8 +265,9 @@ public class LaticeController {
             String sourceTileFilePath = "/" + file.getName();
             Tile sourceTile = new ImageLoading().getTileFromImage(sourceTileFilePath);
 
+            if (db.hasImage() && referee.isPlacementValid(sourceTile, row, col, referee.getBoard())) {
+                referee.placeTileOnBoard(sourceTile, row, col, currentPlayer);
 
-            if (db.hasImage() && referee.placeTileOnBoard(sourceTile, row, col, currentPlayer)) {
                 Image image = db.getImage();
                 ((ImageView) boardCell).setImage(image);
                 event.setDropCompleted(true);

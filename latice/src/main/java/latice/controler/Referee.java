@@ -105,7 +105,8 @@ public class Referee {
 		}
     }
 	
-    public boolean isPlacementValid(Tile tile, Integer row, Integer col, Board board) {
+    @SuppressWarnings("null")
+	public boolean isPlacementValid(Tile tile, Integer row, Integer col, Board board) {
         Cell[][] cells = board.getCells();
 
         // Check bounds
@@ -130,18 +131,22 @@ public class Referee {
 
         // Check at least one adjacent tile with matching color or shape
         Integer[][] directions = {{-1,0},{1,0},{0,-1},{0,1}};
+        Integer nbOfCorrectPos = 0;
         for (Integer[] d : directions) {
         	Integer r = row + d[0];
         	Integer c = col + d[1];
             if (r >= START_OF_GRID && r < EXTREMITY_OF_GRID && c >= START_OF_GRID && c < EXTREMITY_OF_GRID) {
                 Tile neighbor = cells[r][c].getTile();
-                if (neighbor != null ||
-                   (neighbor.getColor() != tile.getColor() && neighbor.getShape() != tile.getShape())) {
-                    return false;
+                if (neighbor != null &&
+                   (neighbor.getColor() == tile.getColor() || neighbor.getShape() == tile.getShape())) {
+                    nbOfCorrectPos++;
                 }
             }
         }
 
+        if (nbOfCorrectPos != 0) {
+            return true;
+        }
         return false; // No valid adjacent match
     }
 	
