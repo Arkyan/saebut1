@@ -3,6 +3,7 @@ package latice.controler;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import latice.view.console.Console;
 import latice.model.boardgame.Board;
@@ -91,31 +92,41 @@ public class Referee {
 		return players;
 	}
 	
-	public boolean placeTileOnBoard(Tile tile, Integer row, Integer col, Player player) {
+	public void placeTileOnBoard(Tile tile, Integer row, Integer col, Player player) {
 		Board board = this.board;
 		Cell[][] cells = board.getCells();
+        Integer[][] directions = {{-1,0},{1,0},{0,-1},{0,1}};
+        Integer nbOfCorrectPos = 0;
 
 		if (isPlacementValid(tile, row, col, board)) {
 			cells[row][col].setTile(tile);
 			player.getRack().removeTile(tile);
 			fillRackFromPlayerBag(player);
-			return true;
-		} else {
-			return false;
-		}
+            nbOfCorrectPos = calculateNumberOfMatchingSides(tile, row, col, cells, directions, nbOfCorrectPos);
+
+            switch (nbOfCorrectPos) {
+                case 2 :
+                    player.addPoints(1);
+                    break;
+                case 3 :
+                    player.addPoints(2);
+                    break;
+                case 4 :
+                    player.addPoints(4);
+                    break;
+                default :
+                    break;
+            }
+        }
     }
-	
     @SuppressWarnings("null")
 	public boolean isPlacementValid(Tile tile, Integer row, Integer col, Board board) {
         Cell[][] cells = board.getCells();
 
-        // Check bounds
         if (row < START_OF_GRID || row >= EXTREMITY_OF_GRID || col < START_OF_GRID || col >= EXTREMITY_OF_GRID) return false;
 
-        // Check if cell is empty
         if (cells[row][col].getTile() != null) return false;
 
-        // First move: must be center
         boolean boardIsEmpty = true;
         for (Cell[] cellRow : cells) {
             for (Cell cell : cellRow) {
@@ -129,25 +140,48 @@ public class Referee {
             return row == 4 && col == 4; // center
         }
 
-        // Check at least one adjacent tile with matching color or shape
+        return checkIfNbOfMatchingSidesEqualsNumberOfNeighbors(tile, row, col, cells);
+    }
+
+    private boolean checkIfNbOfMatchingSidesEqualsNumberOfNeighbors(Tile tile, Integer row, Integer col, Cell[][] cells) {
         Integer[][] directions = {{-1,0},{1,0},{0,-1},{0,1}};
         Integer nbOfCorrectPos = 0;
+        Integer nbOfNeighbors;
+        nbOfNeighbors = calculateNumberOfNeighbors(tile, row, col, directions, cells);
+        nbOfCorrectPos = calculateNumberOfMatchingSides(tile, row, col, cells, directions, nbOfCorrectPos);
+
+        return Objects.equals(nbOfCorrectPos, nbOfNeighbors);
+    }
+
+    private Integer calculateNumberOfNeighbors(Tile tile, Integer row, Integer col, Integer[][] directions, Cell[][] cells) {
+        Integer nbOfNeighbors = 0;
         for (Integer[] d : directions) {
-        	Integer r = row + d[0];
-        	Integer c = col + d[1];
+            Integer r = row + d[0];
+            Integer c = col + d[1];
             if (r >= START_OF_GRID && r < EXTREMITY_OF_GRID && c >= START_OF_GRID && c < EXTREMITY_OF_GRID) {
                 Tile neighbor = cells[r][c].getTile();
-                if (neighbor != null &&
-                   (neighbor.getColor() == tile.getColor() || neighbor.getShape() == tile.getShape())) {
-                    nbOfCorrectPos++;
+                if (neighbor != null) {
+                    nbOfNeighbors++;
                 }
             }
         }
 
-        if (nbOfCorrectPos != 0) {
-            return true;
+        return nbOfNeighbors;
+    }
+
+    private Integer calculateNumberOfMatchingSides(Tile tile, Integer row, Integer col, Cell[][] cells, Integer[][] directions, Integer nbOfCorrectPos) {
+        for (Integer[] d : directions) {
+            Integer r = row + d[0];
+            Integer c = col + d[1];
+            if (r >= START_OF_GRID && r < EXTREMITY_OF_GRID && c >= START_OF_GRID && c < EXTREMITY_OF_GRID) {
+                Tile neighbor = cells[r][c].getTile();
+                if (neighbor != null &&
+                        (neighbor.getColor() == tile.getColor() || neighbor.getShape() == tile.getShape())) {
+                    nbOfCorrectPos++;
+                }
+            }
         }
-        return false; // No valid adjacent match
+        return nbOfCorrectPos;
     }
 	
 	public void addPlayer(Player player) {

@@ -28,4 +28,8 @@ public class Player {
 	public Integer getPoints() {
 		return points;
 	}
+
+	public void addPoints(Integer points) {
+		this.points += points;
+	}
 }

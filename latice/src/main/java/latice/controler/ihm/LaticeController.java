@@ -167,10 +167,7 @@ public class LaticeController {
 		//choose random player
 		int randomIndex = (int) (Math.random() * referee.getPlayers().size());
         currentPlayer = referee.getPlayers().get(randomIndex);
-		idLblPlayer.setText(currentPlayer.getName());
-		idLblNbPoint.setText(currentPlayer.getPoints().toString());
-		idLblNbRound.setText(round.toString());
-		showTilesInRack(currentPlayer);
+        updatedInformations(round);
 
         for (ImageView rackTile : rackImageViews ) {
             manageSourceDragAndDrop(rackTile);
@@ -182,9 +179,15 @@ public class LaticeController {
 				manageTargetClick(boardcell);
 			}
 		}
-        
 	}
-    
+
+    private void updatedInformations(Integer round) {
+        idLblPlayer.setText(currentPlayer.getName());
+        idLblNbPoint.setText(currentPlayer.getPoints().toString());
+        idLblNbRound.setText(round.toString());
+        showTilesInRack(currentPlayer);
+    }
+
     public void showTilesInRack(Player player) {
         ImageLoading loader = new ImageLoading();
 
@@ -196,7 +199,6 @@ public class LaticeController {
 
         for (int i = 0; i < rackImageViews.size(); i++) {
             ImageView imageView = rackImageViews.get(i);
-
             if (i < tiles.size()) {
                 Tile tile = tiles.get(i);
                 String path = loader.getImagePath(tile.getColor(), tile.getShape());
@@ -248,7 +250,6 @@ public class LaticeController {
 
         boardCell.setOnDragDropped(event -> {
             Dragboard db = event.getDragboard();
-            Boolean success = false;
 
             // Here, we create the variables needed for placing the tile
             ImageView target = (ImageView) event.getGestureTarget();
@@ -267,6 +268,7 @@ public class LaticeController {
 
             if (db.hasImage() && referee.isPlacementValid(sourceTile, row, col, referee.getBoard())) {
                 referee.placeTileOnBoard(sourceTile, row, col, currentPlayer);
+                System.out.println(currentPlayer + " point : " + currentPlayer.getPoints());
 
                 Image image = db.getImage();
                 ((ImageView) boardCell).setImage(image);
@@ -292,8 +294,6 @@ public class LaticeController {
 				carriedImage = null;
 				carriedId = null;
 			}
-            
-            
         });
     }
 
@@ -312,7 +312,6 @@ public class LaticeController {
                 }
                 String sourceTileFilePath = "/" + file.getName();
                 Tile sourceTile = new ImageLoading().getTileFromImage(sourceTileFilePath);
-
                 
                 if (targetCell.getImage() != null && referee.isPlacementValid(sourceTile, row, col, referee.getBoard())) {
                     referee.placeTileOnBoard(sourceTile, row, col, currentPlayer);
@@ -320,7 +319,6 @@ public class LaticeController {
                 	targetCell.setImage(carriedImage);
                 	
                 	sourceRackTile.setImage(Emptyimage);
-
                 }
                 carriedImage = null;
                 carriedId = null;
