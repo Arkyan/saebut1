@@ -14,7 +14,7 @@ public class LaticeApplicationConsole {
 		System.out.println("-- Developped by : Martin               --");
 		System.out.println("-- Developped by : Alexandre            --");
 		System.out.println("------------------------------------------");
-		System.out.println("Let's start the v5 with FX!");
+		System.out.println("Let's end the v5 with FX!");
 		
         System.out.println(referee.getName() + " is now managing the game!");
         referee.prepareGame();
