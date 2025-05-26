@@ -3,6 +3,8 @@ package latice.model.slate;
 import java.util.ArrayList;
 import java.util.List;
 
+import static latice.view.console.Console.message;
+
 public class Pool {
     private final List<Tile> tiles;
 
@@ -27,7 +29,7 @@ public class Pool {
 
     public void showPool() {
         for (Tile tile : tiles) {
-            System.out.println(tile.showTile() + " ");
+            message(tile.showTile() + " ");
         }
     }
 

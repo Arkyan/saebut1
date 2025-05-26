@@ -2,21 +2,24 @@ package latice;
 
 import latice.controler.Referee;
 
+import static latice.view.console.Console.SEPARATOR_LINE;
+import static latice.view.console.Console.message;
+
 public class LaticeApplicationConsole {
 	
 	
 	public static void main(String[] args) {
 		Referee referee = new Referee();        
-		System.out.println("------------------------------------------");
-		System.out.println("-- Welcome in our wonderful Latice game --");
-		System.out.println("-- Developped by : Jules                --");
-		System.out.println("-- Developped by : Max                  --");
-		System.out.println("-- Developped by : Martin               --");
-		System.out.println("-- Developped by : Alexandre            --");
-		System.out.println("------------------------------------------");
-		System.out.println("Let's start the v6 with FX!");
+		message(SEPARATOR_LINE);
+		message("-- Welcome in our wonderful Latice game --");
+		message("-- Developped by : Jules                --");
+		message("-- Developped by : Max                  --");
+		message("-- Developped by : Martin               --");
+		message("-- Developped by : Alexandre            --");
+		message(SEPARATOR_LINE);
+		message("Let's start the v6 with FX!");
 		
-        System.out.println(referee.getName() + " is now managing the game!");
+        message(referee.getName() + " is now managing the game!");
         referee.prepareGame();
 		
 	}
