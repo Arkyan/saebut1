@@ -273,7 +273,6 @@ public class LaticeController {
                 event.setDropCompleted(true);
                 event.consume();
             } else {
-
                 event.setDropCompleted(false);
             }
         });
@@ -302,17 +301,30 @@ public class LaticeController {
         boardCell.setOnMouseClicked(event -> {
             if (carriedImage != null && carriedId != null && boardCell instanceof ImageView) {
                 ImageView targetCell = (ImageView) boardCell;
+
+                Integer row = GridPane.getRowIndex(targetCell);
+                Integer col = GridPane.getColumnIndex(targetCell);
+                File file = null;
+                try {
+                    file = Paths.get(new URI(imagePath)).toFile();
+                } catch (URISyntaxException e) {
+                    throw new RuntimeException(e);
+                }
+                String sourceTileFilePath = "/" + file.getName();
+                Tile sourceTile = new ImageLoading().getTileFromImage(sourceTileFilePath);
+
                 
-                if (targetCell.getImage() != null) {
+                if (targetCell.getImage() != null && referee.isPlacementValid(sourceTile, row, col, referee.getBoard())) {
+                    referee.placeTileOnBoard(sourceTile, row, col, currentPlayer);
                 	Image Emptyimage = new Image(Objects.requireNonNull(getClass().getResource("/interrogation.png")).toExternalForm());
                 	targetCell.setImage(carriedImage);
                 	
                 	sourceRackTile.setImage(Emptyimage);
-                    
-                    carriedImage = null;
-                    carriedId = null;
-                    sourceRackTile = null;
+
                 }
+                carriedImage = null;
+                carriedId = null;
+                sourceRackTile = null;
             }
             event.consume();
         });
