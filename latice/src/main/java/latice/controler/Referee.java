@@ -14,11 +14,13 @@ import latice.model.infoplayer.Rack;
 import latice.model.slate.Pool;
 import latice.model.slate.Tile;
 
+import static latice.model.boardgame.Board.EXTREMITY_OF_GRID;
+import static latice.model.boardgame.Board.START_OF_GRID;
+import static latice.view.console.Console.message;
+
 public class Referee {
 
-	private static final int EXTREMITY_OF_GRID = 9;
-	private static final int START_OF_GRID = 0;
-	private static final Integer MAX_TILES_IN_RACK = 5;
+	public static final Integer MAX_TILES_IN_RACK = 5;
 	private final String name = "Michel";
     private List<Player> players;
     private Pool pool;
@@ -43,7 +45,7 @@ public class Referee {
     	distributeTilesToPlayers(players);
     	fillAllRacks();
 		for (Player player : players) {
-			System.out.println(player.getName() + "'s tiles:");
+			message(player.getName() + "'s tiles:");
 			player.getRack().displayRack();
 		}
 
@@ -61,7 +63,7 @@ public class Referee {
 
         for (Player player : players) {
             List<Tile> playerTiles = new ArrayList<>();
-            for (Integer j = 0; j < tilesPerPlayer; j++) {
+            for (Integer playerTile = 0; playerTile < tilesPerPlayer; playerTile++) {
                 playerTiles.add(pool.getTiles().remove(0));
             }
             player.getPlayerBag().getTiles().addAll(playerTiles);
@@ -156,10 +158,10 @@ public class Referee {
     private Integer calculateNumberOfNeighbors(Tile tile, Integer row, Integer col, Integer[][] directions, Cell[][] cells) {
         Integer nbOfNeighbors = 0;
         for (Integer[] d : directions) {
-            Integer r = row + d[0];
-            Integer c = col + d[1];
-            if (r >= START_OF_GRID && r < EXTREMITY_OF_GRID && c >= START_OF_GRID && c < EXTREMITY_OF_GRID) {
-                Tile neighbor = cells[r][c].getTile();
+            Integer neighborRow = row + d[0];
+            Integer neighborCol = col + d[1];
+            if (neighborRow >= START_OF_GRID && neighborRow < EXTREMITY_OF_GRID && neighborCol >= START_OF_GRID && neighborCol < EXTREMITY_OF_GRID) {
+                Tile neighbor = cells[neighborRow][neighborCol].getTile();
                 if (neighbor != null) {
                     nbOfNeighbors++;
                 }
@@ -171,10 +173,10 @@ public class Referee {
 
     private Integer calculateNumberOfMatchingSides(Tile tile, Integer row, Integer col, Cell[][] cells, Integer[][] directions, Integer nbOfCorrectPos) {
         for (Integer[] d : directions) {
-            Integer r = row + d[0];
-            Integer c = col + d[1];
-            if (r >= START_OF_GRID && r < EXTREMITY_OF_GRID && c >= START_OF_GRID && c < EXTREMITY_OF_GRID) {
-                Tile neighbor = cells[r][c].getTile();
+            Integer neighborRow = row + d[0];
+            Integer neighborCol = col + d[1];
+            if (neighborRow >= START_OF_GRID && neighborRow < EXTREMITY_OF_GRID && neighborCol >= START_OF_GRID && neighborCol < EXTREMITY_OF_GRID) {
+                Tile neighbor = cells[neighborRow][neighborCol].getTile();
                 if (neighbor != null &&
                         (neighbor.getColor() == tile.getColor() || neighbor.getShape() == tile.getShape())) {
                     nbOfCorrectPos++;
