@@ -1,18 +1,31 @@
 package latice.controler.ihm;
 
+import java.io.File;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.nio.file.Paths;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import latice.controler.Referee;
 import latice.model.infoplayer.Player;
@@ -87,6 +100,13 @@ public class LaticeController {
 
     }
 
+    private Image carriedImage = null;
+    private String carriedId = null;
+    private ImageView sourceRackTile = null;
+    private String imagePath = null;
+    private Referee referee = new Referee();
+    private Player currentPlayer;
+
     
     String getNamePlayer(String nbPlayer) {
         String namePlayer = "";
@@ -120,11 +140,15 @@ public class LaticeController {
     
     @FXML
 	void initialize() {
+        List<ImageView> rackImageViews = List.of(
+                rackImage1, rackImage2, rackImage3,
+                rackImage4, rackImage5
+        );
+
     	Integer round = 1;
-		Referee referee = new Referee();
 		String namePlayer1 = "" ;
 		String namePlayer2 = "";
-		
+
 		while (namePlayer1.isEmpty()) {
 			namePlayer1 = getNamePlayer("one");
 		}
@@ -142,33 +166,43 @@ public class LaticeController {
 		referee.fillAllRacks();
 		//choose random player
 		int randomIndex = (int) (Math.random() * referee.getPlayers().size());
-		Player currentPlayer = referee.getPlayers().get(randomIndex);
+        currentPlayer = referee.getPlayers().get(randomIndex);
 		idLblPlayer.setText(currentPlayer.getName());
 		idLblNbPoint.setText(currentPlayer.getPoints().toString());
 		idLblNbRound.setText(round.toString());
 		showTilesInRack(currentPlayer);
-		
+
+        for (ImageView rackTile : rackImageViews ) {
+            manageSourceDragAndDrop(rackTile);
+            manageSourceClick(rackTile);
+        }
+		for (Node boardcell : idGp.getChildren()) {
+			if (boardcell instanceof ImageView) {
+				manageTargetDragAndDrop(boardcell);
+				manageTargetClick(boardcell);
+			}
+		}
+        
 	}
     
     public void showTilesInRack(Player player) {
         ImageLoading loader = new ImageLoading();
-        
-        List<ImageView> imageViews = List.of(
-            rackImage1, rackImage2, rackImage3,
-            rackImage4, rackImage5
-        );
 
         List<Tile> tiles = player.getRack().getTiles();
+        List<ImageView> rackImageViews = List.of(
+                rackImage1, rackImage2, rackImage3,
+                rackImage4, rackImage5
+        );
 
-        for (int i = 0; i < imageViews.size(); i++) {
-            ImageView imageView = imageViews.get(i);
+        for (int i = 0; i < rackImageViews.size(); i++) {
+            ImageView imageView = rackImageViews.get(i);
 
             if (i < tiles.size()) {
                 Tile tile = tiles.get(i);
                 String path = loader.getImagePath(tile.getColor(), tile.getShape());
 
                 if (path != null) {
-                    imageView.setImage(new javafx.scene.image.Image(getClass().getResource(path).toExternalForm()));
+                    imageView.setImage(new Image(getClass().getResource(path).toExternalForm()));
                 } else {
                     imageView.setImage(null); // Si pas d'image trouvée
                 }
@@ -178,5 +212,121 @@ public class LaticeController {
         }
     }
 
-    
+    public void manageSourceDragAndDrop(ImageView rackTile) {
+        rackTile.setOnDragDetected(event -> {
+            if (rackTile.getImage() != null) {
+            	if (rackTile.getImage() != null && rackTile.getImage().getUrl().endsWith("/interrogation.png")) {
+                	event.consume();  
+                    return;
+                }
+            	
+                Dragboard dragboard = rackTile.startDragAndDrop(TransferMode.MOVE);
+                ClipboardContent content = new ClipboardContent();
+                content.putImage(rackTile.getImage());
+                content.putString(rackTile.getId());
+                dragboard.setContent(content);
+                event.consume();
+            }
+
+        });
+
+        rackTile.setOnDragDone(event -> {
+            if (event.getTransferMode() == TransferMode.MOVE) {
+                rackTile.setImage(new Image(Objects.requireNonNull(getClass().getResource("/interrogation.png")).toExternalForm()));
+            }
+            event.consume();
+        });
+    }
+
+    public void manageTargetDragAndDrop(Node boardCell) {
+        boardCell.setOnDragOver(event -> {
+            if (event.getGestureSource() != boardCell && event.getDragboard().hasImage()) {
+                event.acceptTransferModes(TransferMode.MOVE);
+            }
+            event.consume();
+        });
+
+        boardCell.setOnDragDropped(event -> {
+            Dragboard db = event.getDragboard();
+            Boolean success = false;
+
+            // Here, we create the variables needed for placing the tile
+            ImageView target = (ImageView) event.getGestureTarget();
+            ImageView source = (ImageView) event.getGestureSource();
+            Integer row = GridPane.getRowIndex(target);
+            Integer col = GridPane.getColumnIndex(target);
+            String url = source.getImage().getUrl();
+            File file = null;
+            try {
+                file = Paths.get(new URI(url)).toFile();
+            } catch (URISyntaxException e) {
+                throw new RuntimeException(e);
+            }
+            String sourceTileFilePath = "/" + file.getName();
+            Tile sourceTile = new ImageLoading().getTileFromImage(sourceTileFilePath);
+
+            if (db.hasImage() && referee.isPlacementValid(sourceTile, row, col, referee.getBoard())) {
+                referee.placeTileOnBoard(sourceTile, row, col, currentPlayer);
+
+                Image image = db.getImage();
+                ((ImageView) boardCell).setImage(image);
+                event.setDropCompleted(true);
+                event.consume();
+            } else {
+                event.setDropCompleted(false);
+            }
+        });
+    }
+
+
+    public void manageSourceClick(ImageView rackTile) {
+        rackTile.setOnMouseClicked(event -> {
+            if (carriedImage == null && rackTile.getImage() != null) {
+                carriedImage = rackTile.getImage();
+                carriedId = rackTile.getId();
+                sourceRackTile = rackTile;   
+                imagePath = carriedImage.getUrl();
+            }
+            
+            if (imagePath != null && imagePath.endsWith("/interrogation.png")) {
+				carriedImage = null;
+				carriedId = null;
+			}
+            
+            
+        });
+    }
+
+    public void manageTargetClick(Node boardCell) {
+        boardCell.setOnMouseClicked(event -> {
+            if (carriedImage != null && carriedId != null && boardCell instanceof ImageView) {
+                ImageView targetCell = (ImageView) boardCell;
+
+                Integer row = GridPane.getRowIndex(targetCell);
+                Integer col = GridPane.getColumnIndex(targetCell);
+                File file = null;
+                try {
+                    file = Paths.get(new URI(imagePath)).toFile();
+                } catch (URISyntaxException e) {
+                    throw new RuntimeException(e);
+                }
+                String sourceTileFilePath = "/" + file.getName();
+                Tile sourceTile = new ImageLoading().getTileFromImage(sourceTileFilePath);
+
+                
+                if (targetCell.getImage() != null && referee.isPlacementValid(sourceTile, row, col, referee.getBoard())) {
+                    referee.placeTileOnBoard(sourceTile, row, col, currentPlayer);
+                	Image Emptyimage = new Image(Objects.requireNonNull(getClass().getResource("/interrogation.png")).toExternalForm());
+                	targetCell.setImage(carriedImage);
+                	
+                	sourceRackTile.setImage(Emptyimage);
+
+                }
+                carriedImage = null;
+                carriedId = null;
+                sourceRackTile = null;
+            }
+            event.consume();
+        });
+    }
 }

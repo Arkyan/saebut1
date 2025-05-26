@@ -6,7 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Rack {
-    private List<Tile> tiles;
+    private static final int LENGTH_OF_RACK = 5;
+	private List<Tile> tiles;
 
     public Rack(List<Tile> tiles) {
      this.tiles = tiles;
@@ -18,9 +19,9 @@ public class Rack {
 
     public void displayRack() {
         System.out.print("|");
-        for (int i = 0; i < 5; i++) {
-            if (i < tiles.size()) {
-            	System.out.print(tiles.get(i).showTile());
+        for (Integer actualPositionInRack = 0; actualPositionInRack < LENGTH_OF_RACK; actualPositionInRack++) {
+            if (actualPositionInRack < tiles.size()) {
+            	System.out.print(tiles.get(actualPositionInRack).showTile());
             }
             else {
                 System.out.print("   ");
@@ -33,4 +34,9 @@ public class Rack {
     public List<Tile> getTiles() {
         return this.tiles;
     }
+
+	public void removeTile(Tile tile) {
+		tiles.remove(tile);
+		
+	}
 }

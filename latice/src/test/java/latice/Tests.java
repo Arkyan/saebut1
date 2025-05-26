@@ -20,19 +20,19 @@ class Tests {
 	private static Pool pool;
 	
 	@BeforeAll
-	public static void setUp() {
+	public static void set_up() {
 		pool = new Pool();
 		referee = new Referee();
 	}
 	
 	
 	@Test
-	public void isPollFull() {
+	public void is_poll_full() {
 		assert(pool.getTiles().size() == 72);
 	}
 	
 	@Test
-	public void IsPlayerBagFilled() {
+	public void is_player_bag_filled() {
 		// arrange
 		Player player1 = new Player("Michel");
 		Player player2 = new Player("Jean");
@@ -50,7 +50,7 @@ class Tests {
 	}
 	
 	@Test
-	public void isPlayerRackFilled() {
+	public void is_player_rack_filled() {
 		// arrange
 		Player player1 = new Player("Michel");
 		Player player2 = new Player("Jean");
@@ -68,7 +68,7 @@ class Tests {
 	}
 	
 	@Test
-	public void isTileRightColorAndShape() {
+	public void is_tile_right_color_and_shape() {
 		
 		Tile tile = new Tile(Color.Red, Shape.TURTLE);
 		
@@ -77,7 +77,7 @@ class Tests {
 	}
 	
 	@Test
-	public void isPoolFilledWithTheRightTiles() {
+	public void is_pool_filled_with_the_right_tiles() {
 		//arrange
 		pool = new Pool();
 		//act

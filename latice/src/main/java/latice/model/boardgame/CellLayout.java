@@ -21,8 +21,8 @@ static Integer[][] sunCellPositions = {
             {8, 8}  
         };
 
-	public static boolean isSunCell(int row, int col) {
-			for (int i = 0; i < sunCellPositions.length; i++) {
+	public static boolean isSunCell(Integer row, Integer col) {
+			for (Integer i = 0; i < sunCellPositions.length; i++) {
 				if (sunCellPositions[i][0] == row && sunCellPositions[i][1] == col) {
 					return true;
 				}

@@ -16,7 +16,7 @@ public class TestImageLoadingFX extends Application {
     public void start(Stage primaryStage) {
         ImageLoading loader = new ImageLoading();
         
-        String imagePath = loader.getImagePath(Color.Teal, Shape.DOLPHIN);
+        String imagePath = loader.getImagePath(Color.Red, Shape.DOLPHIN);
 
         if (imagePath == null) {
             System.out.println("Chemin d'image introuvable.");
