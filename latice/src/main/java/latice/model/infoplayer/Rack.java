@@ -5,6 +5,8 @@ import latice.model.slate.Tile;
 import java.util.ArrayList;
 import java.util.List;
 
+import static latice.view.console.Console.message;
+
 public class Rack {
     private static final int LENGTH_OF_RACK = 5;
 	private List<Tile> tiles;
@@ -28,7 +30,7 @@ public class Rack {
             }
             System.out.print("|");
         }
-        System.out.println();
+        message("");
     }
 
     public List<Tile> getTiles() {

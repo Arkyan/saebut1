@@ -1,5 +1,9 @@
 package latice.model.boardgame;
 
+import java.util.Objects;
+
+import static latice.model.boardgame.Board.START_OF_GRID;
+
 public class CellLayout {
 
 static Integer[][] sunCellPositions = {
@@ -22,8 +26,8 @@ static Integer[][] sunCellPositions = {
         };
 
 	public static boolean isSunCell(Integer row, Integer col) {
-			for (Integer i = 0; i < sunCellPositions.length; i++) {
-				if (sunCellPositions[i][0] == row && sunCellPositions[i][1] == col) {
+			for (Integer rowOfSunCell = START_OF_GRID; rowOfSunCell < sunCellPositions.length; rowOfSunCell++) {
+				if (Objects.equals(sunCellPositions[rowOfSunCell][START_OF_GRID], row) && Objects.equals(sunCellPositions[rowOfSunCell][1], col)) {
 					return true;
 				}
 			}
