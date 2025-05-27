@@ -10,7 +10,10 @@ import java.util.Optional;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
@@ -24,6 +27,7 @@ import javafx.scene.input.TransferMode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import latice.controler.Referee;
 import latice.model.infoplayer.Player;
 import latice.model.slate.Tile;
@@ -96,9 +100,40 @@ public class LaticeController {
     }
 
     @FXML
-    void validerTour(ActionEvent event) {
+    void validateRound(ActionEvent event) throws Exception {
+        if (idLblNbRound.getText().equals("10")) {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../../view/parameters.fxml"));
+            
+            Parent root = loader.load();
+            Scene nouvelleScene = new Scene(root);
+          
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            
+            stage.setScene(nouvelleScene);
+            stage.show();
+            
+            if (referee.getPlayers().get(0).getNumberOfTilesPutOnBoard() > referee.getPlayers().get(1).getNumberOfTilesPutOnBoard()) {
+                //idLblPLayerWinner.setText("Winner: " + referee.getPlayers().get(0).getName());
+            }
+            else {
+                //idLblPLayerWinner.setText("Winner: " + referee.getPlayers().get(1).getName());
+                    };
 
+            } 
+        else if (currentPlayer.getPlayerBag().getTiles().isEmpty()) {
+            //TODO
+            }
+        else {
+            currentPlayer = referee.getNextPlayer(currentPlayer);
+            idLblPlayer.setText(currentPlayer.getName());
+            idLblNbPoint.setText(currentPlayer.getPoints().toString());
+            if (referee.stateOfRound()) {
+                round++;
+                idLblNbRound.setText(round.toString());
+            }
+            showTilesInRack(currentPlayer);
     }
+}
 
     private Image carriedImage = null;
     private String carriedId = null;
@@ -106,6 +141,7 @@ public class LaticeController {
     private String imagePath = null;
     private Referee referee = new Referee();
     private Player currentPlayer;
+    private Integer round = 1;
 
     
     String getNamePlayer(String nbPlayer) {
@@ -269,6 +305,7 @@ public class LaticeController {
 
             if (db.hasImage() && referee.isPlacementValid(sourceTile, row, col, referee.getBoard())) {
                 referee.placeTileOnBoard(sourceTile, row, col, currentPlayer);
+                currentPlayer.setNumberOfTilesPutOnBoard(currentPlayer.getNumberOfTilesPutOnBoard() + 1);
                 message(currentPlayer + " point : " + currentPlayer.getPoints());
 
                 Image image = db.getImage();
@@ -316,6 +353,7 @@ public class LaticeController {
                 
                 if (targetCell.getImage() != null && referee.isPlacementValid(sourceTile, row, col, referee.getBoard())) {
                     referee.placeTileOnBoard(sourceTile, row, col, currentPlayer);
+                    currentPlayer.setNumberOfTilesPutOnBoard(currentPlayer.getNumberOfTilesPutOnBoard() + 1);
                 	Image Emptyimage = new Image(Objects.requireNonNull(getClass().getResource("/interrogation.png")).toExternalForm());
                 	targetCell.setImage(carriedImage);
                 	

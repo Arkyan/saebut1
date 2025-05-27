@@ -5,12 +5,14 @@ public class Player {
 	private PlayerBag playerBag;
 	private Rack rack;
 	private Integer points;
+	private Integer numberOfTilesPutOnBoard;
 	
 	public Player(String name) {
 		this.name = name;
 		this.playerBag = new PlayerBag();
 		this.rack = new Rack();
 		this.points = 0;
+		this.numberOfTilesPutOnBoard = 0;
 	}
 
 	public String getName() {
@@ -31,5 +33,13 @@ public class Player {
 
 	public void addPoints(Integer points) {
 		this.points += points;
+	}
+	
+	public Integer getNumberOfTilesPutOnBoard() {
+		return numberOfTilesPutOnBoard;
+	}
+	
+	public void setNumberOfTilesPutOnBoard(Integer numberOfTilesPutOnBoard) {
+		this.numberOfTilesPutOnBoard = numberOfTilesPutOnBoard;
 	}
 }
