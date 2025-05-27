@@ -22,7 +22,6 @@ public class Referee {
     private List<Player> players;
     private Pool pool;
     private Board board;
-    private Integer numberOfIteration = 0;
 
 
     public Referee() {
@@ -157,24 +156,5 @@ public class Referee {
 	
 	public Board getBoard() {
 		return board;
-	}
-
-	public Player getNextPlayer(Player currentPlayer) {
-		Integer currentIndex = players.indexOf(currentPlayer);
-		if (currentIndex == -1) {
-			return null; // Player not found
-		}
-		Integer nextIndex = (currentIndex + 1) % players.size();
-		return players.get(nextIndex);
-		
-	}
-
-	public Boolean stateOfRound() {
-		numberOfIteration++;
-			if (numberOfIteration == players.size()) {
-				numberOfIteration = 0;
-				return true;
-				}
-		return false;
 	}
 }
