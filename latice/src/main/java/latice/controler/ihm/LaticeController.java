@@ -102,7 +102,7 @@ public class LaticeController {
     @FXML
     void validateRound(ActionEvent event) throws Exception {
         if (idLblNbRound.getText().equals("10")) {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("../../view/parameters.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../../view/winner-window.fxml"));
             
             Parent root = loader.load();
             Scene nouvelleScene = new Scene(root);
@@ -112,6 +112,7 @@ public class LaticeController {
             stage.setScene(nouvelleScene);
             stage.show();
             
+            //TODO : afficher le gagnant
             if (referee.getPlayers().get(0).getNumberOfTilesPutOnBoard() > referee.getPlayers().get(1).getNumberOfTilesPutOnBoard()) {
                 //idLblPLayerWinner.setText("Winner: " + referee.getPlayers().get(0).getName());
             }
