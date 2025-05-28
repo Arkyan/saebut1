@@ -102,28 +102,22 @@ public class LaticeController {
 
     @FXML
     void validateRound(ActionEvent event) throws Exception {
+    	currentPlayer.getPlayerBag().getTiles().clear();
         if (idLblNbRound.getText().equals(NUMBER_OF_ROUND_BEFORE_VICTORY.toString())) {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("../../view/winner-window.fxml"));
-            
-            Parent root = loader.load();
-            Scene nouvelleScene = new Scene(root);
-          
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            
-            stage.setScene(nouvelleScene);
-            stage.show();
-            
+            Player player1 = referee.getPlayers().get(0);
+            Player player2 = referee.getPlayers().get(1);
+        	
             //TODO : afficher le gagnant
-            if (referee.getPlayers().get(0).getNumberOfTilesPutOnBoard() > referee.getPlayers().get(1).getNumberOfTilesPutOnBoard()) {
-                //idLblPLayerWinner.setText("Winner: " + referee.getPlayers().get(0).getName());
+            if (player1.getNumberOfTilesPutOnBoard() > player2.getNumberOfTilesPutOnBoard()) {
+            	idLblPlayer.setText("Winner: " + referee.getPlayers().get(0).getName());
             }
             else {
-                //idLblPLayerWinner.setText("Winner: " + referee.getPlayers().get(1).getName());
+            	idLblPlayer.setText("Winner: " + referee.getPlayers().get(1).getName());
                     };
 
             } 
         else if (currentPlayer.getPlayerBag().getTiles().isEmpty()) {
-            //TODO
+            message("You have no tiles in your bag, you cannot validate the round.");
             }
         else {
             currentPlayer = referee.getNextPlayer(currentPlayer);
