@@ -159,7 +159,7 @@ public class Referee {
         return checkIfNbOfMatchingSidesEqualsNumberOfNeighbors(tile, row, col, cells);
     }
 
-    private boolean checkIfNbOfMatchingSidesEqualsNumberOfNeighbors(Tile tile, Integer row, Integer col, Cell[][] cells) {
+    public boolean checkIfNbOfMatchingSidesEqualsNumberOfNeighbors(Tile tile, Integer row, Integer col, Cell[][] cells) {
     	Boolean isPlacementValid = false;
         Integer[][] directions = {{-1,0},{1,0},{0,-1},{0,1}};
         Integer nbOfCorrectPos = 0;
