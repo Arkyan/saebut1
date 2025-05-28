@@ -153,13 +153,24 @@ public class Referee {
     }
 
     private boolean checkIfNbOfMatchingSidesEqualsNumberOfNeighbors(Tile tile, Integer row, Integer col, Cell[][] cells) {
+    	Boolean isPlacementValid = false;
         Integer[][] directions = {{-1,0},{1,0},{0,-1},{0,1}};
         Integer nbOfCorrectPos = 0;
         Integer nbOfNeighbors;
         nbOfNeighbors = calculateNumberOfNeighbors(tile, row, col, directions, cells);
         nbOfCorrectPos = calculateNumberOfMatchingSides(tile, row, col, cells, directions, nbOfCorrectPos);
-
-        return Objects.equals(nbOfCorrectPos, nbOfNeighbors);
+        
+        if (nbOfCorrectPos == 0 && nbOfNeighbors == 0) {
+			isPlacementValid = false;
+		} else if (nbOfNeighbors == 0) {
+			isPlacementValid = false; 
+		} else if (nbOfCorrectPos == nbOfNeighbors) {
+			isPlacementValid = true;
+		} else {
+			isPlacementValid = false;
+		}
+        
+        return isPlacementValid;
     }
 
     private Integer calculateNumberOfNeighbors(Tile tile, Integer row, Integer col, Integer[][] directions, Cell[][] cells) {
@@ -174,7 +185,7 @@ public class Referee {
                 }
             }
         }
-
+        System.out.println("Number of neighbors: " + nbOfNeighbors);
         return nbOfNeighbors;
     }
 
@@ -190,6 +201,7 @@ public class Referee {
                 }
             }
         }
+        System.out.println("Number of correct positions: " + nbOfCorrectPos);
         return nbOfCorrectPos;
     }
 	
