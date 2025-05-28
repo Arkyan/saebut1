@@ -152,7 +152,7 @@ public class Referee {
         return checkIfNbOfMatchingSidesEqualsNumberOfNeighbors(tile, row, col, cells);
     }
 
-    private boolean checkIfNbOfMatchingSidesEqualsNumberOfNeighbors(Tile tile, Integer row, Integer col, Cell[][] cells) {
+    public boolean checkIfNbOfMatchingSidesEqualsNumberOfNeighbors(Tile tile, Integer row, Integer col, Cell[][] cells) {
         Integer[][] directions = {{-1,0},{1,0},{0,-1},{0,1}};
         Integer nbOfCorrectPos = 0;
         Integer nbOfNeighbors;
@@ -162,7 +162,7 @@ public class Referee {
         return Objects.equals(nbOfCorrectPos, nbOfNeighbors);
     }
 
-    private Integer calculateNumberOfNeighbors(Tile tile, Integer row, Integer col, Integer[][] directions, Cell[][] cells) {
+    public Integer calculateNumberOfNeighbors(Tile tile, Integer row, Integer col, Integer[][] directions, Cell[][] cells) {
         Integer nbOfNeighbors = 0;
         for (Integer[] d : directions) {
             Integer neighborRow = row + d[0];
@@ -210,6 +210,10 @@ public class Referee {
         return players.get(nextIndex);
         
     }
+    
+	public Pool getPool() {
+		return pool;
+	}
 
     public Boolean stateOfRound() {
         numberOfIteration++;

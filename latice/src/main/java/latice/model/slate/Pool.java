@@ -2,6 +2,7 @@ package latice.model.slate;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static latice.view.console.Console.message;
 
@@ -36,4 +37,23 @@ public class Pool {
     public List<Tile> getTiles() {
         return this.tiles;
     }
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(tiles);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Pool other = (Pool) obj;
+		return Objects.equals(tiles, other.tiles);
+	}
+    
+  
 }

@@ -315,6 +315,7 @@ public class LaticeController {
 
             if (db.hasImage() && referee.isPlacementValid(sourceTile, row, col, referee.getBoard())) {
             	referee.placeTileOnBoard(sourceTile, row, col, currentPlayer);
+            	referee.getBoard().display();
                 currentPlayer.setNumberOfTilesPutOnBoard(currentPlayer.getNumberOfTilesPutOnBoard() + 1);
 
                 Image image = db.getImage();
