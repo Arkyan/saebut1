@@ -1,6 +1,7 @@
 package latice.controler.ihm;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.Paths;
@@ -27,6 +28,7 @@ import javafx.scene.input.TransferMode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import latice.controler.Referee;
 import latice.model.infoplayer.Player;
@@ -35,7 +37,6 @@ import latice.view.ImageLoading;
 
 import static latice.controler.Referee.MAX_TILES_IN_RACK;
 import static latice.controler.Referee.NUMBER_OF_ROUND_BEFORE_VICTORY;
-import static latice.view.console.Console.message;
 
 public class LaticeController {
 
@@ -102,22 +103,20 @@ public class LaticeController {
 
     @FXML
     void validateRound(ActionEvent event) throws Exception {
-    	currentPlayer.getPlayerBag().getTiles().clear();
         if (idLblNbRound.getText().equals(NUMBER_OF_ROUND_BEFORE_VICTORY.toString())) {
             Player player1 = referee.getPlayers().get(0);
             Player player2 = referee.getPlayers().get(1);
-        	
-            //TODO : afficher le gagnant
-            if (player1.getNumberOfTilesPutOnBoard() > player2.getNumberOfTilesPutOnBoard()) {
-            	idLblPlayer.setText("Winner: " + referee.getPlayers().get(0).getName());
-            }
-            else {
-            	idLblPlayer.setText("Winner: " + referee.getPlayers().get(1).getName());
-                    };
-
+            Player winner = null;
+    		if (player1.getNumberOfTilesPutOnBoard() > player2.getNumberOfTilesPutOnBoard()) {
+    		    winner = player1;
+    		}
+    		else {
+    		    winner = player2;
+    		};
+            setAndDisplayWinner(event, winner);
             } 
         else if (currentPlayer.getPlayerBag().getTiles().isEmpty()) {
-            message("You have no tiles in your bag, you cannot validate the round.");
+        	setAndDisplayWinner(event, currentPlayer);
             }
         else {
             currentPlayer = referee.getNextPlayer(currentPlayer);
@@ -130,6 +129,21 @@ public class LaticeController {
             showTilesInRack(currentPlayer);
     }
 }
+
+	public void setAndDisplayWinner(ActionEvent event, Player winner) throws IOException {
+		
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("../../view/winner-window.fxml"));
+		Parent root = loader.load();
+		
+		WinnerController controllerWinner = loader.getController();
+		controllerWinner.setWinner(winner); 
+
+		Stage winnerStage = new Stage();
+		winnerStage.setScene(new Scene(root));        
+		winnerStage.initModality(Modality.APPLICATION_MODAL);
+		winnerStage.initOwner(((Node) event.getSource()).getScene().getWindow());
+		winnerStage.showAndWait();
+	}
 
     private Image carriedImage = null;
     private String carriedId = null;
@@ -361,4 +375,8 @@ public class LaticeController {
             event.consume();
         });
     }
+    
+    
+    
+    
 }
