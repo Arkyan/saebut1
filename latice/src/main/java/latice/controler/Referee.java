@@ -8,6 +8,7 @@ import java.util.Objects;
 import latice.view.console.Console;
 import latice.model.boardgame.Board;
 import latice.model.boardgame.Cell;
+import latice.model.boardgame.CellLayout;
 import latice.model.infoplayer.Player;
 import latice.model.infoplayer.PlayerBag;
 import latice.model.infoplayer.Rack;
@@ -101,18 +102,20 @@ public class Referee {
 		Cell[][] cells = board.getCells();
         Integer[][] directions = {{-1,0},{1,0},{0,-1},{0,1}};
         Integer nbOfCorrectPos = 0;
+        Boolean onASunCell = false;
 
 		if (isPlacementValid(tile, row, col, board)) {
 			cells[row][col].setTile(tile);
 			player.getRack().removeTile(player.getRack().getTileIndex(tile));
 			fillRackFromPlayerBag(player);
             nbOfCorrectPos = calculateNumberOfMatchingSides(tile, row, col, cells, directions, nbOfCorrectPos);
+            onASunCell = isTileOnSunCell(tile, row, col);
 
-            calculatePoints(player, nbOfCorrectPos);
+            calculatePoints(player, nbOfCorrectPos, onASunCell);
         }
     }
 
-	public void calculatePoints(Player player, Integer nbOfCorrectPos) {
+	public void calculatePoints(Player player, Integer nbOfCorrectPos, Boolean onASunCell) {
 		switch (nbOfCorrectPos) {
 		    case 2 :
 		        player.addPoints(1);
@@ -125,6 +128,10 @@ public class Referee {
 		        break;
 		    default :
 		        break;
+		}
+		
+		if (onASunCell) {
+			player.addPoints(2);
 		}
 	}
 	
@@ -152,14 +159,23 @@ public class Referee {
         return checkIfNbOfMatchingSidesEqualsNumberOfNeighbors(tile, row, col, cells);
     }
 
-    public boolean checkIfNbOfMatchingSidesEqualsNumberOfNeighbors(Tile tile, Integer row, Integer col, Cell[][] cells) {
+    private boolean checkIfNbOfMatchingSidesEqualsNumberOfNeighbors(Tile tile, Integer row, Integer col, Cell[][] cells) {
+    	Boolean isPlacementValid = false;
         Integer[][] directions = {{-1,0},{1,0},{0,-1},{0,1}};
         Integer nbOfCorrectPos = 0;
         Integer nbOfNeighbors;
         nbOfNeighbors = calculateNumberOfNeighbors(tile, row, col, directions, cells);
         nbOfCorrectPos = calculateNumberOfMatchingSides(tile, row, col, cells, directions, nbOfCorrectPos);
-
-        return Objects.equals(nbOfCorrectPos, nbOfNeighbors);
+        
+        if (nbOfNeighbors == 0) {
+			isPlacementValid = false; 
+		} else if (nbOfCorrectPos == nbOfNeighbors) {
+			isPlacementValid = true;
+		} else {
+			isPlacementValid = false;
+		}
+        
+        return isPlacementValid;
     }
 
     public Integer calculateNumberOfNeighbors(Tile tile, Integer row, Integer col, Integer[][] directions, Cell[][] cells) {
@@ -174,7 +190,6 @@ public class Referee {
                 }
             }
         }
-
         return nbOfNeighbors;
     }
 
@@ -192,6 +207,13 @@ public class Referee {
         }
         return nbOfCorrectPos;
     }
+    
+    public boolean isTileOnSunCell(Tile tile, Integer row, Integer col) {
+    	if (CellLayout.isSunCell(row, col)) {
+			return true; 
+		}
+		return false; 
+	}
 	
 	public void addPlayer(Player player) {
 		players.add(player);
