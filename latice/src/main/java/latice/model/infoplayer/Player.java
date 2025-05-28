@@ -11,8 +11,8 @@ public class Player {
 		this.name = name;
 		this.playerBag = new PlayerBag();
 		this.rack = new Rack();
-		this.points = 0;
-		this.numberOfTilesPutOnBoard = 0;
+		this.points = (Integer) 0;
+		this.numberOfTilesPutOnBoard = (Integer) 0;
 	}
 
 	public String getName() {

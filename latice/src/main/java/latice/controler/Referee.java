@@ -21,6 +21,7 @@ import static latice.view.console.Console.message;
 public class Referee {
 
 	public static final Integer MAX_TILES_IN_RACK = 5;
+    public static final Integer NUMBER_OF_ROUND_BEFORE_VICTORY = 10;
 	private final String name = "Michel";
     private List<Player> players;
     private Pool pool;
@@ -103,25 +104,30 @@ public class Referee {
 
 		if (isPlacementValid(tile, row, col, board)) {
 			cells[row][col].setTile(tile);
-			player.getRack().removeTile(tile);
+			player.getRack().removeTile(player.getRack().getTileIndex(tile));
 			fillRackFromPlayerBag(player);
             nbOfCorrectPos = calculateNumberOfMatchingSides(tile, row, col, cells, directions, nbOfCorrectPos);
 
-            switch (nbOfCorrectPos) {
-                case 2 :
-                    player.addPoints(1);
-                    break;
-                case 3 :
-                    player.addPoints(2);
-                    break;
-                case 4 :
-                    player.addPoints(4);
-                    break;
-                default :
-                    break;
-            }
+            calculatePoints(player, nbOfCorrectPos);
         }
     }
+
+	public void calculatePoints(Player player, Integer nbOfCorrectPos) {
+		switch (nbOfCorrectPos) {
+		    case 2 :
+		        player.addPoints(1);
+		        break;
+		    case 3 :
+		        player.addPoints(2);
+		        break;
+		    case 4 :
+		        player.addPoints(4);
+		        break;
+		    default :
+		        break;
+		}
+	}
+	
     @SuppressWarnings("null")
 	public boolean isPlacementValid(Tile tile, Integer row, Integer col, Board board) {
         Cell[][] cells = board.getCells();

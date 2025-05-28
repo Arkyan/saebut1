@@ -37,8 +37,14 @@ public class Rack {
         return this.tiles;
     }
 
-	public void removeTile(Tile tile) {
-		tiles.remove(tile);
+	public void removeTile(Integer index) {
+		if (index >= 0 && index < tiles.size()) {
+			tiles.remove((int) index);
+		}
+	}
+	
+	public Integer getTileIndex(Tile tile) {
+		return tiles.indexOf(tile);
 		
 	}
 }

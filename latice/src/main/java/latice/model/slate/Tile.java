@@ -5,6 +5,8 @@ import latice.model.slate.Shape;
 
 import static latice.view.console.Console.message;
 
+import java.util.Objects;
+
 public class Tile {
 	private Color color;
 	private Shape shape;
@@ -55,4 +57,23 @@ public class Tile {
 		String reset = "\u001B[0m";
 		return colorCode + shape.getSymbol() + reset;
 	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(color, shape);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Tile other = (Tile) obj;
+		return color == other.color && shape == other.shape;
+	}
+	
+	
 }

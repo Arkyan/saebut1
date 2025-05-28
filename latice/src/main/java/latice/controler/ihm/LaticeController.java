@@ -34,6 +34,7 @@ import latice.model.slate.Tile;
 import latice.view.ImageLoading;
 
 import static latice.controler.Referee.MAX_TILES_IN_RACK;
+import static latice.controler.Referee.NUMBER_OF_ROUND_BEFORE_VICTORY;
 import static latice.view.console.Console.message;
 
 public class LaticeController {
@@ -101,7 +102,7 @@ public class LaticeController {
 
     @FXML
     void validateRound(ActionEvent event) throws Exception {
-        if (idLblNbRound.getText().equals("10")) {
+        if (idLblNbRound.getText().equals(NUMBER_OF_ROUND_BEFORE_VICTORY.toString())) {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("../../view/winner-window.fxml"));
             
             Parent root = loader.load();
@@ -305,9 +306,8 @@ public class LaticeController {
             Tile sourceTile = new ImageLoading().getTileFromImage(sourceTileFilePath);
 
             if (db.hasImage() && referee.isPlacementValid(sourceTile, row, col, referee.getBoard())) {
-                referee.placeTileOnBoard(sourceTile, row, col, currentPlayer);
+            	referee.placeTileOnBoard(sourceTile, row, col, currentPlayer);
                 currentPlayer.setNumberOfTilesPutOnBoard(currentPlayer.getNumberOfTilesPutOnBoard() + 1);
-                message(currentPlayer + " point : " + currentPlayer.getPoints());
 
                 Image image = db.getImage();
                 ((ImageView) boardCell).setImage(image);
