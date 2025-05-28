@@ -167,9 +167,7 @@ public class Referee {
         nbOfNeighbors = calculateNumberOfNeighbors(tile, row, col, directions, cells);
         nbOfCorrectPos = calculateNumberOfMatchingSides(tile, row, col, cells, directions, nbOfCorrectPos);
         
-        if (nbOfCorrectPos == 0 && nbOfNeighbors == 0) {
-			isPlacementValid = false;
-		} else if (nbOfNeighbors == 0) {
+        if (nbOfNeighbors == 0) {
 			isPlacementValid = false; 
 		} else if (nbOfCorrectPos == nbOfNeighbors) {
 			isPlacementValid = true;
@@ -192,7 +190,6 @@ public class Referee {
                 }
             }
         }
-        System.out.println("Number of neighbors: " + nbOfNeighbors);
         return nbOfNeighbors;
     }
 
@@ -208,7 +205,6 @@ public class Referee {
                 }
             }
         }
-        System.out.println("Number of correct positions: " + nbOfCorrectPos);
         return nbOfCorrectPos;
     }
     
