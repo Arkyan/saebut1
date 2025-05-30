@@ -93,19 +93,21 @@ public class LaticeController {
 
     @FXML
     void buyAdditionalAction(ActionEvent event) {
-		if (currentPlayer.getPoints() < 2 || currentPlayer.getRack().getTiles().isEmpty()) {
+		if (currentPlayer.getPoints() < 2 || currentPlayer.getRack().getTiles().isEmpty() || currentPlayer.getRack().getTiles().size() <= currentPlayer.getNumberOfActions()) {
 			idBtnBuy.setDisable(true);
+			System.out.println(currentPlayer.getPoints());
+			System.out.println(currentPlayer.getNumberOfActions());
+			System.out.println("zehfbeljrnzkojifl");
 			//TODO add alert box
 			idBtnBuy.setDisable(false);
 		} else {
-			//TODO
+			currentPlayer.buyAction();
 		}
 
     }
 
     @FXML
     void changeAndPass(ActionEvent event) {
-
     }
 
     @FXML
@@ -126,6 +128,7 @@ public class LaticeController {
         	setAndDisplayWinner(event, currentPlayer);
             }
         else {
+        	currentPlayer.initializeNumberOfActions();
             currentPlayer = referee.getNextPlayer(currentPlayer);
             idLblPlayer.setText(currentPlayer.getName());
             idLblNbPoint.setText(currentPlayer.getPoints().toString());
@@ -260,10 +263,10 @@ public class LaticeController {
                 if (path != null) {
                     imageView.setImage(new Image(getClass().getResource(path).toExternalForm()));
                 } else {
-                    imageView.setImage(null); // Si pas d'image trouvée
+                    imageView.setImage(null); 
                 }
             } else {
-                imageView.setImage(null); // Cache les emplacements vides
+                imageView.setImage(null); 
             }
         }
     }
@@ -296,7 +299,7 @@ public class LaticeController {
 
     public void manageTargetDragAndDrop(Node boardCell) {
         boardCell.setOnDragOver(event -> {
-            if (event.getGestureSource() != boardCell && event.getDragboard().hasImage()) {
+            if (event.getGestureSource() != boardCell && event.getDragboard().hasImage() ) {
                 event.acceptTransferModes(TransferMode.MOVE);
             }
             event.consume();
@@ -320,7 +323,7 @@ public class LaticeController {
             String sourceTileFilePath = "/" + file.getName();
             Tile sourceTile = new ImageLoading().getTileFromImage(sourceTileFilePath);
 
-            if (db.hasImage() && referee.isPlacementValid(sourceTile, row, col, referee.getBoard())) {
+            if (db.hasImage() && referee.isPlacementValid(sourceTile, row, col, referee.getBoard()) && currentPlayer.playerCanPlay()) {
             	referee.placeTileOnBoard(sourceTile, row, col, currentPlayer);
             	referee.getBoard().display();
                 currentPlayer.setNumberOfTilesPutOnBoard(currentPlayer.getNumberOfTilesPutOnBoard() + 1);
@@ -329,6 +332,7 @@ public class LaticeController {
                 ((ImageView) boardCell).setImage(image);
                 event.setDropCompleted(true);
                 event.consume();
+                currentPlayer.useAction();
             } else {
                 event.setDropCompleted(false);
             }
@@ -368,13 +372,14 @@ public class LaticeController {
                 String sourceTileFilePath = "/" + file.getName();
                 Tile sourceTile = new ImageLoading().getTileFromImage(sourceTileFilePath);
                 
-                if (targetCell.getImage() != null && referee.isPlacementValid(sourceTile, row, col, referee.getBoard())) {
+                if (targetCell.getImage() != null && referee.isPlacementValid(sourceTile, row, col, referee.getBoard()) && currentPlayer.playerCanPlay()) {
                     referee.placeTileOnBoard(sourceTile, row, col, currentPlayer);
                     currentPlayer.setNumberOfTilesPutOnBoard(currentPlayer.getNumberOfTilesPutOnBoard() + 1);
                 	Image Emptyimage = new Image(Objects.requireNonNull(getClass().getResource("/interrogation.png")).toExternalForm());
                 	targetCell.setImage(carriedImage);
                 	
                 	sourceRackTile.setImage(Emptyimage);
+                	currentPlayer.useAction();
                 }
                 carriedImage = null;
                 carriedId = null;
