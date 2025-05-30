@@ -1,19 +1,27 @@
 package latice.controler.ihm;
 
+import static latice.controler.Referee.MAX_TILES_IN_RACK;
+import static latice.controler.Referee.NUMBER_OF_ROUND_BEFORE_VICTORY;
+
 import java.io.File;
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -25,8 +33,9 @@ import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import latice.controler.Referee;
 import latice.model.infoplayer.Player;
 import latice.model.slate.Tile;
@@ -87,18 +96,69 @@ public class LaticeController {
 
     @FXML
     void buyAdditionalAction(ActionEvent event) {
+    	if (currentPlayer.getRack().getTiles().isEmpty()){
+			displayError("You cannot buy an additional action if you don't have any tiles in your rack.");
+		}
+    	else if (currentPlayer.getRack().getTiles().size() <= currentPlayer.getNumberOfActions()) {
+			displayError("You cannot buy an additional action if you have less tile than you have actions.");
+    	}
+		else if (currentPlayer.getPoints() < 2) {
+			displayError("You don't have enough points to buy an additional action");
+		}
+		else {
+			currentPlayer.buyAction();
+		}
 
     }
 
     @FXML
     void changeAndPass(ActionEvent event) {
-
     }
 
     @FXML
-    void validerTour(ActionEvent event) {
-
+    void validateRound(ActionEvent event) throws Exception {
+        if (idLblNbRound.getText().equals(NUMBER_OF_ROUND_BEFORE_VICTORY.toString())) {
+            Player player1 = referee.getPlayers().get(0);
+            Player player2 = referee.getPlayers().get(1);
+            Player winner = null;
+    		if (player1.getNumberOfTilesPutOnBoard() > player2.getNumberOfTilesPutOnBoard()) {
+    		    winner = player1;
+    		}
+    		else {
+    		    winner = player2;
+    		};
+            setAndDisplayWinner(event, winner);
+            } 
+        else if (currentPlayer.getPlayerBag().getTiles().isEmpty()) {
+        	setAndDisplayWinner(event, currentPlayer);
+            }
+        else {
+        	currentPlayer.initializeNumberOfActions();
+            currentPlayer = referee.getNextPlayer(currentPlayer);
+            idLblPlayer.setText(currentPlayer.getName());
+            idLblNbPoint.setText(currentPlayer.getPoints().toString());
+            if (referee.stateOfRound()) {
+                round++;
+                idLblNbRound.setText(round.toString());
+            }
+            showTilesInRack(currentPlayer);
     }
+}
+
+	public void setAndDisplayWinner(ActionEvent event, Player winner) throws IOException {
+		
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("../../view/winner-window.fxml"));
+		Parent root = loader.load();
+		
+		WinnerController controllerWinner = loader.getController();
+		controllerWinner.setWinner(winner); 
+
+		Stage winnerStage = new Stage();
+		winnerStage.setScene(new Scene(root));        
+		winnerStage.initModality(Modality.APPLICATION_MODAL);
+		winnerStage.initOwner(((Node) event.getSource()).getScene().getWindow());
+		winnerStage.showAndWait();
+	}
 
     private Image carriedImage = null;
     private String carriedId = null;
@@ -106,6 +166,7 @@ public class LaticeController {
     private String imagePath = null;
     private Referee referee = new Referee();
     private Player currentPlayer;
+    private Integer round = 1;
 
     
     String getNamePlayer(String nbPlayer) {
@@ -140,10 +201,12 @@ public class LaticeController {
     
     @FXML
 	void initialize() {
-        List<ImageView> rackImageViews = List.of(
-                rackImage1, rackImage2, rackImage3,
-                rackImage4, rackImage5
-        );
+    	List<ImageView> rackImageViews = new ArrayList<>();
+		for (Node node : HBoxRack.getChildren()) {
+			if (node instanceof ImageView) {
+				rackImageViews.add((ImageView) node);
+			}
+		}
 
     	Integer round = 1;
 		String namePlayer1 = "" ;
@@ -165,12 +228,9 @@ public class LaticeController {
 		referee.distributeTilesToPlayers(referee.getPlayers());
 		referee.fillAllRacks();
 		//choose random player
-		int randomIndex = (int) (Math.random() * referee.getPlayers().size());
+		Integer randomIndex = (int) (Math.random() * referee.getPlayers().size());
         currentPlayer = referee.getPlayers().get(randomIndex);
-		idLblPlayer.setText(currentPlayer.getName());
-		idLblNbPoint.setText(currentPlayer.getPoints().toString());
-		idLblNbRound.setText(round.toString());
-		showTilesInRack(currentPlayer);
+        updatedInformations(round);
 
         for (ImageView rackTile : rackImageViews ) {
             manageSourceDragAndDrop(rackTile);
@@ -182,32 +242,39 @@ public class LaticeController {
 				manageTargetClick(boardcell);
 			}
 		}
-        
 	}
-    
+
+    private void updatedInformations(Integer round) {
+        idLblPlayer.setText(currentPlayer.getName());
+        idLblNbPoint.setText(currentPlayer.getPoints().toString());
+        idLblNbRound.setText(round.toString());
+        showTilesInRack(currentPlayer);
+    }
+
     public void showTilesInRack(Player player) {
         ImageLoading loader = new ImageLoading();
 
         List<Tile> tiles = player.getRack().getTiles();
-        List<ImageView> rackImageViews = List.of(
-                rackImage1, rackImage2, rackImage3,
-                rackImage4, rackImage5
-        );
+        List<ImageView> rackImageViews = new ArrayList<>();
+		for (Node node : HBoxRack.getChildren()) {
+			if (node instanceof ImageView) {
+				rackImageViews.add((ImageView) node);
+			}
+		}
 
-        for (int i = 0; i < rackImageViews.size(); i++) {
-            ImageView imageView = rackImageViews.get(i);
-
-            if (i < tiles.size()) {
-                Tile tile = tiles.get(i);
+        for (Integer indexOfCase = 0; indexOfCase < MAX_TILES_IN_RACK; indexOfCase++) {
+            ImageView imageView = rackImageViews.get(indexOfCase);
+            if (indexOfCase < tiles.size()) {
+                Tile tile = tiles.get(indexOfCase);
                 String path = loader.getImagePath(tile.getColor(), tile.getShape());
 
                 if (path != null) {
                     imageView.setImage(new Image(getClass().getResource(path).toExternalForm()));
                 } else {
-                    imageView.setImage(null); // Si pas d'image trouvée
+                    imageView.setImage(null); 
                 }
             } else {
-                imageView.setImage(null); // Cache les emplacements vides
+                imageView.setImage(null); 
             }
         }
     }
@@ -240,7 +307,7 @@ public class LaticeController {
 
     public void manageTargetDragAndDrop(Node boardCell) {
         boardCell.setOnDragOver(event -> {
-            if (event.getGestureSource() != boardCell && event.getDragboard().hasImage()) {
+            if (event.getGestureSource() != boardCell && event.getDragboard().hasImage() ) {
                 event.acceptTransferModes(TransferMode.MOVE);
             }
             event.consume();
@@ -248,7 +315,6 @@ public class LaticeController {
 
         boardCell.setOnDragDropped(event -> {
             Dragboard db = event.getDragboard();
-            Boolean success = false;
 
             // Here, we create the variables needed for placing the tile
             ImageView target = (ImageView) event.getGestureTarget();
@@ -265,13 +331,16 @@ public class LaticeController {
             String sourceTileFilePath = "/" + file.getName();
             Tile sourceTile = new ImageLoading().getTileFromImage(sourceTileFilePath);
 
-            if (db.hasImage() && referee.isPlacementValid(sourceTile, row, col, referee.getBoard())) {
-                referee.placeTileOnBoard(sourceTile, row, col, currentPlayer);
+            if (db.hasImage() && referee.isPlacementValid(sourceTile, row, col, referee.getBoard()) && currentPlayer.playerCanPlay()) {
+            	referee.placeTileOnBoard(sourceTile, row, col, currentPlayer);
+            	referee.getBoard().display();
+                currentPlayer.setNumberOfTilesPutOnBoard(currentPlayer.getNumberOfTilesPutOnBoard() + 1);
 
                 Image image = db.getImage();
                 ((ImageView) boardCell).setImage(image);
                 event.setDropCompleted(true);
                 event.consume();
+                currentPlayer.useAction();
             } else {
                 event.setDropCompleted(false);
             }
@@ -292,8 +361,6 @@ public class LaticeController {
 				carriedImage = null;
 				carriedId = null;
 			}
-            
-            
         });
     }
 
@@ -312,15 +379,15 @@ public class LaticeController {
                 }
                 String sourceTileFilePath = "/" + file.getName();
                 Tile sourceTile = new ImageLoading().getTileFromImage(sourceTileFilePath);
-
                 
-                if (targetCell.getImage() != null && referee.isPlacementValid(sourceTile, row, col, referee.getBoard())) {
+                if (targetCell.getImage() != null && referee.isPlacementValid(sourceTile, row, col, referee.getBoard()) && currentPlayer.playerCanPlay()) {
                     referee.placeTileOnBoard(sourceTile, row, col, currentPlayer);
+                    currentPlayer.setNumberOfTilesPutOnBoard(currentPlayer.getNumberOfTilesPutOnBoard() + 1);
                 	Image Emptyimage = new Image(Objects.requireNonNull(getClass().getResource("/interrogation.png")).toExternalForm());
                 	targetCell.setImage(carriedImage);
                 	
                 	sourceRackTile.setImage(Emptyimage);
-
+                	currentPlayer.useAction();
                 }
                 carriedImage = null;
                 carriedId = null;
@@ -329,4 +396,20 @@ public class LaticeController {
             event.consume();
         });
     }
+    
+    private void displayError(String errorType) {
+    	idBtnBuy.setDisable(true);
+    	Alert alert = new Alert(Alert.AlertType.ERROR);
+    	alert.setTitle("Error while buying an action");
+    	alert.setHeaderText("An error occurred while trying to buy an action");
+    	alert.setContentText(errorType);
+    	
+    	alert.getButtonTypes().setAll(new ButtonType("Continue"));
+    	Optional<ButtonType> result = alert.showAndWait();
+    	idBtnBuy.setDisable(false);
+    }
+    
+    
+    
+    
 }
