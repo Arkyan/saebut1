@@ -95,7 +95,6 @@ public class LaticeController {
 
     @FXML
     void buyAdditionalAction(ActionEvent event) {
-    	currentPlayer.addPoints(14);
     	if (currentPlayer.getRack().getTiles().isEmpty()){
 			displayError("You cannot buy an additional action if you don't have any tiles in your rack.");
 		}
