@@ -93,6 +93,13 @@ public class LaticeController {
 
     @FXML
     void buyAdditionalAction(ActionEvent event) {
+		if (currentPlayer.getPoints() < 2 || currentPlayer.getRack().getTiles().isEmpty()) {
+			idBtnBuy.setDisable(true);
+			//TODO add alert box
+			idBtnBuy.setDisable(false);
+		} else {
+			//TODO
+		}
 
     }
 
