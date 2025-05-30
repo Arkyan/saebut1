@@ -1,5 +1,8 @@
 package latice.controler.ihm;
 
+import static latice.controler.Referee.MAX_TILES_IN_RACK;
+import static latice.controler.Referee.NUMBER_OF_ROUND_BEFORE_VICTORY;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
@@ -15,7 +18,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -34,9 +39,6 @@ import latice.controler.Referee;
 import latice.model.infoplayer.Player;
 import latice.model.slate.Tile;
 import latice.view.ImageLoading;
-
-import static latice.controler.Referee.MAX_TILES_IN_RACK;
-import static latice.controler.Referee.NUMBER_OF_ROUND_BEFORE_VICTORY;
 
 public class LaticeController {
 
@@ -93,14 +95,17 @@ public class LaticeController {
 
     @FXML
     void buyAdditionalAction(ActionEvent event) {
-		if (currentPlayer.getPoints() < 2 || currentPlayer.getRack().getTiles().isEmpty() || currentPlayer.getRack().getTiles().size() <= currentPlayer.getNumberOfActions()) {
-			idBtnBuy.setDisable(true);
-			System.out.println(currentPlayer.getPoints());
-			System.out.println(currentPlayer.getNumberOfActions());
-			System.out.println("zehfbeljrnzkojifl");
-			//TODO add alert box
-			idBtnBuy.setDisable(false);
-		} else {
+    	currentPlayer.addPoints(14);
+    	if (currentPlayer.getRack().getTiles().isEmpty()){
+			displayError("You cannot buy an additional action if you don't have any tiles in your rack.");
+		}
+    	else if (currentPlayer.getRack().getTiles().size() <= currentPlayer.getNumberOfActions()) {
+			displayError("You cannot buy an additional action if you have less tile than you have actions.");
+    	}
+		else if (currentPlayer.getPoints() < 2) {
+			displayError("You don't have enough points to buy an additional action");
+		}
+		else {
 			currentPlayer.buyAction();
 		}
 
@@ -387,6 +392,18 @@ public class LaticeController {
             }
             event.consume();
         });
+    }
+    
+    private void displayError(String errorType) {
+    	idBtnBuy.setDisable(true);
+    	Alert alert = new Alert(Alert.AlertType.ERROR);
+    	alert.setTitle("Error while buying an action");
+    	alert.setHeaderText("An error occurred while trying to buy an action");
+    	alert.setContentText(errorType);
+    	
+    	alert.getButtonTypes().setAll(new ButtonType("Continue"));
+    	Optional<ButtonType> result = alert.showAndWait();
+    	idBtnBuy.setDisable(false);
     }
     
     
