@@ -108,7 +108,8 @@ class RefereeTest {
 	public void should_add_1_point() {
 		Integer nbCorrectPosition = 2;
 		Integer expectedPoints = 1;
-		referee.calculatePoints(player1, nbCorrectPosition);
+		Boolean isOnASunCell = false;
+		referee.calculatePoints(player1, nbCorrectPosition, isOnASunCell);
 		
 		assertEquals(expectedPoints, player1.getPoints());
 	}
@@ -117,7 +118,8 @@ class RefereeTest {
 	public void should_add_2_point() {
 		Integer nbCorrectPosition = 3;
 		Integer expectedPoints = 2;
-		referee.calculatePoints(player1, nbCorrectPosition);
+		Boolean isOnASunCell = false;
+		referee.calculatePoints(player1, nbCorrectPosition, isOnASunCell);
 		
 		assertEquals(expectedPoints, player1.getPoints());
 	}
@@ -126,7 +128,8 @@ class RefereeTest {
 	public void should_add_4_point() {
 		Integer nbCorrectPosition = 4;
 		Integer expectedPoints = 4;
-		referee.calculatePoints(player1, nbCorrectPosition);
+		Boolean isOnASunCell = false;
+		referee.calculatePoints(player1, nbCorrectPosition, isOnASunCell);
 		
 		assertEquals(expectedPoints, player1.getPoints());
 	}
@@ -135,8 +138,19 @@ class RefereeTest {
 	public void shouldn_t_add_point() {
 		Integer nbCorrectPosition = 0;
 		Integer expectedPoints = 0;
-		referee.calculatePoints(player1, nbCorrectPosition);
+		Boolean isOnASunCell = false;
+		referee.calculatePoints(player1, nbCorrectPosition, isOnASunCell);
 		
+		assertEquals(expectedPoints, player1.getPoints());
+	}
+	
+	@Test
+	public void should_add_2_points_on_sun_cell() {
+		Integer nbCorrectPosition = 2;
+		Integer expectedPoints = 3;
+		Boolean isOnASunCell = true;
+		referee.calculatePoints(player1, nbCorrectPosition, isOnASunCell);
+
 		assertEquals(expectedPoints, player1.getPoints());
 	}
 	
