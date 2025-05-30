@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -95,7 +96,6 @@ public class LaticeController {
 
     @FXML
     void buyAdditionalAction(ActionEvent event) {
-    	currentPlayer.addPoints(14);
     	if (currentPlayer.getRack().getTiles().isEmpty()){
 			displayError("You cannot buy an additional action if you don't have any tiles in your rack.");
 		}
@@ -201,10 +201,12 @@ public class LaticeController {
     
     @FXML
 	void initialize() {
-        List<ImageView> rackImageViews = List.of(
-                rackImage1, rackImage2, rackImage3,
-                rackImage4, rackImage5
-        );
+    	List<ImageView> rackImageViews = new ArrayList<>();
+		for (Node node : HBoxRack.getChildren()) {
+			if (node instanceof ImageView) {
+				rackImageViews.add((ImageView) node);
+			}
+		}
 
     	Integer round = 1;
 		String namePlayer1 = "" ;
@@ -252,12 +254,13 @@ public class LaticeController {
     public void showTilesInRack(Player player) {
         ImageLoading loader = new ImageLoading();
 
-        // TODO utiliser la HBox au lieu des ImageView
         List<Tile> tiles = player.getRack().getTiles();
-        List<ImageView> rackImageViews = List.of(
-                rackImage1, rackImage2, rackImage3,
-                rackImage4, rackImage5
-        );
+        List<ImageView> rackImageViews = new ArrayList<>();
+		for (Node node : HBoxRack.getChildren()) {
+			if (node instanceof ImageView) {
+				rackImageViews.add((ImageView) node);
+			}
+		}
 
         for (Integer indexOfCase = 0; indexOfCase < MAX_TILES_IN_RACK; indexOfCase++) {
             ImageView imageView = rackImageViews.get(indexOfCase);
