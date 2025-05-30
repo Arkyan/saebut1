@@ -17,7 +17,7 @@ public class LaticeApplicationConsole {
 		message("-- Developped by : Martin               --");
 		message("-- Developped by : Alexandre            --");
 		message(SEPARATOR_LINE);
-		message("Let's start the v6 with FX!");
+		message("Let's end the v6 with FX!");
 		
         message(referee.getName() + " is now managing the game!");
         referee.prepareGame();
