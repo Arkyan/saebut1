@@ -113,6 +113,17 @@ public class LaticeController {
 
     @FXML
     void changeAndPass(ActionEvent event) {
+    	idBtnChange.setOnAction(e -> {
+    		currentPlayer.getPlayerBag().getTiles().addAll(currentPlayer.getRack().getTiles());
+    		currentPlayer.getRack().getTiles().clear();
+    		referee.fillRackFromPlayerBag(currentPlayer);
+    		showTilesInRack(currentPlayer);
+    		try {
+    			validateRound(e);
+			} catch (Exception ex) {
+				ex.printStackTrace();
+    		}
+    	});
     }
 
     @FXML
