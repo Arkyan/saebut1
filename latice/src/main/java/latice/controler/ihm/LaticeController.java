@@ -128,10 +128,16 @@ public class LaticeController {
 
     @FXML
     void validateRound(ActionEvent event) throws Exception {
+    	Player player1 = referee.getPlayers().get(0);
+        Player player2 = referee.getPlayers().get(1);
+        Player winner = null;
+        
+        if (player1.getPlayerBag().getTiles().size() == player2.getPlayerBag().getTiles().size() && idLblNbRound.getText().equals(NUMBER_OF_ROUND_BEFORE_VICTORY.toString()) ) {
+			setAndDisplayDraw(event);
+			return;
+		};
+        
         if (idLblNbRound.getText().equals(NUMBER_OF_ROUND_BEFORE_VICTORY.toString())) {
-            Player player1 = referee.getPlayers().get(0);
-            Player player2 = referee.getPlayers().get(1);
-            Player winner = null;
     		if (player1.getNumberOfTilesPutOnBoard() > player2.getNumberOfTilesPutOnBoard()) {
     		    winner = player1;
     		}
@@ -153,8 +159,8 @@ public class LaticeController {
                 idLblNbRound.setText(round.toString());
             }
             showTilesInRack(currentPlayer);
+        }
     }
-}
 
 	public void setAndDisplayWinner(ActionEvent event, Player winner) throws IOException {
 		
@@ -166,6 +172,22 @@ public class LaticeController {
 
 		Stage winnerStage = new Stage();
 		winnerStage.setScene(new Scene(root));        
+		winnerStage.initModality(Modality.APPLICATION_MODAL);
+		winnerStage.initOwner(((Node) event.getSource()).getScene().getWindow());
+		winnerStage.showAndWait();
+	}
+	
+	public void setAndDisplayDraw(ActionEvent event) throws IOException {
+		Player player1 = referee.getPlayers().get(0);
+        Player player2 = referee.getPlayers().get(1);
+       
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("../../view/winner-window.fxml"));
+		Parent root = loader.load();
+		
+		WinnerController controllerWinner = loader.getController();
+		controllerWinner.setDraw(player1, player2);
+		Stage winnerStage = new Stage();
+		winnerStage.setScene(new Scene(root));
 		winnerStage.initModality(Modality.APPLICATION_MODAL);
 		winnerStage.initOwner(((Node) event.getSource()).getScene().getWindow());
 		winnerStage.showAndWait();
