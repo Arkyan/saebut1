@@ -19,4 +19,14 @@ public class PlayerBag {
     public List<Tile> getTiles() {
         return this.tiles;
     }
+    
+    public void printPlayerBag() {
+    	        System.out.print("|");
+        for (Tile tile : tiles) {
+            System.out.print(tile.showTile());
+            System.out.print("|");
+        }
+        System.out.println();
+    
+    }
 }

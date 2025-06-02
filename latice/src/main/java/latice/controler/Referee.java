@@ -3,25 +3,31 @@ package latice.controler;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import latice.view.console.Console;
 import latice.model.boardgame.Board;
 import latice.model.boardgame.Cell;
+import latice.model.boardgame.CellLayout;
 import latice.model.infoplayer.Player;
 import latice.model.infoplayer.PlayerBag;
 import latice.model.infoplayer.Rack;
 import latice.model.slate.Pool;
 import latice.model.slate.Tile;
 
+import static latice.model.boardgame.Board.EXTREMITY_OF_GRID;
+import static latice.model.boardgame.Board.START_OF_GRID;
+import static latice.view.console.Console.message;
+
 public class Referee {
 
-	private static final int EXTREMITY_OF_GRID = 9;
-	private static final int START_OF_GRID = 0;
-	private static final Integer MAX_TILES_IN_RACK = 5;
+	public static final Integer MAX_TILES_IN_RACK = 5;
+    public static final Integer NUMBER_OF_ROUND_BEFORE_VICTORY = 10;
 	private final String name = "Michel";
     private List<Player> players;
     private Pool pool;
     private Board board;
+    private Integer numberOfIteration = 0;
 
 
     public Referee() {
@@ -42,7 +48,7 @@ public class Referee {
     	distributeTilesToPlayers(players);
     	fillAllRacks();
 		for (Player player : players) {
-			System.out.println(player.getName() + "'s tiles:");
+			message(player.getName() + "'s tiles:");
 			player.getRack().displayRack();
 		}
 
@@ -60,7 +66,7 @@ public class Referee {
 
         for (Player player : players) {
             List<Tile> playerTiles = new ArrayList<>();
-            for (Integer j = 0; j < tilesPerPlayer; j++) {
+            for (Integer playerTile = 0; playerTile < tilesPerPlayer; playerTile++) {
                 playerTiles.add(pool.getTiles().remove(0));
             }
             player.getPlayerBag().getTiles().addAll(playerTiles);
@@ -91,31 +97,52 @@ public class Referee {
 		return players;
 	}
 	
-	public boolean placeTileOnBoard(Tile tile, Integer row, Integer col, Player player) {
+	public void placeTileOnBoard(Tile tile, Integer row, Integer col, Player player) {
 		Board board = this.board;
 		Cell[][] cells = board.getCells();
+        Integer[][] directions = {{-1,0},{1,0},{0,-1},{0,1}};
+        Integer nbOfCorrectPos = 0;
+        Boolean onASunCell = false;
 
 		if (isPlacementValid(tile, row, col, board)) {
 			cells[row][col].setTile(tile);
-			player.getRack().removeTile(tile);
+			player.getRack().removeTile(player.getRack().getTileIndex(tile));
 			fillRackFromPlayerBag(player);
-			return true;
-		} else {
-			return false;
-		}
+            nbOfCorrectPos = calculateNumberOfMatchingSides(tile, row, col, cells, directions, nbOfCorrectPos);
+            onASunCell = isTileOnSunCell(tile, row, col);
+
+            calculatePoints(player, nbOfCorrectPos, onASunCell);
+        }
     }
+
+	public void calculatePoints(Player player, Integer nbOfCorrectPos, Boolean onASunCell) {
+		switch (nbOfCorrectPos) {
+		    case 2 :
+		        player.addPoints(1);
+		        break;
+		    case 3 :
+		        player.addPoints(2);
+		        break;
+		    case 4 :
+		        player.addPoints(4);
+		        break;
+		    default :
+		        break;
+		}
+		
+		if (onASunCell) {
+			player.addPoints(2);
+		}
+	}
 	
     @SuppressWarnings("null")
 	public boolean isPlacementValid(Tile tile, Integer row, Integer col, Board board) {
         Cell[][] cells = board.getCells();
 
-        // Check bounds
         if (row < START_OF_GRID || row >= EXTREMITY_OF_GRID || col < START_OF_GRID || col >= EXTREMITY_OF_GRID) return false;
 
-        // Check if cell is empty
         if (cells[row][col].getTile() != null) return false;
 
-        // First move: must be center
         boolean boardIsEmpty = true;
         for (Cell[] cellRow : cells) {
             for (Cell cell : cellRow) {
@@ -129,26 +156,64 @@ public class Referee {
             return row == 4 && col == 4; // center
         }
 
-        // Check at least one adjacent tile with matching color or shape
+        return checkIfNbOfMatchingSidesEqualsNumberOfNeighbors(tile, row, col, cells);
+    }
+
+    public boolean checkIfNbOfMatchingSidesEqualsNumberOfNeighbors(Tile tile, Integer row, Integer col, Cell[][] cells) {
+    	Boolean isPlacementValid = false;
         Integer[][] directions = {{-1,0},{1,0},{0,-1},{0,1}};
         Integer nbOfCorrectPos = 0;
+        Integer nbOfNeighbors;
+        nbOfNeighbors = calculateNumberOfNeighbors(tile, row, col, directions, cells);
+        nbOfCorrectPos = calculateNumberOfMatchingSides(tile, row, col, cells, directions, nbOfCorrectPos);
+        
+        if (nbOfNeighbors == 0) {
+			isPlacementValid = false; 
+		} else if (nbOfCorrectPos == nbOfNeighbors) {
+			isPlacementValid = true;
+		} else {
+			isPlacementValid = false;
+		}
+        
+        return isPlacementValid;
+    }
+
+    public Integer calculateNumberOfNeighbors(Tile tile, Integer row, Integer col, Integer[][] directions, Cell[][] cells) {
+        Integer nbOfNeighbors = 0;
         for (Integer[] d : directions) {
-        	Integer r = row + d[0];
-        	Integer c = col + d[1];
-            if (r >= START_OF_GRID && r < EXTREMITY_OF_GRID && c >= START_OF_GRID && c < EXTREMITY_OF_GRID) {
-                Tile neighbor = cells[r][c].getTile();
+            Integer neighborRow = row + d[0];
+            Integer neighborCol = col + d[1];
+            if (neighborRow >= START_OF_GRID && neighborRow < EXTREMITY_OF_GRID && neighborCol >= START_OF_GRID && neighborCol < EXTREMITY_OF_GRID) {
+                Tile neighbor = cells[neighborRow][neighborCol].getTile();
+                if (neighbor != null) {
+                    nbOfNeighbors++;
+                }
+            }
+        }
+        return nbOfNeighbors;
+    }
+
+    private Integer calculateNumberOfMatchingSides(Tile tile, Integer row, Integer col, Cell[][] cells, Integer[][] directions, Integer nbOfCorrectPos) {
+        for (Integer[] d : directions) {
+            Integer neighborRow = row + d[0];
+            Integer neighborCol = col + d[1];
+            if (neighborRow >= START_OF_GRID && neighborRow < EXTREMITY_OF_GRID && neighborCol >= START_OF_GRID && neighborCol < EXTREMITY_OF_GRID) {
+                Tile neighbor = cells[neighborRow][neighborCol].getTile();
                 if (neighbor != null &&
-                   (neighbor.getColor() == tile.getColor() || neighbor.getShape() == tile.getShape())) {
+                        (neighbor.getColor() == tile.getColor() || neighbor.getShape() == tile.getShape())) {
                     nbOfCorrectPos++;
                 }
             }
         }
-
-        if (nbOfCorrectPos != 0) {
-            return true;
-        }
-        return false; // No valid adjacent match
+        return nbOfCorrectPos;
     }
+    
+    public boolean isTileOnSunCell(Tile tile, Integer row, Integer col) {
+    	if (CellLayout.isSunCell(row, col)) {
+			return true; 
+		}
+		return false; 
+	}
 	
 	public void addPlayer(Player player) {
 		players.add(player);
@@ -157,4 +222,27 @@ public class Referee {
 	public Board getBoard() {
 		return board;
 	}
+	
+    public Player getNextPlayer(Player currentPlayer) {
+        Integer currentIndex = players.indexOf(currentPlayer);
+        if (currentIndex == -1) {
+            return null; // Player not found
+        }
+        Integer nextIndex = (currentIndex + 1) % players.size();
+        return players.get(nextIndex);
+        
+    }
+    
+	public Pool getPool() {
+		return pool;
+	}
+
+    public Boolean stateOfRound() {
+        numberOfIteration++;
+            if (numberOfIteration == players.size()) {
+                numberOfIteration = 0;
+                return true;
+                }
+        return false;
+    }
 }

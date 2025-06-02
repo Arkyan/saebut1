@@ -3,7 +3,7 @@ package latice.view.console;
 import java.util.Scanner;
 
 public class Console {
-	private final static String SEPARATOR_LINE = "----------------------------------------"; 
+	public final static String SEPARATOR_LINE = "----------------------------------------"; 
 	private static Scanner scanner = new Scanner(System.in);
 
     public static String input(String question) {
@@ -12,7 +12,7 @@ public class Console {
             String result = scanner.nextLine();
             return result != null && !result.trim().isEmpty() ? result : null;
         } catch (Exception e) {
-            System.out.println("Une erreur s'est produite lors de la lecture de l'entrée : " + e.getMessage());
+            message("Une erreur s'est produite lors de la lecture de l'entrée : " + e.getMessage());
             return null;
         }
     }
@@ -22,14 +22,14 @@ public class Console {
 	}
 	
 	public static void coloredMessage(String message, ColorConsole color) {
-		System.out.println(color.getCode() + message + "\u001B[0m");
+		message(color.getCode() + message + "\u001B[0m");
 	}
 	
 	public static void sepLine(Integer number) {
 		for (Integer index = 0; index < number; index++) {
 			System.out.print(SEPARATOR_LINE);
 		}
-		System.out.println();
+		message("");
 	}
 	
 	public static void title(String title) {
@@ -48,15 +48,15 @@ public class Console {
 				try {
 					Integer result = Integer.parseInt(input); 
 					if (result < min || result > max) {
-						System.out.println("Le nombre doit être compris entre " + min + " et " + max + ". Veuillez réessayer.");
+						message("Le nombre doit être compris entre " + min + " et " + max + ". Veuillez réessayer.");
 					} else {
 						return result;
 					}
 				} catch (NumberFormatException nfe) {
-					System.out.println("Entrée invalide. Veuillez entrer un nombre entier.");
+					message("Entrée invalide. Veuillez entrer un nombre entier.");
 				}
 			} catch (Exception e) {
-				System.out.println("Une erreur s'est produite lors de la lecture de l'entrée : " + e.getMessage());
+				message("Une erreur s'est produite lors de la lecture de l'entrée : " + e.getMessage());
 				return null;
 			}
 		}
