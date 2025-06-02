@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" styleClass="borderPane" stylesheets="application.css" xmlns="http://javafx.com/javafx/21.0.6" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.test_plateau_latice.controller.ControllerSecondScene">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" styleClass="borderPane" stylesheets="application.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="latice.controler.ihm.StartController">
    <center>
       <VBox alignment="CENTER" prefHeight="692.0" prefWidth="800.0" spacing="20.0" style="-fx-background-color: #21177d;" BorderPane.alignment="CENTER">
          <children>

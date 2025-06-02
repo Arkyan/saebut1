@@ -13,7 +13,7 @@ public class PrintBoardApp extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("../../view/board-window.fxml"));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("../../view/start-window.fxml"));
 
 		Scene scene = new Scene(loader.load());
 		
