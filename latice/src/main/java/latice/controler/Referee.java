@@ -28,6 +28,7 @@ public class Referee {
     private Pool pool;
     private Board board;
     private Integer numberOfIteration = 0;
+    private String basePath = "latice_lazuli/images";
 
 
     public Referee() {
@@ -245,4 +246,12 @@ public class Referee {
                 }
         return false;
     }
+    
+	public String getBasePath() {
+		return basePath;
+	}
+	
+	public void setBasePath(String basePath) {
+		this.basePath = basePath;
+	}
 }
