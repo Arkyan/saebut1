@@ -97,17 +97,58 @@ public class Referee {
 		return players;
 	}
 	
+	// TODO bugfix on the first column and row
+	public Integer[][] createDirections(Integer row, Integer col) {
+		if (col == null ) {
+			col = 0;
+		}
+		Integer[][] directions;
+
+		if (row == START_OF_GRID + 1 && col == START_OF_GRID + 1) {
+			directions = new Integer[][] { { 1, 0 }, { 0, 1 } };
+		}
+		else if (row == START_OF_GRID + 1 && col == EXTREMITY_OF_GRID) {
+			directions = new Integer[][] { { 1, 0 }, { 0, -1 } };
+		} 
+		else if (row == EXTREMITY_OF_GRID && col == START_OF_GRID + 1) {
+			directions = new Integer[][] { { -1, 0 }, { 0, 1 } };
+		} 
+		else if (row == EXTREMITY_OF_GRID && col == EXTREMITY_OF_GRID) {
+			directions = new Integer[][] { { -1, 0 }, { 0, -1 } };
+		} 
+		else if (row == START_OF_GRID + 1) {
+			directions = new Integer[][] { { 1, 0 }, { 0, -1 }, { 0, 1 } };
+		} 
+		else if (row == EXTREMITY_OF_GRID) {
+			directions = new Integer[][] { { -1, 0 }, { 0, -1 }, { 0, 1 } };
+		} 
+		else if (col == START_OF_GRID) {
+			directions = new Integer[][] { { 1, 0 }, { -1, 0 }, { 0, 1 } };
+		} 
+		else if (col == EXTREMITY_OF_GRID) {
+			directions = new Integer[][] { { 1, 0 }, { -1, 0 }, { 0, -1 } };
+		} 
+		else {
+			directions = new Integer[][] { { -1, 0 }, { 1, 0 }, { 0, -1 }, { 0, 1 } };
+		}
+
+		return directions;
+		
+	}
+	
 	public void placeTileOnBoard(Tile tile, Integer row, Integer col, Player player) {
+		System.out.println("col :" + col);
 		Board board = this.board;
 		Cell[][] cells = board.getCells();
-        Integer[][] directions = {{-1,0},{1,0},{0,-1},{0,1}};
+		Integer[][] directions = createDirections(row, col);
+		System.out.println("[" + directions[0][0] + ", " + directions[0][1] + ", " + directions[1][0] + ", " + directions[1][1] +"]");
         Integer nbOfCorrectPos = 0;
         Boolean onASunCell = false;
 
 		if (isPlacementValid(tile, row, col, board)) {
 			cells[row][col].setTile(tile);
 			player.getRack().removeTile(player.getRack().getTileIndex(tile));
-            nbOfCorrectPos = calculateNumberOfMatchingSides(tile, row, col, cells, directions, nbOfCorrectPos);
+			nbOfCorrectPos = calculateNumberOfMatchingSides(tile, row, col, cells, directions, nbOfCorrectPos);
             onASunCell = isTileOnSunCell(tile, row, col);
 
             calculatePoints(player, nbOfCorrectPos, onASunCell);

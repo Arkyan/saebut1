@@ -105,6 +105,9 @@ public class LaticeController {
     @FXML
     private BorderPane bpBoard;
     
+    @FXML
+    private ImageView actionsJauge;
+    
     String imagesPath = ImageLoading.getPath();
 
     @FXML
@@ -120,6 +123,8 @@ public class LaticeController {
 		}
 		else {
 			currentPlayer.buyAction();
+			updateActionJauge();
+			updatePoints();
 		}
 
     }
@@ -146,7 +151,9 @@ public class LaticeController {
         Player player2 = referee.getPlayers().get(1);
         Player winner = null;
         
-        if (player1.getPlayerBag().getTiles().size() == player2.getPlayerBag().getTiles().size() && idLblNbRound.getText().equals(NUMBER_OF_ROUND_BEFORE_VICTORY.toString()) ) {
+        Integer playerOneBagSize = player1.getPlayerBag().getTiles().size();
+		Integer playerTwoBagSize = player2.getPlayerBag().getTiles().size();
+		if (playerOneBagSize == playerTwoBagSize && idLblNbRound.getText().equals(NUMBER_OF_ROUND_BEFORE_VICTORY.toString()) ) {
 			setAndDisplayDraw(event);
 			return;
 		};
@@ -157,12 +164,15 @@ public class LaticeController {
     		}
     		else {
     		    winner = player2;
-    		};
+    		}
+    		
             setAndDisplayWinner(event, winner);
-            } 
+        } 
+        
         else if (currentPlayer.getPlayerBag().getTiles().isEmpty()) {
         	setAndDisplayWinner(event, currentPlayer);
             }
+        
         else {
 			referee.fillRackFromPlayerBag(currentPlayer);
         	currentPlayer.initializeNumberOfActions();
@@ -174,6 +184,7 @@ public class LaticeController {
                 idLblNbRound.setText(round.toString());
             }
             showTilesInRack(currentPlayer);
+            updateActionJauge();
         }
     }
 
@@ -281,6 +292,7 @@ public class LaticeController {
 		Integer randomIndex = (int) (Math.random() * referee.getPlayers().size());
         currentPlayer = referee.getPlayers().get(randomIndex);
         updatedInformations(round);
+        updateActionJauge();
 
         for (ImageView rackTile : rackImageViews ) {
             manageSourceDragAndDrop(rackTile);
@@ -296,10 +308,18 @@ public class LaticeController {
 
     private void updatedInformations(Integer round) {
         idLblPlayer.setText(currentPlayer.getName());
-        idLblNbPoint.setText(currentPlayer.getPoints().toString());
         idLblNbRound.setText(round.toString());
         showTilesInRack(currentPlayer);
+        updatePoints();
     }
+    
+	private void updatePoints() {
+		idLblNbPoint.setText(currentPlayer.getPoints().toString());
+	}
+	
+	private void updateActionJauge() {
+		actionsJauge.setImage(new Image(Objects.requireNonNull(getClass().getResource(imagesPath + "/jauge_" + currentPlayer.getNumberOfActions() + ".png")).toExternalForm()));
+	}
 
     public void showTilesInRack(Player player) {
         ImageLoading loader = new ImageLoading();
@@ -390,12 +410,16 @@ public class LaticeController {
 				if (referee.isLatice(sourceTile, row, col)) {
 					printSparklesWhenLatice();
 				}
-                event.setDropCompleted(true);
+				updatePoints();
+				
+				event.setDropCompleted(true);
                 event.consume();
                 currentPlayer.useAction();
+                updateActionJauge();
             } else {
                 event.setDropCompleted(false);
             }
+
         });
     }
 
@@ -442,8 +466,10 @@ public class LaticeController {
     					printSparklesWhenLatice();
     				}
                 	
+                	updatePoints();
                 	sourceRackTile.setImage(Emptyimage);
                 	currentPlayer.useAction();
+                	updateActionJauge();
                 }
                 carriedImage = null;
                 carriedId = null;
