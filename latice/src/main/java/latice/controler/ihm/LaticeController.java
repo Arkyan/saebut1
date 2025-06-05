@@ -121,6 +121,7 @@ public class LaticeController {
     @FXML
     void changeAndPass(ActionEvent event) {
     	idBtnChange.setOnAction(e -> {
+    		System.out.println("Change and pass action triggered");
     		currentPlayer.getPlayerBag().getTiles().addAll(currentPlayer.getRack().getTiles());
     		currentPlayer.getRack().getTiles().clear();
     		referee.fillRackFromPlayerBag(currentPlayer);

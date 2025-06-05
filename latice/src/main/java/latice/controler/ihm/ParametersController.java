@@ -75,6 +75,7 @@ public class ParametersController {
 		String path1 = "/latice_lazuli/images";
 	    System.out.println("Thème 1 sélectionné");
 	    ImageLoading.setPath(path1);
+	    MusicManager.play("/latice_lazuli/music/latice_lazuli.mp3");
 	}
 	
 	@FXML
@@ -82,6 +83,7 @@ public class ParametersController {
 		String path2 = "/sanrio/images";
 	    System.out.println("Thème 2 sélectionné");
 	    ImageLoading.setPath(path2);
+	    MusicManager.play("/sanrio/music/lonely_in_gorgeous.mp3");
 	}
 	
 	@FXML
@@ -89,6 +91,7 @@ public class ParametersController {
 		String path3 = "/cheap/images";
 	    System.out.println("Thème 3 sélectionné");
 	    ImageLoading.setPath(path3);
+	    MusicManager.play("/cheap/music/Powerwind_8bit.mp3");
 	}
 
 }

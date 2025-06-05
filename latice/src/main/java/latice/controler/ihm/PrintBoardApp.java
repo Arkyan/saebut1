@@ -17,6 +17,8 @@ public class PrintBoardApp extends Application {
 
 		Scene scene = new Scene(loader.load());
 		
+		MusicManager.play("/latice_lazuli/music/latice_lazuli.mp3");
+		
 		primaryStage.setScene(scene);
 		primaryStage.setTitle("Latice Lazuli");
 		primaryStage.setResizable(false);
