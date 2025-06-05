@@ -5,6 +5,7 @@ import javafx.scene.media.MediaPlayer;
 
 public class MusicManager {
 	private static MediaPlayer instance;
+	private static double volume = 1;
 	
 	public static void play(String soundFile) {
 		musicStop();
@@ -12,8 +13,18 @@ public class MusicManager {
 		instance = new MediaPlayer(media);
 		instance.setCycleCount(MediaPlayer.INDEFINITE);
 		instance.play();
-		
 	}
+	
+	public static void setVolume(double newVolume) {
+		volume = newVolume;
+        if (instance != null) {
+            instance.setVolume(newVolume);
+        }
+    }
+
+    public static double getVolume() {
+        return volume;
+    }
 	
 	public static void musicStop() {
 	if ( instance != null ) {
