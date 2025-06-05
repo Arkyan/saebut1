@@ -121,15 +121,17 @@ public class LaticeController {
     @FXML
     void changeAndPass(ActionEvent event) {
     	idBtnChange.setOnAction(e -> {
-    		System.out.println("Change and pass action triggered");
-    		currentPlayer.getPlayerBag().getTiles().addAll(currentPlayer.getRack().getTiles());
-    		currentPlayer.getRack().getTiles().clear();
-    		referee.fillRackFromPlayerBag(currentPlayer);
-    		showTilesInRack(currentPlayer);
-    		try {
-    			validateRound(e);
-			} catch (Exception ex) {
-				ex.printStackTrace();
+    		if (currentPlayer.getRack().getTiles().size() == 5) {
+    			System.out.println("Change and pass action triggered");
+    			currentPlayer.getPlayerBag().getTiles().addAll(currentPlayer.getRack().getTiles());
+    			currentPlayer.getRack().getTiles().clear();
+    			referee.fillRackFromPlayerBag(currentPlayer);
+    			showTilesInRack(currentPlayer);
+    			try {
+    				validateRound(e);
+    			} catch (Exception ex) {
+    				ex.printStackTrace();
+    			}
     		}
     	});
     }
@@ -158,6 +160,7 @@ public class LaticeController {
         	setAndDisplayWinner(event, currentPlayer);
             }
         else {
+			referee.fillRackFromPlayerBag(currentPlayer);
         	currentPlayer.initializeNumberOfActions();
             currentPlayer = referee.getNextPlayer(currentPlayer);
             idLblPlayer.setText(currentPlayer.getName());
@@ -377,6 +380,8 @@ public class LaticeController {
             if (db.hasImage() && referee.isPlacementValid(sourceTile, row, col, referee.getBoard()) && currentPlayer.playerCanPlay()) {
             	referee.placeTileOnBoard(sourceTile, row, col, currentPlayer);
                 currentPlayer.setNumberOfTilesPutOnBoard(currentPlayer.getNumberOfTilesPutOnBoard() + 1);
+                System.out.println(currentPlayer.getRack().getTiles().size());
+                currentPlayer.getRack().displayRack();
 
                 Image image = db.getImage();
                 ((ImageView) boardCell).setImage(image);

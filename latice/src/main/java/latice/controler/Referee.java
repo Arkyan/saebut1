@@ -106,7 +106,6 @@ public class Referee {
 		if (isPlacementValid(tile, row, col, board)) {
 			cells[row][col].setTile(tile);
 			player.getRack().removeTile(player.getRack().getTileIndex(tile));
-			fillRackFromPlayerBag(player);
             nbOfCorrectPos = calculateNumberOfMatchingSides(tile, row, col, cells, directions, nbOfCorrectPos);
             onASunCell = isTileOnSunCell(tile, row, col);
 
