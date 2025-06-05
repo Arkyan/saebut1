@@ -7,11 +7,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" styleClass="borderPane" stylesheets="application.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="latice.controler.ihm.StartController">
+<BorderPane fx:id="bpstart" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" styleClass="borderPane" stylesheets="application.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="latice.controler.ihm.StartController">
    <center>
-      <VBox alignment="CENTER" prefHeight="692.0" prefWidth="800.0" spacing="20.0" style="-fx-background-color: #21177d;" BorderPane.alignment="CENTER">
+      <VBox alignment="CENTER" prefHeight="692.0" prefWidth="800.0" spacing="20.0" BorderPane.alignment="CENTER">
          <children>
-            <Label alignment="CENTER" prefHeight="219.0" prefWidth="800.0" style="-fx-background-color: #21177d;" text="LATICE" textFill="LIGHTSKYBLUE">
+            <Label alignment="CENTER" prefHeight="219.0" prefWidth="800.0" text="LATICE" textFill="LIGHTSKYBLUE">
                <font>
                   <Font name="Footlight MT Light" size="96.0" />
                </font>
@@ -24,9 +24,9 @@
       </VBox>
    </center>
    <top>
-      <HBox prefHeight="100.0" prefWidth="200.0" spacing="500.0" style="-fx-background-color: #21177d;" BorderPane.alignment="CENTER" />
+      <HBox prefHeight="100.0" prefWidth="200.0" spacing="500.0" BorderPane.alignment="CENTER" />
    </top>
    <bottom>
-      <HBox prefHeight="170.0" prefWidth="800.0" style="-fx-background-color: #21177d;" BorderPane.alignment="CENTER" />
+      <HBox prefHeight="170.0" prefWidth="800.0" BorderPane.alignment="CENTER" />
    </bottom>
 </BorderPane>

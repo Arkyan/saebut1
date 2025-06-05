@@ -44,7 +44,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" style="-fx-background-color: #21177d;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="latice.controler.ihm.ParametersController">
+<BorderPane fx:id="bpParameters" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" style="-fx-background-color: #21177d;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="latice.controler.ihm.ParametersController">
    <top>
       <Label text="Parameters" textFill="WHITE" BorderPane.alignment="CENTER">
          <font>
@@ -66,7 +66,7 @@
                   <Insets top="40.0" />
                </padding>
             </Label>
-            <Slider fx:id="idSoundSlider" max="40.0" maxWidth="300.0" prefWidth="300.0" />
+            <Slider fx:id="idSoundSlider" max="100" maxWidth="300.0" min="0" prefWidth="300.0" />
             <Separator>
                <VBox.margin>
                   <Insets top="60.0" />
@@ -80,19 +80,19 @@
                   <Insets top="60.0" />
                </VBox.margin>
             </Label>
-            <HBox fx:id="hbThemes" alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0">
+            <HBox fx:id="hbThemes" alignment="TOP_CENTER" prefHeight="200.0" prefWidth="621.0">
                <children>
-                  <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="imagetheme1" onMouseClicked="#changeTheme1" fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                      <HBox.margin>
                         <Insets right="10.0" />
                      </HBox.margin>
                   </ImageView>
-                  <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="imagetheme2" onMouseClicked="#changeTheme2" fitHeight="199.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                      <HBox.margin>
                         <Insets right="10.0" />
                      </HBox.margin>
                   </ImageView>
-                  <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="imagetheme3" onMouseClicked="#changeTheme3" fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
                </children>
                <VBox.margin>
                   <Insets top="10.0" />

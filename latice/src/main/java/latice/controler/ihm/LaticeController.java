@@ -31,12 +31,14 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import latice.controler.Referee;
+import latice.model.boardgame.CellLayout;
 import latice.model.infoplayer.Player;
 import latice.model.slate.Tile;
 import latice.view.ImageLoading;
@@ -93,6 +95,11 @@ public class LaticeController {
 
     @FXML
     private ImageView rackImage5;
+    
+    @FXML
+    private BorderPane bpBoard;
+    
+    String imagesPath = ImageLoading.getPath();
 
     @FXML
     void buyAdditionalAction(ActionEvent event) {
@@ -234,6 +241,8 @@ public class LaticeController {
     
     @FXML
 	void initialize() {
+    	bpBoard.setStyle("-fx-background-image: url('" + imagesPath + "/board_background.png');");
+    	loadBoardImage();
     	List<ImageView> rackImageViews = new ArrayList<>();
 		for (Node node : HBoxRack.getChildren()) {
 			if (node instanceof ImageView) {
@@ -315,7 +324,7 @@ public class LaticeController {
     public void manageSourceDragAndDrop(ImageView rackTile) {
         rackTile.setOnDragDetected(event -> {
             if (rackTile.getImage() != null) {
-            	if (rackTile.getImage() != null && rackTile.getImage().getUrl().endsWith("/interrogation.png")) {
+            	if (rackTile.getImage() != null && rackTile.getImage().getUrl().endsWith(imagesPath + "/interrogation.png")) {
                 	event.consume();  
                     return;
                 }
@@ -332,7 +341,7 @@ public class LaticeController {
 
         rackTile.setOnDragDone(event -> {
             if (event.getTransferMode() == TransferMode.MOVE) {
-                rackTile.setImage(new Image(Objects.requireNonNull(getClass().getResource("/interrogation.png")).toExternalForm()));
+                rackTile.setImage(new Image(Objects.requireNonNull(getClass().getResource(imagesPath + "/interrogation.png")).toExternalForm()));
             }
             event.consume();
         });
@@ -415,7 +424,7 @@ public class LaticeController {
                 if (targetCell.getImage() != null && referee.isPlacementValid(sourceTile, row, col, referee.getBoard()) && currentPlayer.playerCanPlay()) {
                     referee.placeTileOnBoard(sourceTile, row, col, currentPlayer);
                     currentPlayer.setNumberOfTilesPutOnBoard(currentPlayer.getNumberOfTilesPutOnBoard() + 1);
-                	Image Emptyimage = new Image(Objects.requireNonNull(getClass().getResource("/interrogation.png")).toExternalForm());
+                	Image Emptyimage = new Image(Objects.requireNonNull(getClass().getResource(imagesPath + "/interrogation.png")).toExternalForm());
                 	targetCell.setImage(carriedImage);
                 	
                 	sourceRackTile.setImage(Emptyimage);
@@ -440,6 +449,27 @@ public class LaticeController {
     	Optional<ButtonType> result = alert.showAndWait();
     	idBtnBuy.setDisable(false);
     }
+    
+    private void loadBoardImage() {
+        for (Node node : idGp.getChildren()) {
+            if (node instanceof ImageView imageView) {
+                Integer row = GridPane.getRowIndex(imageView);
+                Integer col = GridPane.getColumnIndex(imageView);
+
+                int r = row != null ? row : 0;
+                int c = col != null ? col : 0;
+
+                if (r == 4 && c == 4) {
+                    imageView.setImage(new Image(Objects.requireNonNull(getClass().getResource(imagesPath + "/bg_moon.png")).toExternalForm()));
+                } else if (CellLayout.isSunCell(r, c)) {
+                    imageView.setImage(new Image(Objects.requireNonNull(getClass().getResource(imagesPath + "/bg_sun.png")).toExternalForm()));
+                } else {
+                    imageView.setImage(new Image(Objects.requireNonNull(getClass().getResource(imagesPath + "/bg_sea.png")).toExternalForm()));
+                }
+            }
+        }
+    }
+
     
     
     

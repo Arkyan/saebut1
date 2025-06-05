@@ -9,8 +9,10 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import latice.view.ImageLoading;
 
 public class StartController {
 
@@ -25,6 +27,15 @@ public class StartController {
 
     @FXML
     private Button idRulesButton;
+    
+    @FXML
+    private BorderPane bpstart;
+    
+    @FXML
+    public void initialize() {
+        String imagesPath = ImageLoading.getPath();
+		bpstart.setStyle("-fx-background-image: url('" + imagesPath + "/start_background.png');");
+	}
 
     @FXML
     void launchGame() throws IOException {
@@ -46,6 +57,9 @@ public class StartController {
     void launchParameters(ActionEvent event) throws IOException {
     	FXMLLoader loader = new FXMLLoader(getClass().getResource("../../view/parameters.fxml"));
 		Parent root = loader.load();
+		
+		Stage stage = (Stage) idParametersButton.getScene().getWindow();
+    	stage.close();
 
 		Stage parameters = new Stage();
 		parameters.setTitle("Parameters");
