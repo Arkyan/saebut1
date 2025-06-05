@@ -13,6 +13,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import javafx.animation.FadeTransition;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -37,6 +40,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import latice.controler.Referee;
 import latice.model.boardgame.CellLayout;
 import latice.model.infoplayer.Player;
@@ -44,6 +48,8 @@ import latice.model.slate.Tile;
 import latice.view.ImageLoading;
 
 public class LaticeController {
+	
+	Integer addedPoints;
 
     @FXML
     private Button idBtnBuy;
@@ -122,11 +128,9 @@ public class LaticeController {
     void changeAndPass(ActionEvent event) {
     	idBtnChange.setOnAction(e -> {
     		if (currentPlayer.getRack().getTiles().size() == 5) {
-    			System.out.println("Change and pass action triggered");
     			currentPlayer.getPlayerBag().getTiles().addAll(currentPlayer.getRack().getTiles());
     			currentPlayer.getRack().getTiles().clear();
     			referee.fillRackFromPlayerBag(currentPlayer);
-    			showTilesInRack(currentPlayer);
     			try {
     				validateRound(e);
     			} catch (Exception ex) {
@@ -362,7 +366,6 @@ public class LaticeController {
         boardCell.setOnDragDropped(event -> {
             Dragboard db = event.getDragboard();
 
-            // Here, we create the variables needed for placing the tile
             ImageView target = (ImageView) event.getGestureTarget();
             ImageView source = (ImageView) event.getGestureSource();
             Integer row = GridPane.getRowIndex(target);
@@ -380,11 +383,13 @@ public class LaticeController {
             if (db.hasImage() && referee.isPlacementValid(sourceTile, row, col, referee.getBoard()) && currentPlayer.playerCanPlay()) {
             	referee.placeTileOnBoard(sourceTile, row, col, currentPlayer);
                 currentPlayer.setNumberOfTilesPutOnBoard(currentPlayer.getNumberOfTilesPutOnBoard() + 1);
-                System.out.println(currentPlayer.getRack().getTiles().size());
-                currentPlayer.getRack().displayRack();
 
                 Image image = db.getImage();
                 ((ImageView) boardCell).setImage(image);
+                
+				if (referee.isLatice(sourceTile, row, col)) {
+					printSparklesWhenLatice();
+				}
                 event.setDropCompleted(true);
                 event.consume();
                 currentPlayer.useAction();
@@ -433,6 +438,10 @@ public class LaticeController {
                 	Image Emptyimage = new Image(Objects.requireNonNull(getClass().getResource(imagesPath + "/interrogation.png")).toExternalForm());
                 	targetCell.setImage(carriedImage);
                 	
+                	if (referee.isLatice(sourceTile, row, col)) {
+    					printSparklesWhenLatice();
+    				}
+                	
                 	sourceRackTile.setImage(Emptyimage);
                 	currentPlayer.useAction();
                 }
@@ -476,7 +485,48 @@ public class LaticeController {
         }
     }
 
-    
+	public void printSparklesWhenLatice() {
+		// Load sparkle image
+		Image sparkleImage = new Image(getClass().getResource(imagesPath + "/sparkles.png").toExternalForm());
+
+		// Create a Timeline to generate sparkles periodically
+		Timeline sparkleTimeline = new Timeline(new KeyFrame(Duration.seconds(0.5), event -> {
+			// Generate multiple sparkles in each cycle
+			for (int i = 0; i < 5; i++) { // Adjust the number of sparkles per cycle
+				// Create a new ImageView for the sparkle
+				ImageView sparkle = new ImageView(sparkleImage);
+				sparkle.setFitWidth(20); // Set sparkle size
+				sparkle.setFitHeight(20);
+
+				// Ensure bpBoard dimensions are valid
+				double boardWidth = bpBoard.getWidth();
+				double boardHeight = bpBoard.getHeight();
+				if (boardWidth <= 0 || boardHeight <= 0) {
+					return; // Exit if dimensions are invalid
+				}
+
+				// Randomly position the sparkle within the scene
+				double randomX = Math.random() * boardWidth;
+				double randomY = Math.random() * boardHeight;
+				sparkle.setLayoutX(randomX);
+				sparkle.setLayoutY(randomY);
+
+				// Add sparkle to the scene
+				bpBoard.getChildren().add(sparkle);
+
+				// Create a FadeTransition to make the sparkle fade out
+				FadeTransition fade = new FadeTransition(Duration.seconds(2), sparkle);
+				fade.setFromValue(1.0);
+				fade.setToValue(0.0);
+				fade.setOnFinished(e -> bpBoard.getChildren().remove(sparkle)); // Remove sparkle after fading
+				fade.play();
+			}
+		}));
+
+		// Set the timeline to run indefinitely
+		sparkleTimeline.setCycleCount(10); // Increase the number of cycles
+		sparkleTimeline.play();
+	}
     
     
     

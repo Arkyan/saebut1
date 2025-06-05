@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Objects;
 
 import latice.view.console.Console;
+import latice.controler.ihm.LaticeController;
 import latice.model.boardgame.Board;
 import latice.model.boardgame.Cell;
 import latice.model.boardgame.CellLayout;
@@ -132,6 +133,17 @@ public class Referee {
 			player.addPoints(2);
 		}
 	}
+	
+	public Boolean isLatice(Tile tile, Integer row, Integer col) {
+		Integer nbOfCorrectPos = 0;
+		Board board = this.board;
+		Cell[][] cells = board.getCells();
+        Integer[][] directions = {{-1,0},{1,0},{0,-1},{0,1}};
+        nbOfCorrectPos = calculateNumberOfMatchingSides(tile, row, col, cells, directions, nbOfCorrectPos);
+        
+        return nbOfCorrectPos == 4;
+	}
+	
 	
     @SuppressWarnings("null")
 	public boolean isPlacementValid(Tile tile, Integer row, Integer col, Board board) {
