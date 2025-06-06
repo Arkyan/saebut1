@@ -392,6 +392,14 @@ public class LaticeController {
             Integer col = GridPane.getColumnIndex(target);
             String url = source.getImage().getUrl();
             File file = null;
+            
+            if (col == null) {
+            	col = 0;
+            }
+            if (row == null) {
+            	row = 0;
+            }
+            
             try {
                 file = Paths.get(new URI(url)).toFile();
             } catch (URISyntaxException e) {

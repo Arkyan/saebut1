@@ -97,11 +97,7 @@ public class Referee {
 		return players;
 	}
 	
-	// TODO bugfix on the first column and row
 	public Integer[][] createDirections(Integer row, Integer col) {
-		if (col == null ) {
-			col = 0;
-		}
 		Integer[][] directions;
 
 		if (row == START_OF_GRID + 1 && col == START_OF_GRID + 1) {
