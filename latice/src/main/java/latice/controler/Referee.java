@@ -133,11 +133,9 @@ public class Referee {
 	}
 	
 	public void placeTileOnBoard(Tile tile, Integer row, Integer col, Player player) {
-		System.out.println("col :" + col);
 		Board board = this.board;
 		Cell[][] cells = board.getCells();
 		Integer[][] directions = createDirections(row, col);
-		System.out.println("[" + directions[0][0] + ", " + directions[0][1] + ", " + directions[1][0] + ", " + directions[1][1] +"]");
         Integer nbOfCorrectPos = 0;
         Boolean onASunCell = false;
 

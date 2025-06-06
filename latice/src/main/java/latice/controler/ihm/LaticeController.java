@@ -336,7 +336,7 @@ public class LaticeController {
             ImageView imageView = rackImageViews.get(indexOfCase);
             if (indexOfCase < tiles.size()) {
                 Tile tile = tiles.get(indexOfCase);
-                String path = loader.getImagePath(tile.getColor(), tile.getShape());
+                String path =loader.getImagePath(tile.getColor(), tile.getShape());
 
                 if (path != null) {
                     imageView.setImage(new Image(getClass().getResource(path).toExternalForm()));
@@ -520,45 +520,36 @@ public class LaticeController {
     }
 
 	public void printSparklesWhenLatice() {
-		// Load sparkle image
 		Image sparkleImage = new Image(getClass().getResource(imagesPath + "/sparkles.png").toExternalForm());
 
-		// Create a Timeline to generate sparkles periodically
 		Timeline sparkleTimeline = new Timeline(new KeyFrame(Duration.seconds(0.5), event -> {
-			// Generate multiple sparkles in each cycle
-			for (int i = 0; i < 5; i++) { // Adjust the number of sparkles per cycle
-				// Create a new ImageView for the sparkle
+			for (int i = 0; i < 5; i++) { 
 				ImageView sparkle = new ImageView(sparkleImage);
-				sparkle.setFitWidth(20); // Set sparkle size
+				sparkle.setFitWidth(20); 
 				sparkle.setFitHeight(20);
 
-				// Ensure bpBoard dimensions are valid
 				double boardWidth = bpBoard.getWidth();
 				double boardHeight = bpBoard.getHeight();
 				if (boardWidth <= 0 || boardHeight <= 0) {
-					return; // Exit if dimensions are invalid
+					return; 
 				}
 
-				// Randomly position the sparkle within the scene
 				double randomX = Math.random() * boardWidth;
 				double randomY = Math.random() * boardHeight;
 				sparkle.setLayoutX(randomX);
 				sparkle.setLayoutY(randomY);
 
-				// Add sparkle to the scene
 				bpBoard.getChildren().add(sparkle);
 
-				// Create a FadeTransition to make the sparkle fade out
 				FadeTransition fade = new FadeTransition(Duration.seconds(2), sparkle);
 				fade.setFromValue(1.0);
 				fade.setToValue(0.0);
-				fade.setOnFinished(e -> bpBoard.getChildren().remove(sparkle)); // Remove sparkle after fading
+				fade.setOnFinished(e -> bpBoard.getChildren().remove(sparkle)); 
 				fade.play();
 			}
 		}));
 
-		// Set the timeline to run indefinitely
-		sparkleTimeline.setCycleCount(10); // Increase the number of cycles
+		sparkleTimeline.setCycleCount(10); 
 		sparkleTimeline.play();
 	}
     
