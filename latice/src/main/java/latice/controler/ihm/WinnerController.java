@@ -1,22 +1,12 @@
 package latice.controler.ihm;
 
-import java.io.IOException;
-
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 import latice.model.infoplayer.Player;
 import latice.view.ImageLoading;
+import javafx.scene.layout.VBox;
 
 public class WinnerController {
-    @FXML
-    private Button btnExit;
-    
 	@FXML
 	private Label idLblPLayerWinner;
 	
@@ -34,24 +24,6 @@ public class WinnerController {
 		String imagesPath = ImageLoading.getPath();
 		vbwinner.setStyle("-fx-background-image: url('" + imagesPath + "/winner_background.png');");
 	}
-	
-	@FXML
-    void exitToMainMenu() {
-		Stage stage = (Stage) btnExit.getScene().getWindow();
-		stage.close();
-		
-		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("../../view/start-window.fxml"));
-			Parent root = loader.load();
-			Scene scene = new Scene(root);
-			stage.setScene(scene);
-			stage.setTitle("Latice Lazuli");
-			stage.setResizable(false);
-			stage.show();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-    }
 	
 	public void setWinner(Player winner) {
 		idLblWinner.setText("The winner is :");
