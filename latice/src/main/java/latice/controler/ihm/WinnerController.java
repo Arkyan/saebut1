@@ -1,10 +1,16 @@
 package latice.controler.ihm;
 
+import java.io.IOException;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import latice.model.infoplayer.Player;
 import latice.view.ImageLoading;
 
@@ -44,7 +50,20 @@ public class WinnerController {
 	
 	@FXML
     void returnToStart(ActionEvent event) {
-
+		Stage stage = (Stage) idBtnExit.getScene().getWindow();
+		stage.close();
+		
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("../../view/start-window.fxml"));
+			Parent root = loader.load();
+			Scene scene = new Scene(root);
+			stage.setScene(scene);
+			stage.setTitle("Latice Lazuli");
+			stage.setResizable(false);
+			stage.show();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
     }
 
 }
