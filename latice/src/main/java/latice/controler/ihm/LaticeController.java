@@ -49,7 +49,14 @@ import latice.view.ImageLoading;
 
 public class LaticeController {
 	
-	Integer addedPoints;
+	private Integer addedPoints;
+	private Image carriedImage = null;
+    private String carriedId = null;
+    private ImageView sourceRackTile = null;
+    private String imagePath = null;
+    private Referee referee = new Referee();
+    private Player currentPlayer;
+    private Integer round = 1;
 
     @FXML
     private Button idBtnBuy;
@@ -189,7 +196,9 @@ public class LaticeController {
     }
 
 	public void setAndDisplayWinner(ActionEvent event, Player winner) throws IOException {
-		
+		Stage currentStage = (Stage) idBtnValider.getScene().getWindow();
+		currentStage.close();
+
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("../../view/winner-window.fxml"));
 		Parent root = loader.load();
 		
@@ -204,6 +213,9 @@ public class LaticeController {
 	}
 	
 	public void setAndDisplayDraw(ActionEvent event) throws IOException {
+		Stage currentStage = (Stage) idBtnValider.getScene().getWindow();
+		currentStage.close();
+
 		Player player1 = referee.getPlayers().get(0);
         Player player2 = referee.getPlayers().get(1);
        
@@ -218,14 +230,6 @@ public class LaticeController {
 		winnerStage.initOwner(((Node) event.getSource()).getScene().getWindow());
 		winnerStage.showAndWait();
 	}
-
-    private Image carriedImage = null;
-    private String carriedId = null;
-    private ImageView sourceRackTile = null;
-    private String imagePath = null;
-    private Referee referee = new Referee();
-    private Player currentPlayer;
-    private Integer round = 1;
 
     
     String getNamePlayer(String nbPlayer) {
@@ -288,7 +292,7 @@ public class LaticeController {
 		referee.shuffleCollection();
 		referee.distributeTilesToPlayers(referee.getPlayers());
 		referee.fillAllRacks();
-		//choose random player
+
 		Integer randomIndex = (int) (Math.random() * referee.getPlayers().size());
         currentPlayer = referee.getPlayers().get(randomIndex);
         updatedInformations(round);
