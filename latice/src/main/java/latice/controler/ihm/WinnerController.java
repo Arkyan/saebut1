@@ -1,10 +1,12 @@
 package latice.controler.ihm;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.VBox;
 import latice.model.infoplayer.Player;
 import latice.view.ImageLoading;
-import javafx.scene.layout.VBox;
 
 public class WinnerController {
 	@FXML
@@ -18,6 +20,9 @@ public class WinnerController {
 	
 	@FXML
 	private VBox vbwinner;
+	
+	@FXML
+    private Button idBtnExit;
 	
 	@FXML
 	public void initialize() {
@@ -36,5 +41,10 @@ public class WinnerController {
 		idLblPlayerNames.setText(player1.getName() + " and " + player2.getName());
 		idLblPLayerWinner.setText("have the same number of tiles !");
 	}
+	
+	@FXML
+    void returnToStart(ActionEvent event) {
+
+    }
 
 }
