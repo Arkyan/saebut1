@@ -133,9 +133,7 @@ public class LaticeController {
     void changeAndPass(ActionEvent event) {
     	idBtnChange.setOnAction(e -> {
     		if (currentPlayer.getRack().getTiles().size() == 5) {
-    			currentPlayer.getPlayerBag().getTiles().addAll(currentPlayer.getRack().getTiles());
-    			currentPlayer.getRack().getTiles().clear();
-    			referee.fillRackFromPlayerBag(currentPlayer);
+    			changeRack();
     			try {
     				validateRound(e);
     			} catch (Exception ex) {
@@ -144,6 +142,12 @@ public class LaticeController {
     		}
     	});
     }
+
+	private void changeRack() {
+		currentPlayer.getPlayerBag().getTiles().addAll(currentPlayer.getRack().getTiles());
+		currentPlayer.getRack().getTiles().clear();
+		referee.fillRackFromPlayerBag(currentPlayer);
+	}
 
     @FXML
     void validateRound(ActionEvent event) throws Exception {
