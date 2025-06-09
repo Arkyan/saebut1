@@ -77,6 +77,35 @@ class RefereeTest {
 		assertNotSame(board, referee.getBoard());
 	}
 	
+	@Test 
+	public void should_not_place_a_tile_when_neighbor_does_not_match() {
+		Tile blueTurtle = new Tile(Color.Navy, Shape.TURTLE);
+		Player michel = new Player("Michel");
+		referee.placeTileOnBoard(blueTurtle, 4, 4, michel);
+		
+		Tile redTurtle = new Tile(Color.Red, Shape.FLOWER);
+		referee.placeTileOnBoard(redTurtle, 4, 5, michel);
+		
+		Boolean isPlaced = referee.getBoard().getCells()[4][5].getTile() != null;
+		
+		assertEquals(false, isPlaced);
+	}
+	
+	@Test
+	public void should_place_a_tile_when_neighbor_match() {
+		Tile blueTurtle = new Tile(Color.Navy, Shape.TURTLE);
+		Player michel = new Player("Michel");
+		referee.placeTileOnBoard(blueTurtle, 4, 4, michel);
+		
+		Tile redTurtle = new Tile(Color.Red, Shape.TURTLE);
+		referee.placeTileOnBoard(redTurtle, 4, 5, michel);
+		
+		Boolean isPlaced = referee.getBoard().getCells()[4][5].getTile() != null;
+		
+		assertEquals(true, isPlaced);
+	}
+	
+	
 	@Test
 	public void should_have_the_right_number_of_neighbor() {
 		Tile blueTurtle = new Tile(Color.Navy, Shape.TURTLE);
