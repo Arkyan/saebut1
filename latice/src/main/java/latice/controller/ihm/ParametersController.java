@@ -86,7 +86,6 @@ public class ParametersController {
 	@FXML
 	public void changeTheme1() {
 		String path1 = "/latice_lazuli/images";
-	    System.out.println("Thème 1 sélectionné");
 	    ImageLoading.setPath(path1);
 	    updateCurrentMusic("/latice_lazuli/music/latice_lazuli.mp3");
 	}
@@ -94,7 +93,6 @@ public class ParametersController {
 	@FXML
 	public void changeTheme2() {
 		String path3 = "/cheap/images";
-	    System.out.println("Thème 3 sélectionné");
 	    ImageLoading.setPath(path3);
 	    updateCurrentMusic("/cheap/music/Powerwind_8bit.mp3");
 	}
@@ -102,7 +100,6 @@ public class ParametersController {
 	@FXML
 	public void changeTheme3() {
 		String path2 = "/sanrio/images";
-	    System.out.println("Thème 2 sélectionné");
 	    ImageLoading.setPath(path2);
 	    updateCurrentMusic("/sanrio/music/lonely_in_gorgeous.mp3");
 	}
