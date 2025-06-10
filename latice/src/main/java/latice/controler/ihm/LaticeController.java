@@ -413,7 +413,6 @@ public class LaticeController {
                 throw new RuntimeException(e);
             }
             String sourceTileFilePath = "/" + file.getName();
-            System.out.println("sourceTileFilePath: " + sourceTileFilePath);
             Tile sourceTile = new ImageLoading().getTileFromImage(sourceTileFilePath);
 
             if (db.hasImage() && referee.isPlacementValid(sourceTile, row, col, referee.getBoard()) && currentPlayer.playerCanPlay()) {
