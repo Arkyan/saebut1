@@ -1,9 +1,9 @@
 package latice;
 
-import latice.controler.Referee;
-
 import static latice.view.console.Console.SEPARATOR_LINE;
 import static latice.view.console.Console.message;
+
+import latice.controller.Referee;
 
 public class LaticeApplicationConsole {
 	
@@ -17,7 +17,7 @@ public class LaticeApplicationConsole {
 		message("-- Developped by : Martin               --");
 		message("-- Developped by : Alexandre            --");
 		message(SEPARATOR_LINE);
-		message("Let's end the v7 with FX!");
+		message("Let's start the v8 with FX!");
 		
         message(referee.getName() + " is now managing the game!");
         referee.prepareGame();

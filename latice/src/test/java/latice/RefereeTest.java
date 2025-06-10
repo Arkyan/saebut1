@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertNotSame;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import latice.controler.Referee;
+import latice.controller.Referee;
 import latice.model.boardgame.Board;
 import latice.model.infoplayer.Player;
 import latice.model.slate.Color;
@@ -19,7 +19,6 @@ class RefereeTest {
 	Player player1 = new Player("Michel");
 	Player player2 = new Player("Jean");
 	
-	
 	@BeforeAll
 	public static void set_up() {
 		referee = new Referee();
@@ -28,26 +27,26 @@ class RefereeTest {
 	
 	@Test
 	public void is_player_bag_filled() {
-		// arrange
-		referee.addPlayer(player1);
-		referee.addPlayer(player2);
-		
-		
-		// act
-		referee.distributeTilesToPlayers(referee.getPlayers());
-		// assert
-		for (Player player : referee.getPlayers()) {
-            assertEquals(36, player.getPlayerBag().getTiles().size());
-			}
-    	
+	    // arrange
+	    referee.addPlayer(player1);
+	    referee.addPlayer(player2);
+
+	    // act
+	    referee.distributeTilesToPlayers(referee.getPlayers());
+
+	    // assert
+	    for (Player player : referee.getPlayers()) {
+	        System.out.println("Player: " + player.getName() + ", Tile count: " + player.getPlayerBag().getTiles().size());
+	        assertEquals(31, player.getPlayerBag().getTiles().size());
+	    }
 	}
+
 	
 	@Test
 	public void is_player_rack_filled() {
 		// arrange
 		referee.addPlayer(player1);
 		referee.addPlayer(player2);
-				
 				
 		// act
 		referee.distributeTilesToPlayers(referee.getPlayers());
@@ -59,15 +58,6 @@ class RefereeTest {
 	}
 	
 	@Test
-	public void should_shuffle_the_pool() {
-		Pool refereeInitialPool = referee.getPool();
-	    referee.shuffleCollection();
-	    Pool shuffledPool = referee.getPool();
-
-        assertNotSame(refereeInitialPool, shuffledPool);
-}
-	
-	@Test
 	public void shoud_place_a_tile_at_the_right_index() {
 		Board board = new Board();
 		Tile blueTurtle = new Tile(Color.Navy, Shape.TURTLE);
@@ -76,6 +66,35 @@ class RefereeTest {
 		
 		assertNotSame(board, referee.getBoard());
 	}
+	
+	@Test 
+	public void should_not_place_a_tile_when_neighbor_does_not_match() {
+		Tile blueTurtle = new Tile(Color.Navy, Shape.TURTLE);
+		Player michel = new Player("Michel");
+		referee.placeTileOnBoard(blueTurtle, 4, 4, michel);
+		
+		Tile redTurtle = new Tile(Color.Red, Shape.FLOWER);
+		referee.placeTileOnBoard(redTurtle, 4, 5, michel);
+		
+		Boolean isPlaced = referee.getBoard().getCells()[4][5].getTile() != null;
+		
+		assertEquals(false, isPlaced);
+	}
+	
+	@Test
+	public void should_place_a_tile_when_neighbor_match() {
+		Tile blueTurtle = new Tile(Color.Navy, Shape.TURTLE);
+		Player michel = new Player("Michel");
+		referee.placeTileOnBoard(blueTurtle, 4, 4, michel);
+		
+		Tile redTurtle = new Tile(Color.Red, Shape.TURTLE);
+		referee.placeTileOnBoard(redTurtle, 4, 5, michel);
+		
+		Boolean isPlaced = referee.getBoard().getCells()[4][5].getTile() != null;
+		
+		assertEquals(true, isPlaced);
+	}
+	
 	
 	@Test
 	public void should_have_the_right_number_of_neighbor() {

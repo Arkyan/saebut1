@@ -1,5 +1,6 @@
 package latice.view;
 
+import latice.controller.Referee;
 import latice.model.slate.Color;
 import latice.model.slate.Shape;
 import latice.model.slate.Tile;
@@ -8,61 +9,64 @@ import java.io.File;
 
 public class ImageLoading {
 	
+    private static String path = "/latice_lazuli/images";
+    
 	public String getImagePath(Color color, Shape shape) {
+		
 		switch (color) {
 			case Red:
                 return switch (shape) {
-                    case FLOWER -> "/flower_r.png";
-                    case GECKO -> "/gecko_r.png";
-                    case FEATHER -> "/feather_r.png";
-                    case BIRD -> "/bird_r.png";
-                    case DOLPHIN -> "/dolphin_r.png";
-                    case TURTLE -> "/turtle_r.png";
+                    case FLOWER -> path + "/flower_r.png";
+                    case GECKO -> path + "/gecko_r.png";
+                    case FEATHER -> path + "/feather_r.png";
+                    case BIRD -> path + "/bird_r.png";
+                    case DOLPHIN -> path + "/dolphin_r.png";
+                    case TURTLE -> path + "/turtle_r.png";
                 };
             case Yellow:
                 return switch (shape) {
-                    case FLOWER -> "/flower_y.png";
-                    case GECKO -> "/gecko_y.png";
-                    case FEATHER -> "/feather_y.png";
-                    case BIRD -> "/bird_y.png";
-                    case DOLPHIN -> "/dolphin_y.png";
-                    case TURTLE -> "/turtle_y.png";
+                    case FLOWER -> path + "/flower_y.png";
+                    case GECKO -> path + "/gecko_y.png";
+                    case FEATHER -> path + "/feather_y.png";
+                    case BIRD -> path + "/bird_y.png";
+                    case DOLPHIN -> path + "/dolphin_y.png";
+                    case TURTLE -> path + "/turtle_y.png";
                 };
 			case Navy:
                 return switch (shape) {
-                    case FLOWER -> "/flower_n.png";
-                    case GECKO -> "/gecko_n.png";
-                    case FEATHER -> "/feather_n.png";
-                    case BIRD -> "/bird_n.png";
-                    case DOLPHIN -> "/dolphin_n.png";
-                    case TURTLE -> "/turtle_n.png";
+                    case FLOWER -> path + "/flower_n.png";
+                    case GECKO -> path + "/gecko_n.png";
+                    case FEATHER -> path + "/feather_n.png";
+                    case BIRD -> path + "/bird_n.png";
+                    case DOLPHIN -> path + "/dolphin_n.png";
+                    case TURTLE -> path + "/turtle_n.png";
                 };
 			case Magenta:
                 return switch (shape) {
-                    case FLOWER -> "/flower_m.png";
-                    case GECKO -> "/gecko_m.png";
-                    case FEATHER -> "/feather_m.png";
-                    case BIRD -> "/bird_m.png";
-                    case DOLPHIN -> "/dolphin_m.png";
-                    case TURTLE -> "/turtle_m.png";
+                    case FLOWER -> path + "/flower_m.png";
+                    case GECKO -> path + "/gecko_m.png";
+                    case FEATHER -> path + "/feather_m.png";
+                    case BIRD -> path + "/bird_m.png";
+                    case DOLPHIN -> path + "/dolphin_m.png";
+                    case TURTLE -> path + "/turtle_m.png";
                 };
 			case Green:
                 return switch (shape) {
-                    case FLOWER -> "/flower_g.png";
-                    case GECKO -> "/gecko_g.png";
-                    case FEATHER -> "/feather_g.png";
-                    case BIRD -> "/bird_g.png";
-                    case DOLPHIN -> "/dolphin_g.png";
-                    case TURTLE -> "/turtle_g.png";
+                    case FLOWER -> path + "/flower_g.png";
+                    case GECKO -> path + "/gecko_g.png";
+                    case FEATHER -> path + "/feather_g.png";
+                    case BIRD -> path + "/bird_g.png";
+                    case DOLPHIN -> path + "/dolphin_g.png";
+                    case TURTLE -> path + "/turtle_g.png";
                 };
 			case Teal:
                 return switch (shape) {
-                    case FLOWER -> "/flower_t.png";
-                    case GECKO -> "/gecko_t.png";
-                    case FEATHER -> "/feather_t.png";
-                    case BIRD -> "/bird_t.png";
-                    case DOLPHIN -> "/dolphin_t.png";
-                    case TURTLE -> "/turtle_t.png";
+                    case FLOWER -> path + "/flower_t.png";
+                    case GECKO -> path + "/gecko_t.png";
+                    case FEATHER -> path + "/feather_t.png";
+                    case BIRD -> path + "/bird_t.png";
+                    case DOLPHIN -> path + "/dolphin_t.png";
+                    case TURTLE -> path + "/turtle_t.png";
                 };
 			default:
 				return null;
@@ -214,5 +218,13 @@ public class ImageLoading {
             default: return null;
 		}
         return null;
+    }
+	
+	public static void setPath(String newPath) {
+	        path = newPath;
+	}
+	
+	public static String getPath() {
+        return path;
     }
 }
