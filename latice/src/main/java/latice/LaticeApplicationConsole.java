@@ -1,9 +1,9 @@
 package latice;
 
-import latice.controler.Referee;
-
 import static latice.view.console.Console.SEPARATOR_LINE;
 import static latice.view.console.Console.message;
+
+import latice.controller.Referee;
 
 public class LaticeApplicationConsole {
 	

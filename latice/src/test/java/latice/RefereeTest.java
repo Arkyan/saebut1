@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertNotSame;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import latice.controler.Referee;
+import latice.controller.Referee;
 import latice.model.boardgame.Board;
 import latice.model.infoplayer.Player;
 import latice.model.slate.Color;

@@ -1,4 +1,4 @@
-package latice.controler;
+package latice.controller;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Objects;
 
 import latice.view.console.Console;
-import latice.controler.ihm.LaticeController;
+import latice.controller.ihm.LaticeController;
 import latice.model.boardgame.Board;
 import latice.model.boardgame.Cell;
 import latice.model.boardgame.CellLayout;

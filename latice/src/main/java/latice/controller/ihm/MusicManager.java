@@ -1,4 +1,4 @@
-package latice.controler.ihm;
+package latice.controller.ihm;
 
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;

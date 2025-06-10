@@ -1,4 +1,4 @@
-package latice.controler.ihm;
+package latice.controller.ihm;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

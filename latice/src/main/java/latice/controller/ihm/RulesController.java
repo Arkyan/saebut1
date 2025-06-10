@@ -1,4 +1,4 @@
-package latice.controler.ihm;
+package latice.controller.ihm;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

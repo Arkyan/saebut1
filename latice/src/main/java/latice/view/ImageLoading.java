@@ -1,9 +1,9 @@
 package latice.view;
 
+import latice.controller.Referee;
 import latice.model.slate.Color;
 import latice.model.slate.Shape;
 import latice.model.slate.Tile;
-import latice.controler.Referee;
 
 import java.io.File;
 

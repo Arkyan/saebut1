@@ -1,7 +1,7 @@
-package latice.controler.ihm;
+package latice.controller.ihm;
 
-import static latice.controler.Referee.MAX_TILES_IN_RACK;
-import static latice.controler.Referee.NUMBER_OF_ROUND_BEFORE_VICTORY;
+import static latice.controller.Referee.MAX_TILES_IN_RACK;
+import static latice.controller.Referee.NUMBER_OF_ROUND_BEFORE_VICTORY;
 
 import java.io.File;
 import java.io.IOException;
@@ -41,7 +41,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import latice.controler.Referee;
+import latice.controller.Referee;
 import latice.model.boardgame.CellLayout;
 import latice.model.infoplayer.Player;
 import latice.model.slate.Tile;
